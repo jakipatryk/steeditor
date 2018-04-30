@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
+import { MaterialModule } from '../material/material.module';
 import { AppComponent } from './containers/app/app.component';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, MaterialModule],
   declarations: [AppComponent],
   exports: [AppComponent]
 })
@@ -22,8 +23,7 @@ export class CoreModule {
 
   static forRoot() {
     return {
-      ngModule: CoreModule,
-      providers: []
+      ngModule: CoreModule
     };
   }
 }
