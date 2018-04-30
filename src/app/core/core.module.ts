@@ -2,9 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { MaterialModule } from '../material/material.module';
 import { AppComponent } from './containers/app/app.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
-  imports: [CommonModule, MaterialModule],
+  imports: [CommonModule, MaterialModule, FlexLayoutModule],
   declarations: [AppComponent],
   exports: [AppComponent]
 })
