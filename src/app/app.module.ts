@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { AppComponent } from './core/containers/app/app.component';
 import { CoreModule } from './core/core.module';
@@ -15,7 +16,11 @@ import { CoreModule } from './core/core.module';
       enabled: environment.production
     }),
     CoreModule.forRoot(),
-    StoreModule.forRoot({})
+    StoreModule.forRoot({}),
+    StoreDevtoolsModule.instrument({
+      maxAge: 10,
+      logOnly: environment.production
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
