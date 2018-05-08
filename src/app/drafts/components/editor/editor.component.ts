@@ -25,6 +25,7 @@ import { validateJSON } from './../../utils/validators';
 export class EditorComponent implements OnInit, OnDestroy {
   @Input() initialValues: Draft = standardDraft;
   @Output() formChanges = new EventEmitter<Draft>();
+  @Output() formSubmit = new EventEmitter<Draft>();
 
   contentsForm: FormGroup;
   thumbnailForm: FormGroup;
@@ -57,6 +58,14 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.combinedChangesSubscribtion.unsubscribe();
+  }
+
+  onSubmit() {
+    this.formSubmit.emit({
+      ...this.contentsForm.value,
+      ...this.thumbnailForm.value,
+      ...this.advancedOptionsForm.value
+    });
   }
 
   addBeneficiary(beneficiary: Beneficiary) {
