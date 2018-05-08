@@ -1,0 +1,43 @@
+<mat-vertical-stepper #stepper="matVerticalStepper" class="editor">
+
+  <mat-step [stepControl]="contentsForm">
+    <form [formGroup]="contentsForm">
+      <ng-template matStepLabel>Add the post content</ng-template>
+      <app-post-contents [parent]="contentsForm"></app-post-contents>
+      <div class="editor__step-buttons">
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="thumbnailForm">
+    <form [formGroup]="thumbnailForm">
+      <ng-template matStepLabel>Set up a thumbnail</ng-template>
+      <app-post-thumbnail [parent]="thumbnailForm"></app-post-thumbnail>
+      <div class="editor__step-buttons">
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="advancedOptionsForm">
+    <form [formGroup]="advancedOptionsForm">
+      <ng-template matStepLabel>Fill out advanced options</ng-template>
+      <app-post-options [parent]="advancedOptionsForm" (addBeneficiary)="addBeneficiary($event)" (removeBeneficiary)="removeBeneficiary($event)"></app-post-options>
+      <div class="editor__step-buttons">
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Send</ng-template>
+    You are now done.
+    <div class="editor__step-buttons">
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-raised-button color="accent" [disabled]="contentsForm.invalid || thumbnailForm.invalid || advancedOptionsForm.invalid">Submit</button>
+    </div>
+  </mat-step>
+
+</mat-vertical-stepper>
