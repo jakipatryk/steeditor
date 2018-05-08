@@ -1,0 +1,13 @@
+<div [formGroup]="parent" class="post-contents">
+  <mat-form-field class="post-contents__field">
+    <input matInput placeholder="Title" formControlName="title">
+  </mat-form-field>
+
+  <mat-form-field class="post-contents__field">
+    <textarea matInput placeholder="Body" formControlName="body" class="post-contents__textarea"></textarea>
+  </mat-form-field>
+
+  <mat-form-field class="post-contents__field">
+    <input matInput placeholder="Tags (separated by a space)" formControlName="tags">
+  </mat-form-field>
+</div>
