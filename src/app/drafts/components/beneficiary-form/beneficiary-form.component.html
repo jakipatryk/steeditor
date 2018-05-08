@@ -1,0 +1,14 @@
+<mat-card>
+  <form [formGroup]="beneficiaryForm" (submit)="onSubmit()" class="beneficiary-form">
+    <p class="mat-caption">Beneficiary account name:</p>
+    <mat-form-field>
+      <input matInput type="text" formControlName="account">
+    </mat-form-field>
+
+    <p class="mat-caption">Beneficiary weight:</p>
+    <mat-slider min="0" max="100" step="1" thumb-label="true" formControlName="weight" class="beneficiary-form__slider"></mat-slider>
+    <div>
+      <button mat-button color="accent" [disabled]="beneficiaryForm.invalid" type="submit">Add</button>
+    </div>
+  </form>
+</mat-card>

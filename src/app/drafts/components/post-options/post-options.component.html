@@ -1,0 +1,45 @@
+<div [formGroup]="parent" fxLayout.gt-md="row" fxLayout.lt-lg="column" fxLayoutGap="50px" class="post-options">
+  <div fxFlex="25" fxLayout="column" fxLayoutGap="5" class="post-options__section">
+    <div fxFlex>
+      <p class="mat-caption">Allow votes:</p>
+      <mat-slide-toggle formControlName="allowVotes"></mat-slide-toggle>
+    </div>
+
+    <div fxFlex>
+      <p class="mat-caption">Allow curation rewards:</p>
+      <mat-slide-toggle fxFlex formControlName="allowCurationRewards"></mat-slide-toggle>
+    </div>
+
+    <div fxFlex>
+      <p class="mat-caption">Percent Steem Dollars:</p>
+      <mat-slider min="0" max="50" step="1" thumb-label="true" formControlName="percentSteemDollars" class="post-options__slider"></mat-slider>
+    </div>
+
+    <div fxFlex>
+      <p class="mat-caption">Max accepted payout:</p>
+      <mat-form-field>
+        <input matInput type="number" formControlName="maxAcceptedPayout">
+        <span matSuffix>SBD</span>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div fxFlex="40">
+    <p class="mat-caption">Optional field for geeks. Enter the metadata in a JSON format:</p>
+    <mat-form-field class="post-options__metadata-field">
+      <textarea matInput formControlName="jsonMetadata" class="post-options__metadata-textarea"></textarea>
+    </mat-form-field>
+  </div>
+
+  <div fxFlex>
+    <app-beneficiary-form (add)="onAddBeneficiary($event)" class="post-options__beneficiaries"></app-beneficiary-form>
+    <mat-card *ngFor="let beneficiary of parent.value.beneficiaries; let i = index;" fxLayout="row" fxLayoutAlign="space-around center">
+      <span fxFlex="90" class="mat-caption">{{beneficiary.account}} ({{beneficiary.weight}}%)</span>
+      <span fxFlex="10">
+        <button mat-icon-button (click)="onRemoveBeneficiary(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </span>
+    </mat-card>
+  </div>
+</div>

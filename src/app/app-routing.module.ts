@@ -3,9 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 const appRoutes: Routes = [
   {
-    path: 'test',
-    redirectTo: '',
-    pathMatch: 'full'
+    path: 'drafts',
+    loadChildren: './drafts/drafts.module#DraftsModule'
   }
 ];
 
