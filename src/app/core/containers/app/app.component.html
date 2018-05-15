@@ -1,5 +1,15 @@
-<mat-toolbar color="primary" class="mat-elevation-z4">
-  <span>SteemAEDIT.org</span>
+<mat-toolbar color="primary" class="toolbar">
+  <mat-toolbar-row fxLayout="row" class="toolbar__row">
+    <span fxFlex>Steeditor</span>
+    <span fxFlex class="toolbar__button">
+      <button mat-raised-button color="accent">LOGIN</button>
+    </span>
+  </mat-toolbar-row>
+
+  <mat-toolbar-row fxLayout="row" fxLayoutAlign="center center" class="toolbar__row">
+    <button mat-button routerLink="drafts">Drafts</button>
+    <button mat-button routerLink="drafts/editor">Editor</button>
+  </mat-toolbar-row>
 </mat-toolbar>
 
 <main class="container">
