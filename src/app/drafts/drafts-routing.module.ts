@@ -2,6 +2,7 @@ import { EditorContainerComponent } from './containers/editor-container/editor-c
 import { DraftsComponent } from './containers/drafts/drafts.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import * as fromGuards from './guards';
 
 const draftsRoutes: Routes = [
   {
@@ -14,7 +15,8 @@ const draftsRoutes: Routes = [
   },
   {
     path: ':draftId',
-    component: EditorContainerComponent
+    component: EditorContainerComponent,
+    canActivate: [fromGuards.DraftsLoadedGuard]
   }
 ];
 
