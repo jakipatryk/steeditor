@@ -3,6 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output
@@ -14,7 +15,7 @@ import { timer } from 'rxjs/observable/timer';
 import { debounce } from 'rxjs/operators';
 import { Draft, standardDraft } from '../../models/draft.model';
 import { Beneficiary } from './../../models/beneficiary.model';
-import { validateJSON } from './../../utils/validators';
+import { validateJSON } from './../../../shared/utils';
 
 @Component({
   selector: 'app-editor',
@@ -22,7 +23,7 @@ import { validateJSON } from './../../utils/validators';
   styleUrls: ['./editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditorComponent implements OnInit, OnDestroy {
+export class EditorComponent implements OnInit, OnChanges, OnDestroy {
   @Input() initialValues: Draft = standardDraft;
   @Output() formChanges = new EventEmitter<Draft>();
   @Output() formSubmit = new EventEmitter<Draft>();
@@ -40,6 +41,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // merge value changes from each form
     // then emit forms values if user doesn't type for 3 sec
+    // and the id of a draft if exists
 
     this.combinedChangesSubscribtion = merge(
       this.contentsForm.valueChanges,
@@ -48,12 +50,25 @@ export class EditorComponent implements OnInit, OnDestroy {
     )
       .pipe(debounce(() => timer(3000)))
       .subscribe(() => {
-        this.formChanges.emit({
-          ...this.contentsForm.value,
-          ...this.thumbnailForm.value,
-          ...this.advancedOptionsForm.value
-        });
+        if (this.initialValues.id) {
+          this.formChanges.emit({
+            ...this.contentsForm.value,
+            ...this.thumbnailForm.value,
+            ...this.advancedOptionsForm.value,
+            id: this.initialValues.id
+          });
+        } else {
+          this.formChanges.emit({
+            ...this.contentsForm.value,
+            ...this.thumbnailForm.value,
+            ...this.advancedOptionsForm.value
+          });
+        }
       });
+  }
+
+  ngOnChanges() {
+    this.buildForms();
   }
 
   ngOnDestroy() {
