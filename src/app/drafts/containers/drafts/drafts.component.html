@@ -1,0 +1,12 @@
+<div fxLayout="row wrap" fxLayoutGap="1%" fxLayoutAlign="center" class="drafts">
+
+  <div *ngFor="let draft of drafts$ | async | reverse" fxFlex.xl="15%" fxFlex.lg="20%" fxFlex.md="30%" fxFlex.sm="45%" fxFlex.xs="90%"
+    class="drafts__item">
+    <app-draft-card [draft]="draft" (remove)="removeDraft($event)" (edit)="editDraft($event)"></app-draft-card>
+  </div>
+
+</div>
+
+<button mat-fab class="drafts__fab" ngClass.lt-md="drafts__fab--mobile" (click)="openNewDraftDialog()">
+  <mat-icon>add</mat-icon>
+</button>
