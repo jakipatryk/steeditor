@@ -14,6 +14,11 @@ export const selectDraftsEntities = createSelector(
   fromDrafts.getDraftsEntities
 );
 
+export const selectDraftsLoaded = createSelector(
+  selectDraftsEntitiesState,
+  fromDrafts.getDraftsLoaded
+);
+
 export const selectAllDrafts = createSelector(
   selectDraftsEntities,
   entities => {

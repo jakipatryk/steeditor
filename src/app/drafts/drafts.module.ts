@@ -13,11 +13,12 @@ import { PostContentsComponent } from './components/post-contents/post-contents.
 import { PostOptionsComponent } from './components/post-options/post-options.component';
 import { PostThumbnailComponent } from './components/post-thumbnail/post-thumbnail.component';
 import { DraftsComponent } from './containers/drafts/drafts.component';
+import { EditorContainerComponent } from './containers/editor-container/editor-container.component';
 import { DraftsRoutingModule } from './drafts-routing.module';
+import { ReversePipe } from './pipes/reverse.pipe';
 import { effects } from './store/effects';
 import { reducers } from './store/reducers';
-import { ReversePipe } from './pipes/reverse.pipe';
-import { EditorContainerComponent } from './containers/editor-container/editor-container.component';
+import { guards } from './guards';
 
 @NgModule({
   imports: [
@@ -41,6 +42,7 @@ import { EditorContainerComponent } from './containers/editor-container/editor-c
     ReversePipe,
     EditorContainerComponent
   ],
+  providers: [...guards],
   entryComponents: [NewDraftDialogComponent]
 })
 export class DraftsModule {}
