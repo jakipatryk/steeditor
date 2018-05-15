@@ -1,0 +1,20 @@
+<mat-card class="draft-card">
+  <mat-card-header>
+    <mat-card-title>{{(draft.title.length > 25) ? (draft.title | slice:0:25) + '...' : draft.title}}</mat-card-title>
+    <mat-card-subtitle>{{(draft.tags.length > 25) ? (draft.tags | slice:0:25) + '...' : draft.tags}}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p>
+      {{(draft.body.length > 30) ? (draft.body | slice:0:30) + '...' : draft.body}}
+    </p>
+  </mat-card-content>
+  <mat-card-actions class="draft-card__actions">
+    <button mat-icon-button (click)="onRemove(draft.id) ">
+      <mat-icon>delete</mat-icon>
+    </button>
+    <button mat-icon-button (click)="onEdit(draft.id) ">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>
