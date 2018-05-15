@@ -54,3 +54,9 @@ export const validateJSON = (control: AbstractControl): null | object => {
       : null;
   }
 };
+
+/**
+ * A RegExp pattern for a URL.
+ */
+// tslint:disable-next-line:max-line-length
+export const urlPattern: RegExp = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;

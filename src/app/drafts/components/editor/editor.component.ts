@@ -14,8 +14,8 @@ import { merge } from 'rxjs/observable/merge';
 import { timer } from 'rxjs/observable/timer';
 import { debounce } from 'rxjs/operators';
 import { Draft, standardDraft } from '../../models/draft.model';
+import { urlPattern, validateJSON } from './../../../shared/utils';
 import { Beneficiary } from './../../models/beneficiary.model';
-import { validateJSON } from './../../../shared/utils';
 
 @Component({
   selector: 'app-editor',
@@ -107,15 +107,24 @@ export class EditorComponent implements OnInit, OnChanges, OnDestroy {
     });
 
     this.thumbnailForm = this.formBuilder.group({
-      thumbnailUrl: this.initialValues.thumbnailUrl
+      thumbnailUrl: [
+        this.initialValues.thumbnailUrl,
+        Validators.pattern(urlPattern)
+      ]
     });
 
     this.advancedOptionsForm = this.formBuilder.group({
       beneficiaries: this.formBuilder.array(this.initialValues.beneficiaries),
       allowVotes: this.initialValues.allowVotes,
       allowCurationRewards: this.initialValues.allowCurationRewards,
-      percentSteemDollars: this.initialValues.percentSteemDollars,
-      maxAcceptedPayout: this.initialValues.maxAcceptedPayout,
+      percentSteemDollars: [
+        this.initialValues.percentSteemDollars,
+        [Validators.min(0), Validators.max(50)]
+      ],
+      maxAcceptedPayout: [
+        this.initialValues.maxAcceptedPayout,
+        Validators.min(0)
+      ],
       jsonMetadata: [this.initialValues.jsonMetadata, validateJSON]
     });
   }
