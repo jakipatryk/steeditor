@@ -1,7 +1,7 @@
 import { Beneficiary } from './beneficiary.model';
 
 export interface Draft {
-  id: string;
+  id?: number;
   title: string;
   body: string;
   tags: string;
@@ -15,7 +15,6 @@ export interface Draft {
 }
 
 export const standardDraft: Draft = {
-  id: '',
   title: '',
   body: '',
   tags: '',
