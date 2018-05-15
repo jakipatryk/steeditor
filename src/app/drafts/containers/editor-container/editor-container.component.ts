@@ -20,7 +20,6 @@ export class EditorContainerComponent implements OnInit {
   }
 
   updateDraft(draft: Draft) {
-    console.log(draft);
     this.store.dispatch(fromStore.updateDraft(draft));
   }
 }
