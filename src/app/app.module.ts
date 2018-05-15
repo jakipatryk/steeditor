@@ -3,13 +3,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
+import {
+  RouterStateSerializer,
+  StoreRouterConnectingModule
+} from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './core/containers/app/app.component';
 import { CoreModule } from './core/core.module';
+import { CustomSerializer, effects, reducers } from './store';
 
 @NgModule({
   imports: [
@@ -20,7 +24,7 @@ import { CoreModule } from './core/core.module';
     }),
     CoreModule.forRoot(),
     AppRoutingModule,
-    StoreModule.forRoot({ router: routerReducer }),
+    StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
       maxAge: 10,
       logOnly: environment.production
@@ -28,8 +32,9 @@ import { CoreModule } from './core/core.module';
     StoreRouterConnectingModule.forRoot({
       stateKey: 'router'
     }),
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot(effects)
   ],
+  providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

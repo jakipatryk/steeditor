@@ -1,11 +1,22 @@
-import { DraftComponent } from './containers/draft/draft.component';
+import { EditorContainerComponent } from './containers/editor-container/editor-container.component';
+import { DraftsComponent } from './containers/drafts/drafts.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import * as fromGuards from './guards';
 
 const draftsRoutes: Routes = [
   {
     path: '',
-    component: DraftComponent
+    component: DraftsComponent
+  },
+  {
+    path: 'editor',
+    component: EditorContainerComponent
+  },
+  {
+    path: ':draftId',
+    component: EditorContainerComponent,
+    canActivate: [fromGuards.DraftsLoadedGuard]
   }
 ];
 

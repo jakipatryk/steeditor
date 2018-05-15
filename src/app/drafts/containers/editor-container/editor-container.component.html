@@ -1,0 +1,7 @@
+<div *ngIf="draft$ | async as draft; else noDraftProvided">
+  <app-editor [initialValues]="(draft)" (formChanges)="updateDraft($event)"></app-editor>
+</div>
+
+<ng-template #noDraftProvided>
+  <app-editor (formChanges)="updateDraft($event)"></app-editor>
+</ng-template>
