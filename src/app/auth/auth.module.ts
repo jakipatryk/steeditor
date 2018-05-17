@@ -1,5 +1,4 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { AuthService } from './services/auth.service';
 
 export interface SteemConnectConfig {
@@ -9,8 +8,6 @@ export interface SteemConnectConfig {
 }
 
 @NgModule({
-  imports: [CommonModule],
-  declarations: [],
   providers: [AuthService]
 })
 export class AuthModule {
