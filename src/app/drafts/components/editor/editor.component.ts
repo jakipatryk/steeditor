@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
   Output
@@ -23,7 +22,7 @@ import { Beneficiary } from './../../models/beneficiary.model';
   styleUrls: ['./editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditorComponent implements OnInit, OnChanges, OnDestroy {
+export class EditorComponent implements OnInit, OnDestroy {
   @Input() initialValues: Draft = standardDraft;
   @Output() formChanges = new EventEmitter<Draft>();
   @Output() formSubmit = new EventEmitter<Draft>();
@@ -34,15 +33,14 @@ export class EditorComponent implements OnInit, OnChanges, OnDestroy {
 
   combinedChangesSubscribtion: Subscription;
 
-  constructor(private formBuilder: FormBuilder) {
-    this.buildForms();
-  }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
+    this.buildForms();
+
     // merge value changes from each form
     // then emit forms values if user doesn't type for 3 sec
     // and the id of a draft if exists
-
     this.combinedChangesSubscribtion = merge(
       this.contentsForm.valueChanges,
       this.thumbnailForm.valueChanges,
@@ -65,10 +63,6 @@ export class EditorComponent implements OnInit, OnChanges, OnDestroy {
           });
         }
       });
-  }
-
-  ngOnChanges() {
-    this.buildForms();
   }
 
   ngOnDestroy() {
