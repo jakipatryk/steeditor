@@ -1,15 +1,26 @@
 import { SteemConnectConfig } from './../auth.module';
 import { Injectable, Inject } from '@angular/core';
+import { CookieService } from 'ngx-cookie';
 
 export interface OAuth2Token {
   access_token: string;
-  username: string;
   expires_in: number;
+  username?: string;
 }
 
 @Injectable()
 export class AuthService {
-  constructor(@Inject('config') private config: SteemConnectConfig) {}
+  constructor(
+    @Inject('config') private config: SteemConnectConfig,
+    private cookieService: CookieService
+  ) {}
+
+  /**
+   * Checks if user is authenticated.
+   */
+  isAuthenticated(): boolean {
+    return !!this.getCookie();
+  }
 
   /**
    * Gets authorization URL based on config provided in `forRoot` of the AuthModule.
@@ -26,7 +37,7 @@ export class AuthService {
    * Sets a `access_token` cookie.
    */
   setCookie(token: OAuth2Token): OAuth2Token {
-    document.cookie = `access_token=${token.access_token};max-age=${
+    document.cookie = `access_token=${token.access_token};path=/;max-age=${
       token.expires_in
     }`;
     return token;
@@ -36,6 +47,13 @@ export class AuthService {
    * Gets a `access_token` from cookies (if exists, otherwise returns undefined).
    */
   getCookie(): string | undefined {
-    return document.cookie.match(/access_token=([^;]+)/)[1];
+    return this.cookieService.get('access_token');
+  }
+
+  /**
+   * Deletes a `access_token` cookie.
+   */
+  deleteCookie(): void {
+    this.cookieService.remove('access_token');
   }
 }
