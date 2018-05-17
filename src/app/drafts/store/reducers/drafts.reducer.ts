@@ -17,10 +17,10 @@ export const initialState: DraftsState = {
   loaded: false
 };
 
-export const draftsReducer = (
+export function draftsReducer(
   state: DraftsState = initialState,
   action: DraftsActionsUnion
-): DraftsState => {
+): DraftsState {
   switch (action.type) {
     case DraftsActionsTypes.LoadDrafts: {
       return {
@@ -74,7 +74,7 @@ export const draftsReducer = (
       return state;
     }
   }
-};
+}
 
 export const getDraftsEntities = (state: DraftsState) => state.entities;
 export const getDraftsLoading = (state: DraftsState) => state.loading;
