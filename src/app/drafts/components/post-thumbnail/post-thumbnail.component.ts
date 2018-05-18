@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 
 @Component({
   selector: 'app-post-thumbnail',
@@ -9,4 +10,5 @@ import { FormGroup } from '@angular/forms';
 })
 export class PostThumbnailComponent {
   @Input() parent: FormGroup;
+  matcher = new ErrorStateMatcher();
 }

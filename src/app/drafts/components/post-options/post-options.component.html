@@ -18,7 +18,7 @@
     <div fxFlex>
       <p class="mat-caption">Max accepted payout:</p>
       <mat-form-field>
-        <input matInput type="number" formControlName="maxAcceptedPayout">
+        <input matInput type="number" min="0" max="1000000" formControlName="maxAcceptedPayout">
         <span matSuffix>SBD</span>
       </mat-form-field>
     </div>
@@ -27,7 +27,8 @@
   <div fxFlex="40">
     <p class="mat-caption">Optional field for geeks. Enter the metadata in a JSON format:</p>
     <mat-form-field class="post-options__metadata-field">
-      <textarea matInput formControlName="jsonMetadata" class="post-options__metadata-textarea"></textarea>
+      <textarea matInput [errorStateMatcher]="matcher" formControlName="jsonMetadata" class="post-options__metadata-textarea"></textarea>
+      <mat-error *ngIf="parent.get('jsonMetadata').invalid">Please type valid JSON!</mat-error>
     </mat-form-field>
   </div>
 

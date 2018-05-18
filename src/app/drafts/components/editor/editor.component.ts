@@ -117,7 +117,7 @@ export class EditorComponent implements OnInit, OnDestroy {
       ],
       maxAcceptedPayout: [
         this.initialValues.maxAcceptedPayout,
-        Validators.min(0)
+        [Validators.min(0), Validators.max(1000000)]
       ],
       jsonMetadata: [this.initialValues.jsonMetadata, validateJSON]
     });
