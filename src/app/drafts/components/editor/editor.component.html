@@ -33,10 +33,11 @@
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Send</ng-template>
-    <p>You are done now. Make sure the data is correct and broadcast the post!</p>
+    <p *ngIf="authState.authenticated">You are done now. Make sure the data is correct and broadcast the post!</p>
+    <p *ngIf="!authState.authenticated">Before you broadcast a post, log in!</p>
     <div class="editor__step-buttons">
       <button mat-button matStepperPrevious>Back</button>
-      <button mat-raised-button color="accent" (click)="onSubmit()" [disabled]="contentsForm.invalid || thumbnailForm.invalid || advancedOptionsForm.invalid">Submit</button>
+      <button mat-raised-button color="accent" (click)="onSubmit()" [disabled]="contentsForm.invalid || thumbnailForm.invalid || advancedOptionsForm.invalid || !authState.authenticated">Submit</button>
     </div>
   </mat-step>
 

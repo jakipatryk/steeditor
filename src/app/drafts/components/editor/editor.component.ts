@@ -14,6 +14,7 @@ import { timer } from 'rxjs/observable/timer';
 import { debounce } from 'rxjs/operators';
 import { Draft, standardDraft } from '../../models/draft.model';
 import { urlPattern, validateJSON } from './../../../shared/utils';
+import { AuthState } from './../../../store/reducers/auth.reducer';
 import { Beneficiary } from './../../models/beneficiary.model';
 
 @Component({
@@ -24,6 +25,8 @@ import { Beneficiary } from './../../models/beneficiary.model';
 })
 export class EditorComponent implements OnInit, OnDestroy {
   @Input() initialValues: Draft = standardDraft;
+  @Input() authState: AuthState;
+
   @Output() formChanges = new EventEmitter<Draft>();
   @Output() formSubmit = new EventEmitter<Draft>();
 
