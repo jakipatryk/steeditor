@@ -1,10 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { catchError, exhaustMap, map } from 'rxjs/operators';
+import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
 import { AuthService } from '../../../auth/services/auth.service';
 import { steemizeDraft } from '../../../shared/utils';
 import * as fromActions from '../actions/broadcast.actions';
@@ -14,7 +15,8 @@ export class BroadcastEffects {
   constructor(
     private actions$: Actions,
     private http: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
+    private snackBar: MatSnackBar
   ) {}
 
   @Effect()
@@ -40,8 +42,28 @@ export class BroadcastEffects {
         )
         .pipe(
           map(response => fromActions.broadcastSuccess(response)),
-          catchError(err => of(fromActions.broadcastFail(err)))
+          catchError(err => of(fromActions.broadcastFail(err.error)))
         )
     )
+  );
+
+  @Effect({ dispatch: false })
+  broadcastSuccess$: Observable<Action> = this.actions$.pipe(
+    ofType(fromActions.BroadcastActionsTypes.BroadcastSuccess),
+    tap(() => {
+      this.snackBar.open('Successfully broadcasted post!', 'Dismiss', {
+        duration: 7000
+      });
+    })
+  );
+
+  @Effect({ dispatch: false })
+  broadcastFail$: Observable<Action> = this.actions$.pipe(
+    ofType(fromActions.BroadcastActionsTypes.BroadcastFail),
+    tap(action => {
+      this.snackBar.open('Error broadcasting post...', 'Dismiss', {
+        duration: 7000
+      });
+    })
   );
 }

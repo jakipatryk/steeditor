@@ -20,7 +20,10 @@ export type BroadcastSuccess = SuperActionWithPayload<
 >;
 export type BroadcastFail = SuperActionWithPayload<
   BroadcastActionsTypes.BroadcastFail,
-  object
+  {
+    error: string;
+    error_description: string;
+  }
 >;
 export type BroadcastActionsUnion =
   | Broadcast
@@ -39,7 +42,10 @@ export const broadcastSuccess = (response: object): BroadcastSuccess => ({
   payload: response
 });
 
-export const broadcastFail = (error: object): BroadcastFail => ({
+export const broadcastFail = (error: {
+  error: string;
+  error_description: string;
+}): BroadcastFail => ({
   type: BroadcastActionsTypes.BroadcastFail,
   payload: error
 });
