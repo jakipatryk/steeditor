@@ -5,6 +5,22 @@
     <app-draft-card [draft]="draft" (remove)="removeDraft($event)" (edit)="editDraft($event)"></app-draft-card>
   </div>
 
+  <mat-card *ngIf="(areLoaded$ | async) && !(drafts$ | async)?.length" fxFlex.xl="25%" fxFlex.lg="30%" fxFlex.md="40%" fxFlex.sm="50%"
+    fxFlex.xs="90%">
+    <mat-card-header>
+      <mat-card-title>Welcome!</mat-card-title>
+      <mat-card-subtitle>You have no drafts...</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="../../../../assets/images/no-drafts.jpg" alt="Photo by Joanna Kosinska on Unsplash">
+    <mat-card-content>
+      <p>
+        Add one to get started!
+      </p>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-spinner *ngIf="areLoading$ | async"></mat-spinner>
+
 </div>
 
 <button mat-fab class="drafts__fab" ngClass.lt-md="drafts__fab--mobile" (click)="openNewDraftDialog()">
