@@ -22,4 +22,8 @@ export class EditorContainerComponent implements OnInit {
   updateDraft(draft: Draft) {
     this.store.dispatch(fromStore.updateDraft(draft));
   }
+
+  broadcastDraft(draft: Draft) {
+    this.store.dispatch(fromStore.broadcast(draft));
+  }
 }
