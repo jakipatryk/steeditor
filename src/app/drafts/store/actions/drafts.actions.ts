@@ -18,10 +18,7 @@ export enum DraftsActionsTypes {
   UpdateDraftFail = '[Drafts] Update Draft Fail',
   RemoveDraft = '[Drafts] Remove Draft',
   RemoveDraftSuccess = '[Drafts] Remove Draft Success',
-  RemoveDraftFail = '[Drafts] Remove Draft Fail',
-  BroadcastDraft = '[Drafts] Broadcast Draft',
-  BroadcastDraftSuccess = '[Drafts] Broadcast Draft Success',
-  BroadcastDraftFail = '[Drafts] Broadcast Draft Fail'
+  RemoveDraftFail = '[Drafts] Remove Draft Fail'
 }
 
 // ACTION TYPESCRIPT TYPES
@@ -59,18 +56,6 @@ export type RemoveDraftSuccess = SuperActionWithPayload<
   number
 >;
 export type RemoveDraftFail = SuperAction<DraftsActionsTypes.RemoveDraftFail>;
-export type BroadcastDraft = SuperActionWithPayload<
-  DraftsActionsTypes.BroadcastDraft,
-  Draft
->;
-export type BroadcastDraftSuccess = SuperActionWithPayload<
-  DraftsActionsTypes.BroadcastDraftSuccess,
-  object
->;
-export type BroadcastDraftFail = SuperActionWithPayload<
-  DraftsActionsTypes.BroadcastDraftFail,
-  object
->;
 export type DraftsActionsUnion =
   | LoadDrafts
   | LoadDraftsSuccess
@@ -83,10 +68,7 @@ export type DraftsActionsUnion =
   | UpdateDraftFail
   | RemoveDraft
   | RemoveDraftSuccess
-  | RemoveDraftFail
-  | BroadcastDraft
-  | BroadcastDraftSuccess
-  | BroadcastDraftFail;
+  | RemoveDraftFail;
 
 // ACTION CREATORS
 
@@ -145,21 +127,4 @@ export const removeDraftSuccess = (id: number): RemoveDraftSuccess => ({
 
 export const removeDraftFail = (): RemoveDraftFail => ({
   type: DraftsActionsTypes.RemoveDraftFail
-});
-
-export const broadcastDraft = (draft: Draft): BroadcastDraft => ({
-  type: DraftsActionsTypes.BroadcastDraft,
-  payload: draft
-});
-
-export const broadcastDraftSuccess = (
-  response: object
-): BroadcastDraftSuccess => ({
-  type: DraftsActionsTypes.BroadcastDraftSuccess,
-  payload: response
-});
-
-export const broadcastDraftFail = (error: object): BroadcastDraftFail => ({
-  type: DraftsActionsTypes.BroadcastDraftFail,
-  payload: error
 });
