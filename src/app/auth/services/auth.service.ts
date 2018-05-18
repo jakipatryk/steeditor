@@ -5,7 +5,7 @@ import { CookieService } from 'ngx-cookie';
 export interface OAuth2Token {
   access_token: string;
   expires_in: number;
-  username?: string;
+  username: string;
 }
 
 @Injectable()
@@ -37,17 +37,17 @@ export class AuthService {
    * Sets a `access_token` cookie.
    */
   setCookie(token: OAuth2Token): OAuth2Token {
-    document.cookie = `access_token=${token.access_token};path=/;max-age=${
-      token.expires_in
-    }`;
+    this.cookieService.putObject('access_token', token, {
+      expires: new Date(Date.now() + token.expires_in * 1000)
+    });
     return token;
   }
 
   /**
    * Gets a `access_token` from cookies (if exists, otherwise returns undefined).
    */
-  getCookie(): string | undefined {
-    return this.cookieService.get('access_token');
+  getCookie(): OAuth2Token | undefined {
+    return this.cookieService.getObject('access_token') as OAuth2Token;
   }
 
   /**
