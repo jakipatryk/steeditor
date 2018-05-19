@@ -23,7 +23,9 @@ export function broadcastReducer(
     case BroadcastActionsTypes.Broadcast: {
       return {
         ...state,
-        broadcasting: true
+        broadcasting: true,
+        broadcasted: false,
+        error: false
       };
     }
     case BroadcastActionsTypes.BroadcastSuccess: {
