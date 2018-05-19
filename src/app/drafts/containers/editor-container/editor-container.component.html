@@ -1,7 +1,7 @@
 <div *ngIf="draft$ | async as draft; else noDraftProvided">
-  <app-editor [initialValues]="(draft)" (formChanges)="updateDraft($event)"></app-editor>
+  <app-editor [initialValues]="(draft)" [authState]="authState$ | async" (formChanges)="updateDraft($event)" (formSubmit)="broadcastDraft($event)"></app-editor>
 </div>
 
 <ng-template #noDraftProvided>
-  <app-editor (formChanges)="updateDraft($event)"></app-editor>
+  <app-editor (formChanges)="updateDraft($event)" [authState]="authState$ | async" (formSubmit)="broadcastDraft($event)"></app-editor>
 </ng-template>

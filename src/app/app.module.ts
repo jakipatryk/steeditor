@@ -9,11 +9,13 @@ import {
 } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { CookieModule } from 'ngx-cookie';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
+import { AuthModule } from './auth/auth.module';
 import { AppComponent } from './core/containers/app/app.component';
 import { CoreModule } from './core/core.module';
-import { CustomSerializer, effects, reducers } from './store';
+import * as fromStore from './store';
 
 @NgModule({
   imports: [
@@ -23,8 +25,9 @@ import { CustomSerializer, effects, reducers } from './store';
       enabled: environment.production
     }),
     CoreModule.forRoot(),
+    AuthModule.forRoot(environment.steemConnectConfig),
     AppRoutingModule,
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot(fromStore.reducers),
     StoreDevtoolsModule.instrument({
       maxAge: 10,
       logOnly: environment.production
@@ -32,9 +35,12 @@ import { CustomSerializer, effects, reducers } from './store';
     StoreRouterConnectingModule.forRoot({
       stateKey: 'router'
     }),
-    EffectsModule.forRoot(effects)
+    EffectsModule.forRoot(fromStore.effects),
+    CookieModule.forRoot()
   ],
-  providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }],
+  providers: [
+    { provide: RouterStateSerializer, useClass: fromStore.CustomSerializer }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

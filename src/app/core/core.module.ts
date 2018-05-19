@@ -4,10 +4,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from '../material/material.module';
 import { AppRoutingModule } from './../app-routing.module';
 import { AppComponent } from './containers/app/app.component';
+import { RedirectComponent } from './containers/redirect/redirect.component';
+import { LogInOutComponent } from './components/log-in-out/log-in-out.component';
 
 @NgModule({
   imports: [CommonModule, AppRoutingModule, MaterialModule, FlexLayoutModule],
-  declarations: [AppComponent],
+  declarations: [AppComponent, RedirectComponent, LogInOutComponent],
   exports: [AppComponent]
 })
 export class CoreModule {

@@ -6,10 +6,10 @@ import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, mergeMap } from 'rxjs/operators';
+import * as fromRoot from '../../../store';
 import * as fromTemplates from '../../templates';
 import { makeEntities } from './../../../shared/utils';
 import * as fromActions from './../actions/drafts.actions';
-import * as fromRoot from '../../../store';
 
 @Injectable()
 export class DraftsEffects {

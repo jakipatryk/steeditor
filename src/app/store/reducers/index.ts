@@ -1,11 +1,12 @@
 import {
   ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  Params
+  Params,
+  RouterStateSnapshot
 } from '@angular/router';
-import { createFeatureSelector, ActionReducerMap } from '@ngrx/store';
-
 import * as fromRouter from '@ngrx/router-store';
+import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
+import * as fromAuth from './auth.reducer';
+import * as fromLogin from './login.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -15,15 +16,15 @@ export interface RouterStateUrl {
 
 export interface State {
   routerReducer: fromRouter.RouterReducerState<RouterStateUrl>;
+  authentication: fromAuth.AuthState;
+  login: fromLogin.LoginState;
 }
 
 export const reducers: ActionReducerMap<State> = {
-  routerReducer: fromRouter.routerReducer
+  routerReducer: fromRouter.routerReducer,
+  authentication: fromAuth.authReducer,
+  login: fromLogin.loginReducer
 };
-
-export const getRouterState = createFeatureSelector<
-  fromRouter.RouterReducerState<RouterStateUrl>
->('routerReducer');
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl> {
@@ -40,3 +41,11 @@ export class CustomSerializer
     return { url, queryParams, params };
   }
 }
+
+export const getRouterState = createFeatureSelector<
+  fromRouter.RouterReducerState<RouterStateUrl>
+>('routerReducer');
+
+export const selectAuthenticationState = (state: State) => state.authentication;
+
+export const selectLoginState = (state: State) => state.login;

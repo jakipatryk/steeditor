@@ -1,8 +1,9 @@
 <mat-toolbar color="primary" class="toolbar">
   <mat-toolbar-row fxLayout="row" class="toolbar__row">
     <span fxFlex>Steeditor</span>
+
     <span fxFlex class="toolbar__button">
-      <button mat-raised-button color="accent">LOGIN</button>
+      <app-log-in-out [isAuthenticated]="isAuthenticated$ | async" (login)="login()" (logout)="logout()"></app-log-in-out>
     </span>
   </mat-toolbar-row>
 
