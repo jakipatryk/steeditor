@@ -91,7 +91,9 @@ export const steemizeDraft = (draft: Draft, token: OAuth2Token) => {
           })
       )
     : [];
-    const imagesWithThumbnail = draft.thumbnailUrl ? [draft.thumbnailUrl, ...images] : [...images];
+  const imagesWithThumbnail = draft.thumbnailUrl
+    ? [draft.thumbnailUrl, ...images]
+    : [...images];
   const extensions = createExtensionsOfBeneficiaries(draft.beneficiaries);
 
   return [
@@ -106,6 +108,7 @@ export const steemizeDraft = (draft: Draft, token: OAuth2Token) => {
         body: draft.body,
         json_metadata: JSON.stringify({
           app: 'Steeditor',
+          format: 'markdown',
           users: mentions,
           image: imagesWithThumbnail,
           links,

@@ -42,6 +42,7 @@ describe('utils', () => {
             title: 'Cool post',
             json_metadata: JSON.stringify({
               app: 'Steeditor',
+              format: 'markdown',
               tags: ['utopian-io', 'strimi', 'busy'],
               image: [
                 // tslint:disable-next-line:max-line-length
