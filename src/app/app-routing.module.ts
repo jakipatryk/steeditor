@@ -10,6 +10,16 @@ const appRoutes: Routes = [
   {
     path: 'steemconnect/redirect',
     component: RedirectComponent
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'drafts'
+  },
+  {
+    path: '**',
+    pathMatch: 'full',
+    redirectTo: 'drafts'
   }
 ];
 
