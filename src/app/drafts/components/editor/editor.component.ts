@@ -13,6 +13,7 @@ import { merge } from 'rxjs/observable/merge';
 import { timer } from 'rxjs/observable/timer';
 import { debounce } from 'rxjs/operators';
 import { Draft, standardDraft } from '../../models/draft.model';
+import { BroadcastState } from '../../store/reducers/broadcast.reducer';
 import { urlPattern, validateJSON } from './../../../shared/utils';
 import { AuthState } from './../../../store/reducers/auth.reducer';
 import { Beneficiary } from './../../models/beneficiary.model';
@@ -26,6 +27,7 @@ import { Beneficiary } from './../../models/beneficiary.model';
 export class EditorComponent implements OnInit, OnDestroy {
   @Input() initialValues: Draft = standardDraft;
   @Input() authState: AuthState;
+  @Input() broadcastState: BroadcastState;
 
   @Output() formChanges = new EventEmitter<Draft>();
   @Output() formSubmit = new EventEmitter<Draft>();

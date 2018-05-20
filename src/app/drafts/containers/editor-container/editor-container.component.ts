@@ -1,9 +1,10 @@
-import { AuthState } from './../../../store/reducers/auth.reducer';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as fromRootStore from '../../../store';
 import * as fromFeatureStore from '../../store';
+import { BroadcastState } from '../../store/reducers/broadcast.reducer';
+import { AuthState } from './../../../store/reducers/auth.reducer';
 import { Draft } from './../../models/draft.model';
 
 @Component({
@@ -15,6 +16,7 @@ import { Draft } from './../../models/draft.model';
 export class EditorContainerComponent implements OnInit {
   draft$: Observable<Draft>;
   authState$: Observable<AuthState>;
+  broadcastState$: Observable<BroadcastState>;
 
   constructor(private store: Store<fromRootStore.State>) {}
 
@@ -22,6 +24,9 @@ export class EditorContainerComponent implements OnInit {
     this.draft$ = this.store.select(fromFeatureStore.selectCurrentDraft);
     this.authState$ = this.store.select(
       fromRootStore.selectAuthenticationState
+    );
+    this.broadcastState$ = this.store.select(
+      fromFeatureStore.selectBroadcastState
     );
   }
 
