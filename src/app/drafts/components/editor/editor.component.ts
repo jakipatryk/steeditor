@@ -112,7 +112,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     this.advancedOptionsForm = this.formBuilder.group({
       beneficiaries: this.formBuilder.array(this.initialValues.beneficiaries),
-      allowVotes: this.initialValues.allowVotes,
+      // allowVotes: this.initialValues.allowVotes,
       allowCurationRewards: this.initialValues.allowCurationRewards,
       percentSteemDollars: [
         this.initialValues.percentSteemDollars,
