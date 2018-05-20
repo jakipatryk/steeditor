@@ -4,6 +4,5 @@
 </div>
 
 <ng-template #noDraftProvided>
-  <app-editor [authState]="authState$ | async" [broadcastState]="broadcastState$ | async" (formChanges)="updateDraft($event)"
-    (formSubmit)="broadcastDraft($event)"></app-editor>
+  <app-editor [authState]="authState$ | async" [broadcastState]="broadcastState$ | async" (formSubmit)="broadcastDraft($event)"></app-editor>
 </ng-template>
