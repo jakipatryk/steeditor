@@ -94,7 +94,9 @@ export const steemizeDraft = (draft: Draft, token: OAuth2Token) => {
   const imagesWithThumbnail = draft.thumbnailUrl
     ? [draft.thumbnailUrl, ...images]
     : [...images];
-  const extensions = createExtensionsOfBeneficiaries(draft.beneficiaries);
+  const extensions = draft.beneficiaries.length
+    ? createExtensionsOfBeneficiaries(draft.beneficiaries)
+    : [];
 
   return [
     [
