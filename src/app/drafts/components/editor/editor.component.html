@@ -37,7 +37,8 @@
     <p *ngIf="!authState.authenticated">Before you broadcast a post, log in!</p>
     <div class="editor__step-buttons">
       <button mat-button matStepperPrevious>Back</button>
-      <button mat-raised-button color="accent" (click)="onSubmit()" [disabled]="contentsForm.invalid || thumbnailForm.invalid || advancedOptionsForm.invalid || !authState.authenticated">Submit</button>
+      <button mat-raised-button color="accent" *ngIf="!broadcastState.broadcasting" (click)="onSubmit()" [disabled]="contentsForm.invalid || thumbnailForm.invalid || advancedOptionsForm.invalid || !authState.authenticated">Submit</button>
+      <mat-spinner diameter="30" *ngIf="broadcastState.broadcasting" class="editor__spinner"></mat-spinner>
     </div>
   </mat-step>
 

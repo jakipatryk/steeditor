@@ -124,7 +124,8 @@ export const steemizeDraft = (draft: Draft, token: OAuth2Token) => {
         permlink,
         max_accepted_payout: maxAcceptedPayout,
         percent_steem_dollars: percentSteemDollars,
-        allow_votes: draft.allowVotes,
+        // allow_votes: draft.allowVotes,
+        allow_votes: true,
         allow_curation_rewards: draft.allowCurationRewards,
         extensions
       }
