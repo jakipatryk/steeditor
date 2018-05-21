@@ -1,27 +1,25 @@
-# Steemaeditorg
+# Steeditor
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.4.
+An advanced editor for the Steem posts, not only for advanced users!
 
-## Development server
+## Preview
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+![Steeditor](https://steemitimages.com/DQmTe6k6LNPJ6AFeBmK44bKZt1Zztjj2LoDZCKWBK2c4UDy/image.png)
 
-## Code scaffolding
+![Draft](https://steemitimages.com/DQmQ7np8DH2hk2i2uTNYiHtp7TR1n8Ab5QkkZH98oAywZUd/image.png)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Quick setup
 
-## Build
+```
+git clone https://github.com/jakipatryk/steeditor.git
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+cd steeditor
 
-## Running unit tests
+npm install
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+At this point edit the `src/environments/environment.ts` file. Create a SteemConnect app and fill out its details in `steemConnectConfig` object. Then:
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+```
+npm start
+```
