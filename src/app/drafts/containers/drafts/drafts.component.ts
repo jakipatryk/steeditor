@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import * as fromRootStore from '../../../store';
 import { NewDraftDialogComponent } from '../../components/new-draft-dialog/new-draft-dialog.component';
 import * as fromTemplates from '../../templates';
