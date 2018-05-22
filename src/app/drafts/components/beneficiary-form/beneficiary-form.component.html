@@ -6,7 +6,7 @@
     </mat-form-field>
 
     <p class="mat-caption">Beneficiary weight:</p>
-    <mat-slider min="0" max="100" step="1" thumb-label="true" formControlName="weight" class="beneficiary-form__slider"></mat-slider>
+    <mat-slider min="0" max="100" step="1" thumbLabel formControlName="weight" class="beneficiary-form__slider"></mat-slider>
     <div>
       <button mat-button color="accent" [disabled]="beneficiaryForm.invalid" type="submit">Add</button>
     </div>
