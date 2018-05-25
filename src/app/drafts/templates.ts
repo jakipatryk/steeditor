@@ -390,22 +390,20 @@ export const UTOPIAN_TASK_REQUEST_BUG_HUNTERS: Template = {
     body: `#### Repository
 e.g. https://github.com/utopian-io/utopian.io
 
-#### Introduction
-Write a short overview of the post goal and content.
+#### Details
+Write here all the details about the task you are willing to get done, examples, links and/or screenshots.
 
-#### Post Body
-Write the post in readable and presentable form by utilizing markdown to style the text.
+#### Components
+Write here the components/parts/sections of the software that will be affected once the task will be completed.
 
-#### Resources
-Include links and references to resources used in the post.
+#### Deadline
+Write here the date you wish the task to be completed.
 
-#### Series Backlinks
-If the post if not the first post in a series, link to the previous posts of the series.
+#### Communication
+Write here how the contributor should get in touch with you get more details about the task.
 
-- [Example Blog Post A](https://steemit.com/utopian-io/@test-account/test-permlink)
-- [Example Blog Post B](https://steemit.com/utopian-io/@test-account/test-permlink)
-- [Example Blog Post C](https://steemit.com/utopian-io/@test-account/test-permlink)
-- [Example Blog Post D](https://steemit.com/utopian-io/@test-account/test-permlink)`,
+#### Github
+Paste here the full url to your github account. E.g. https://github.com/username`,
     tags: 'utopian-io task-bug-hunting',
     beneficiaries: [{ account: 'utopian.pay', weight: 15 }]
   }
@@ -419,22 +417,20 @@ export const UTOPIAN_TASK_REQUEST_ANALYSTS: Template = {
     body: `#### Repository
 e.g. https://github.com/utopian-io/utopian.io
 
-#### Introduction
-Write a short overview of the post goal and content.
+#### Details
+Write here all the details about the task you are willing to get done, examples, links and/or screenshots.
 
-#### Post Body
-Write the post in readable and presentable form by utilizing markdown to style the text.
+#### Components
+Write here the components/parts/sections of the software that will be affected once the task will be completed.
 
-#### Resources
-Include links and references to resources used in the post.
+#### Deadline
+Write here the date you wish the task to be completed.
 
-#### Series Backlinks
-If the post if not the first post in a series, link to the previous posts of the series.
+#### Communication
+Write here how the contributor should get in touch with you get more details about the task.
 
-- [Example Blog Post A](https://steemit.com/utopian-io/@test-account/test-permlink)
-- [Example Blog Post B](https://steemit.com/utopian-io/@test-account/test-permlink)
-- [Example Blog Post C](https://steemit.com/utopian-io/@test-account/test-permlink)
-- [Example Blog Post D](https://steemit.com/utopian-io/@test-account/test-permlink)`,
+#### Github
+Paste here the full url to your github account. E.g. https://github.com/username`,
     tags: 'utopian-io task-analysis',
     beneficiaries: [{ account: 'utopian.pay', weight: 15 }]
   }
@@ -448,22 +444,20 @@ export const UTOPIAN_TASK_REQUEST_INFLUENCERS: Template = {
     body: `#### Repository
 e.g. https://github.com/utopian-io/utopian.io
 
-#### Introduction
-Write a short overview of the post goal and content.
+#### Details
+Write here all the details about the task you are willing to get done, examples, links and/or screenshots.
 
-#### Post Body
-Write the post in readable and presentable form by utilizing markdown to style the text.
+#### Components
+Write here the components/parts/sections of the software that will be affected once the task will be completed.
 
-#### Resources
-Include links and references to resources used in the post.
+#### Deadline
+Write here the date you wish the task to be completed.
 
-#### Series Backlinks
-If the post if not the first post in a series, link to the previous posts of the series.
+#### Communication
+Write here how the contributor should get in touch with you get more details about the task.
 
-- [Example Blog Post A](https://steemit.com/utopian-io/@test-account/test-permlink)
-- [Example Blog Post B](https://steemit.com/utopian-io/@test-account/test-permlink)
-- [Example Blog Post C](https://steemit.com/utopian-io/@test-account/test-permlink)
-- [Example Blog Post D](https://steemit.com/utopian-io/@test-account/test-permlink)`,
+#### Github
+Paste here the full url to your github account. E.g. https://github.com/username`,
     tags: 'utopian-io task-social',
     beneficiaries: [{ account: 'utopian.pay', weight: 15 }]
   }
@@ -477,22 +471,20 @@ export const UTOPIAN_TASK_REQUEST_DESIGNERS: Template = {
     body: `#### Repository
 e.g. https://github.com/utopian-io/utopian.io
 
-#### Introduction
-Write a short overview of the post goal and content.
+#### Details
+Write here all the details about the task you are willing to get done, examples, links and/or screenshots.
 
-#### Post Body
-Write the post in readable and presentable form by utilizing markdown to style the text.
+#### Components
+Write here the components/parts/sections of the software that will be affected once the task will be completed.
 
-#### Resources
-Include links and references to resources used in the post.
+#### Deadline
+Write here the date you wish the task to be completed.
 
-#### Series Backlinks
-If the post if not the first post in a series, link to the previous posts of the series.
+#### Communication
+Write here how the contributor should get in touch with you get more details about the task.
 
-- [Example Blog Post A](https://steemit.com/utopian-io/@test-account/test-permlink)
-- [Example Blog Post B](https://steemit.com/utopian-io/@test-account/test-permlink)
-- [Example Blog Post C](https://steemit.com/utopian-io/@test-account/test-permlink)
-- [Example Blog Post D](https://steemit.com/utopian-io/@test-account/test-permlink)`,
+#### Github
+Paste here the full url to your github account. E.g. https://github.com/username`,
     tags: 'utopian-io task-graphics',
     beneficiaries: [{ account: 'utopian.pay', weight: 15 }]
   }
@@ -506,22 +498,20 @@ export const UTOPIAN_TASK_REQUEST_DEVELOPERS: Template = {
     body: `#### Repository
 e.g. https://github.com/utopian-io/utopian.io
 
-#### Introduction
-Write a short overview of the post goal and content.
+#### Details
+Write here all the details about the task you are willing to get done, examples, links and/or screenshots.
 
-#### Post Body
-Write the post in readable and presentable form by utilizing markdown to style the text.
+#### Components
+Write here the components/parts/sections of the software that will be affected once the task will be completed.
 
-#### Resources
-Include links and references to resources used in the post.
+#### Deadline
+Write here the date you wish the task to be completed.
 
-#### Series Backlinks
-If the post if not the first post in a series, link to the previous posts of the series.
+#### Communication
+Write here how the contributor should get in touch with you get more details about the task.
 
-- [Example Blog Post A](https://steemit.com/utopian-io/@test-account/test-permlink)
-- [Example Blog Post B](https://steemit.com/utopian-io/@test-account/test-permlink)
-- [Example Blog Post C](https://steemit.com/utopian-io/@test-account/test-permlink)
-- [Example Blog Post D](https://steemit.com/utopian-io/@test-account/test-permlink)`,
+#### Github
+Paste here the full url to your github account. E.g. https://github.com/username`,
     tags: 'utopian-io task-development',
     beneficiaries: [{ account: 'utopian.pay', weight: 15 }]
   }
@@ -535,22 +525,20 @@ export const UTOPIAN_TASK_REQUEST_TECH_WRITERS: Template = {
     body: `#### Repository
 e.g. https://github.com/utopian-io/utopian.io
 
-#### Introduction
-Write a short overview of the post goal and content.
+#### Details
+Write here all the details about the task you are willing to get done, examples, links and/or screenshots.
 
-#### Post Body
-Write the post in readable and presentable form by utilizing markdown to style the text.
+#### Components
+Write here the components/parts/sections of the software that will be affected once the task will be completed.
 
-#### Resources
-Include links and references to resources used in the post.
+#### Deadline
+Write here the date you wish the task to be completed.
 
-#### Series Backlinks
-If the post if not the first post in a series, link to the previous posts of the series.
+#### Communication
+Write here how the contributor should get in touch with you get more details about the task.
 
-- [Example Blog Post A](https://steemit.com/utopian-io/@test-account/test-permlink)
-- [Example Blog Post B](https://steemit.com/utopian-io/@test-account/test-permlink)
-- [Example Blog Post C](https://steemit.com/utopian-io/@test-account/test-permlink)
-- [Example Blog Post D](https://steemit.com/utopian-io/@test-account/test-permlink)`,
+#### Github
+Paste here the full url to your github account. E.g. https://github.com/username`,
     tags: 'utopian-io task-documentation',
     beneficiaries: [{ account: 'utopian.pay', weight: 15 }]
   }
@@ -564,22 +552,20 @@ export const UTOPIAN_TASK_REQUEST_COPYWRITERS: Template = {
     body: `#### Repository
 e.g. https://github.com/utopian-io/utopian.io
 
-#### Introduction
-Write a short overview of the post goal and content.
+#### Details
+Write here all the details about the task you are willing to get done, examples, links and/or screenshots.
 
-#### Post Body
-Write the post in readable and presentable form by utilizing markdown to style the text.
+#### Components
+Write here the components/parts/sections of the software that will be affected once the task will be completed.
 
-#### Resources
-Include links and references to resources used in the post.
+#### Deadline
+Write here the date you wish the task to be completed.
 
-#### Series Backlinks
-If the post if not the first post in a series, link to the previous posts of the series.
+#### Communication
+Write here how the contributor should get in touch with you get more details about the task.
 
-- [Example Blog Post A](https://steemit.com/utopian-io/@test-account/test-permlink)
-- [Example Blog Post B](https://steemit.com/utopian-io/@test-account/test-permlink)
-- [Example Blog Post C](https://steemit.com/utopian-io/@test-account/test-permlink)
-- [Example Blog Post D](https://steemit.com/utopian-io/@test-account/test-permlink)`,
+#### Github
+Paste here the full url to your github account. E.g. https://github.com/username`,
     tags: 'utopian-io task-copywriting',
     beneficiaries: [{ account: 'utopian.pay', weight: 15 }]
   }
