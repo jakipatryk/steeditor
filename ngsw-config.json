@@ -5,13 +5,7 @@
       "name": "app",
       "installMode": "prefetch",
       "resources": {
-        "files": [
-          "/*.bundle.css",
-          "/*.bundle.js",
-          "/*.chunk.js",
-          "/favicon.ico",
-          "/index.html"
-        ]
+        "files": ["/favicon.ico", "/index.html", "/*.css", "/*.js"]
       }
     },
     {
