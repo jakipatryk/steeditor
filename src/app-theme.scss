@@ -1,0 +1,74 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$app-purple: (
+  50: #ebe3e9,
+  100: #cebac9,
+  200: #ae8ca5,
+  300: #8d5d80,
+  400: #743b65,
+  500: #5c184a,
+  600: #541543,
+  700: #4a113a,
+  800: #410e32,
+  900: #300822,
+  A100: #ff6ac5,
+  A200: #ff37b2,
+  A400: #ff049e,
+  A700: #ea008f,
+  contrast:
+    (
+      50: #000000,
+      100: #000000,
+      200: #000000,
+      300: #ffffff,
+      400: #ffffff,
+      500: #ffffff,
+      600: #ffffff,
+      700: #ffffff,
+      800: #ffffff,
+      900: #ffffff,
+      A100: #000000,
+      A200: #000000,
+      A400: #ffffff,
+      A700: #ffffff
+    )
+);
+$app-orange: (
+  50: #fef4e0,
+  100: #fce4b3,
+  200: #fbd280,
+  300: #f9bf4d,
+  400: #f7b226,
+  500: #f6a400,
+  600: #f59c00,
+  700: #f39200,
+  800: #f28900,
+  900: #ef7800,
+  A100: #ffffff,
+  A200: #ffefe3,
+  A400: #ffd3b0,
+  A700: #ffc596,
+  contrast:
+    (
+      50: #000000,
+      100: #000000,
+      200: #000000,
+      300: #000000,
+      400: #000000,
+      500: #000000,
+      600: #000000,
+      700: #000000,
+      800: #000000,
+      900: #000000,
+      A100: #000000,
+      A200: #000000,
+      A400: #000000,
+      A700: #000000
+    )
+);
+$app-primary: mat-palette($app-purple);
+$app-accent: mat-palette($app-orange);
+$app-theme: mat-light-theme($app-primary, $app-accent);
+@include angular-material-theme($app-theme);
