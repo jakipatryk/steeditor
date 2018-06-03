@@ -1,21 +1,11 @@
-import {
-  map,
-  tap,
-  mergeMap,
-  catchError,
-  switchMap,
-  exhaustMap,
-  concatMap,
-  withLatestFrom
-} from 'rxjs/operators';
-import { Action, Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { Actions, ofType, Effect } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action, Store } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap, withLatestFrom } from 'rxjs/operators';
 import { AuthService } from '../../auth/services/auth.service';
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
-import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class LoginEffects {

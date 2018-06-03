@@ -8,9 +8,7 @@ import {
   Output
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
-import { merge } from 'rxjs/observable/merge';
-import { timer } from 'rxjs/observable/timer';
+import { Subscription, merge, timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { Draft, standardDraft } from '../../models/draft.model';
 import { BroadcastState } from '../../store/reducers/broadcast.reducer';

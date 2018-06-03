@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import * as fromRootStore from '../../../store';
 import * as fromFeatureStore from '../../store';
 import { BroadcastState } from '../../store/reducers/broadcast.reducer';

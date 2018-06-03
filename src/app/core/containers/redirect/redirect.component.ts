@@ -5,7 +5,7 @@ import {
   OnInit
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import * as fromStore from '../../../store';
 
