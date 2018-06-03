@@ -1,6 +1,10 @@
 <mat-toolbar color="primary" class="toolbar">
-  <mat-toolbar-row fxLayout="row" class="toolbar__row">
-    <span fxFlex>Steeditor</span>
+  <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-around center" class="toolbar__row">
+    <span fxFlex>
+      <a routerLink="/">
+        <img src="../../../../assets/images/logo.svg" alt="Steeditor" class="toolbar__logo">
+      </a>
+    </span>
 
     <span fxFlex class="toolbar__button">
       <app-log-in-out [isAuthenticated]="isAuthenticated$ | async" (login)="login()" (logout)="logout()"></app-log-in-out>
