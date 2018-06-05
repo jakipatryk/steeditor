@@ -8,20 +8,31 @@
     -->
 
     <div fxFlex>
-      <p class="mat-body">Allow curation rewards:</p>
-      <mat-slide-toggle fxFlex formControlName="allowCurationRewards" matTooltip="Allows/disallows voters to receive curation rewards. If disallowed, curation rewards would return to the reward pool, you wouldn't earn more."
-        matTooltipPosition="right"></mat-slide-toggle>
+      <p class="mat-body">Allow curation rewards:
+        <sup matTooltip="Allows/disallows voters to receive curation rewards. If disallowed, curation rewards would return to the reward pool, you wouldn't earn more."
+          matTooltipPosition="right">
+          <mat-icon color="primary">info</mat-icon>
+        </sup>
+      </p>
+      <mat-slide-toggle fxFlex formControlName="allowCurationRewards"></mat-slide-toggle>
     </div>
 
     <div fxFlex>
-      <p class="mat-body">Percent Steem Dollars:</p>
-      <mat-slider min="0" max="50" step="1" thumbLabel formControlName="percentSteemDollars" matTooltip="The percent of Steem Dollars in the payout, remaining part will be received as Steem Power."
-        matTooltipPosition="right" class="post-options__slider"></mat-slider>
+      <p class="mat-body">Percent Steem Dollars:
+        <sup matTooltip="The percent of Steem Dollars in the payout, remaining part will be received as Steem Power." matTooltipPosition="right">
+          <mat-icon color="primary">info</mat-icon>
+        </sup>
+      </p>
+      <mat-slider min="0" max="50" step="1" thumbLabel formControlName="percentSteemDollars" class="post-options__slider"></mat-slider>
     </div>
 
     <div fxFlex>
-      <p class="mat-body">Max accepted payout:</p>
-      <mat-form-field matTooltip="The maximum payout in Steem Dollars that a post can receive." matTooltipPosition="right">
+      <p class="mat-body">Max accepted payout:
+        <sup matTooltip="The maximum payout in Steem Dollars that a post can receive." matTooltipPosition="right">
+          <mat-icon color="primary">info</mat-icon>
+        </sup>
+      </p>
+      <mat-form-field>
         <input matInput type="number" min="0" max="1000000" formControlName="maxAcceptedPayout">
         <span matSuffix>SBD</span>
       </mat-form-field>
