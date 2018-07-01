@@ -1,4 +1,4 @@
-import { curry } from 'ramda';
+import { always, complement, curry, isEmpty, o, tryCatch } from 'ramda';
 
 /**
  * Searches for matches in a given text and returns them by a group index.
@@ -18,4 +18,14 @@ export const getMatchesByGroup = curry(
 
     return matches;
   }
+);
+
+/**
+ * Checks whether a string is a valid stringified JSON.
+ * @param stringToCheck A string to check if is valid stringified JSON.
+ * @return True if the string is a valid stringified JSON, false otherwise.
+ */
+export const isJsonValid: (stringToCheck: string) => boolean = o(
+  complement(isEmpty),
+  tryCatch(JSON.parse, always({}))
 );
