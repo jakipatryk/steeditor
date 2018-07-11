@@ -1,0 +1,49 @@
+<div [formGroup]="parentForm">
+  <mat-card>
+    <div fxLayout="column" fxLayoutGap="5" class="options">
+      <div fxFlex>
+        <p class="mat-body">Allow votes:
+          <sup matTooltip="Should voting on your post be possible?" matTooltipPosition="right">
+            <mat-icon color="primary">info</mat-icon>
+          </sup>
+        </p>
+        <mat-slide-toggle formControlName="allowVotes"></mat-slide-toggle>
+      </div>
+
+      <div fxFlex>
+        <p class="mat-body">Allow curation rewards:
+          <sup matTooltip="Should voters receive curation rewards? Turned off, curation rewards would return to the reward pool, you wouldn't earn more."
+            matTooltipPosition="right">
+            <mat-icon color="primary">info</mat-icon>
+          </sup>
+        </p>
+        <mat-slide-toggle formControlName="allowCurationRewards"></mat-slide-toggle>
+      </div>
+
+      <div fxFlex>
+        <p class="mat-body">Maximal accepted payout:
+          <sup matTooltip="Maximum payout in Steem Dollars that a post can receive." matTooltipPosition="right">
+            <mat-icon color="primary">info</mat-icon>
+          </sup>
+        </p>
+        <mat-form-field>
+          <input matInput type="number" [errorStateMatcher]="onDirtyMatcher" [min]="maxAcceptedPayoutConfig.min" [max]="maxAcceptedPayoutConfig.max"
+            formControlName="maxAcceptedPayout">
+          <span matSuffix>SBD</span>
+          <mat-error *ngIf="maxAcceptedPayoutControl.hasError('min')" class="max-accepted-payout__error max-accepted-payout__error--min">{{errorMessagesMaxAcceptedPayout.min}}</mat-error>
+          <mat-error *ngIf="maxAcceptedPayoutControl.hasError('max')" class="max-accepted-payout__error max-accepted-payout__error--max">{{errorMessagesMaxAcceptedPayout.max}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex>
+        <p class="mat-body">Percent Steem Dollars:
+          <sup matTooltip="Percent of Steem Dollars in the payout, remaining part will be received as Steem Power." matTooltipPosition="right">
+            <mat-icon color="primary">info</mat-icon>
+          </sup>
+        </p>
+        <mat-slider [min]="percentSteemDollarsConfig.min" [max]="percentSteemDollarsConfig.max" step="1" thumbLabel [displayWith]="formatSliderThumbLabel"
+          formControlName="percentSteemDollars" class="options__slider"></mat-slider>
+      </div>
+    </div>
+  </mat-card>
+</div>

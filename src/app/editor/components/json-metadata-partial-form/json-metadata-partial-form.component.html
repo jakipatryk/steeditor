@@ -1,0 +1,33 @@
+<div [formGroup]="parentForm">
+  <mat-card>
+    <h3>Metadata
+      <sup matTooltip="Metadata is a set of properties describing a post. Don't change it unless you know what you are doing!"
+        matTooltipPosition="right">
+        <mat-icon color="primary">info</mat-icon>
+      </sup>
+    </h3>
+
+    <mat-divider></mat-divider>
+
+    <div class="custom-metadata">
+      <mat-form-field class="custom-metadata__field">
+        <textarea matInput [errorStateMatcher]="onDirtyMatcher" formControlName="jsonMetadata" placeholder="Enter your custom JSON metadata"
+          class="custom-metadata__textarea"></textarea>
+        <mat-error *ngIf="jsonMetadataControl.hasError('invalidJson')" class="custom-metadata__error custom-metadata__error--invalid-json">{{ errorMessages.invalidJson }}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Current JSON metadata
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="current-metadata">
+          <pre>{{currentMetadata | json}}</pre>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-card>
+</div>

@@ -1,0 +1,40 @@
+.beneficiaries__card {
+  margin: 0;
+  padding: 0;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.beneficiaries__container {
+  padding: 0 30px;
+}
+
+.beneficiary {
+  padding: 20px 0;
+}
+
+.beneficiary__field {
+  width: 100%;
+}
+
+.beneficiary__slider {
+  width: 100%;
+}
+
+.beneficiary__item--right {
+  text-align: right;
+}
+
+.beneficiaries__errors {
+  padding: 15px 0;
+}
+
+.beneficiaries__summary {
+  padding: 10px 0;
+}
+
+.beneficiaries__summary-total-beneficiaries {
+  text-align: right;
+}
