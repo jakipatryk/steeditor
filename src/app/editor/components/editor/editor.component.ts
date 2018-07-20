@@ -158,7 +158,7 @@ export class EditorComponent implements OnInit, OnDestroy {
             this.formBuilder.group({
               account: [
                 beneficiary.account,
-                [Validators.required, Validators.pattern(/^[\w|-]+$/)]
+                [Validators.required, Validators.pattern(/^[\w|-|.]+$/)]
               ],
               weight: [
                 beneficiary.weight,
