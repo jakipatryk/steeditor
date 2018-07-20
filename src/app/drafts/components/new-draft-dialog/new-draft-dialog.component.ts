@@ -19,6 +19,8 @@ export class NewDraftDialogComponent {
   }
 
   private buildPicker() {
-    this.templatePicker = this.formBuilder.control('Standard');
+    this.templatePicker = this.formBuilder.control(
+      'Utopian contribution: Development'
+    );
   }
 }

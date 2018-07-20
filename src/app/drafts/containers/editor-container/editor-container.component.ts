@@ -1,6 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { mapObjIndexed, omit } from 'ramda';
 import { Observable } from 'rxjs';
+import { first, map } from 'rxjs/operators';
+import { SteeditorPost } from '../../../../core';
+import { createEditorConfig, EditorConfig } from '../../../editor';
 import * as fromRootStore from '../../../store';
 import * as fromFeatureStore from '../../store';
 import { BroadcastState } from '../../store/reducers/broadcast.reducer';
@@ -17,6 +21,7 @@ export class EditorContainerComponent implements OnInit {
   draft$: Observable<Draft>;
   authState$: Observable<AuthState>;
   broadcastState$: Observable<BroadcastState>;
+  editorConfig$: Observable<EditorConfig>;
 
   constructor(private store: Store<fromRootStore.State>) {}
 
@@ -28,13 +33,33 @@ export class EditorContainerComponent implements OnInit {
     this.broadcastState$ = this.store.select(
       fromFeatureStore.selectBroadcastState
     );
+    this.editorConfig$ = this.draft$.pipe(
+      map(
+        mapObjIndexed(
+          (value, key) =>
+            key === 'tags' && typeof value === 'string'
+              ? { value: value.split(' ') }
+              : { value }
+        )
+      ),
+      map(draft => ({ fields: omit(['id'], draft) })),
+      map(fields => createEditorConfig(fields))
+    );
   }
 
-  updateDraft(draft: Draft) {
-    this.store.dispatch(fromFeatureStore.updateDraft(draft));
+  updateDraft(post: SteeditorPost): void {
+    this.store.dispatch(
+      fromFeatureStore.updateDraft({ ...post, id: this.currentDraft.id })
+    );
   }
 
-  broadcastDraft(draft: Draft) {
-    this.store.dispatch(fromFeatureStore.broadcast(draft));
+  broadcast(post: SteeditorPost): void {
+    this.store.dispatch(fromFeatureStore.broadcast(post));
+  }
+
+  private get currentDraft(): Draft {
+    let currentDraft;
+    this.draft$.pipe(first()).subscribe(draft => (currentDraft = draft));
+    return currentDraft;
   }
 }

@@ -1,9 +1,0 @@
-<div [formGroup]="parent" class="post-thumbnail">
-  <p class="mat-body-2">Paste a URL to your custom thumbnail. Otherwise, the first image from the post body will be taken:</p>
-  <mat-form-field class="post-thumbnail__field">
-    <input matInput type="url" placeholder="URL to the thumbnail" [errorStateMatcher]="matcher" formControlName="thumbnailUrl">
-    <mat-error *ngIf="parent.get('thumbnailUrl').invalid">
-      Please type correct URL to the image!
-    </mat-error>
-  </mat-form-field>
-</div>

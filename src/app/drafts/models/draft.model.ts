@@ -1,28 +1,5 @@
-import { Beneficiary } from './beneficiary.model';
+import { SteeditorPost } from '../../../core';
 
-export interface Draft {
-  id?: number;
-  title: string;
-  body: string;
-  tags: string;
-  thumbnailUrl: string;
-  beneficiaries: Array<Beneficiary>;
-  allowVotes: boolean;
-  allowCurationRewards: boolean;
-  percentSteemDollars: number;
-  maxAcceptedPayout: number;
-  jsonMetadata: string;
+export interface Draft extends SteeditorPost {
+  id: number;
 }
-
-export const standardDraft: Draft = {
-  title: '',
-  body: '',
-  tags: '',
-  thumbnailUrl: '',
-  beneficiaries: [],
-  allowVotes: true,
-  allowCurationRewards: true,
-  percentSteemDollars: 50,
-  maxAcceptedPayout: 1000000,
-  jsonMetadata: ''
-};

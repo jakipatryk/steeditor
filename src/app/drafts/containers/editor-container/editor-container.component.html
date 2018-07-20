@@ -1,8 +1,9 @@
 <div *ngIf="draft$ | async as draft; else noDraftProvided">
-  <app-editor [initialValues]="(draft)" [authState]="authState$ | async" [broadcastState]="broadcastState$ | async" (formChanges)="updateDraft($event)"
-    (formSubmit)="broadcastDraft($event)"></app-editor>
+  <app-editor [config]="editorConfig$ | async" (whenSubmit)="broadcast($event)" (whenChanges)="updateDraft($event)"></app-editor>
 </div>
 
 <ng-template #noDraftProvided>
-  <app-editor [authState]="authState$ | async" [broadcastState]="broadcastState$ | async" (formSubmit)="broadcastDraft($event)"></app-editor>
+  <app-editor (whenSubmit)="broadcast($event)"></app-editor>
 </ng-template>
+
+<mat-spinner *ngIf="(broadcastState$ | async)?.broadcasting"></mat-spinner>

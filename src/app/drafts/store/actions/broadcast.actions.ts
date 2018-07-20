@@ -1,5 +1,5 @@
+import { SteeditorPost } from '../../../../core';
 import { SuperActionWithPayload } from '../../../shared/interfaces';
-import { Draft } from '../../models/draft.model';
 
 // ACTION CONSTANTS
 
@@ -12,7 +12,7 @@ export enum BroadcastActionsTypes {
 // ACTION TYPESCRIPT TYPES
 export type Broadcast = SuperActionWithPayload<
   BroadcastActionsTypes.Broadcast,
-  Draft
+  SteeditorPost
 >;
 export type BroadcastSuccess = SuperActionWithPayload<
   BroadcastActionsTypes.BroadcastSuccess,
@@ -32,9 +32,9 @@ export type BroadcastActionsUnion =
 
 // ACTION CREATORS
 
-export const broadcast = (draft: Draft): Broadcast => ({
+export const broadcast = (post: SteeditorPost): Broadcast => ({
   type: BroadcastActionsTypes.Broadcast,
-  payload: draft
+  payload: post
 });
 
 export const broadcastSuccess = (response: object): BroadcastSuccess => ({
