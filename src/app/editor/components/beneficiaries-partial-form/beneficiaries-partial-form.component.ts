@@ -90,7 +90,7 @@ export class BeneficiariesPartialFormComponent {
 
   private createBeneficiary(): FormGroup {
     return this.formBuilder.group({
-      account: ['', [Validators.required, Validators.pattern(/^[\w|-]+$/)]],
+      account: ['', [Validators.required, Validators.pattern(/^[\w|-|.]+$/)]],
       weight: [0, [Validators.required, Validators.min(0), Validators.max(100)]]
     });
   }
