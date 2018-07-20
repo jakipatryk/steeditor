@@ -31,7 +31,7 @@
                 <app-body-partial-form [parentForm]="contentForm"></app-body-partial-form>
               </mat-tab>
               <mat-tab label="Preview">
-                <app-post-preview [postBody]="(contentForm.valueChanges | async)?.body"></app-post-preview>
+                <app-post-preview [postBody]="contentForm.value.body"></app-post-preview>
               </mat-tab>
             </mat-tab-group>
           </mat-card>
