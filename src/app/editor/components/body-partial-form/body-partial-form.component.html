@@ -1,0 +1,6 @@
+<div [formGroup]="parentForm">
+  <mat-form-field class="body__field">
+    <textarea matInput formControlName="body" placeholder="Write your article" class="body__textarea"></textarea>
+    <mat-error *ngIf="bodyControl.hasError('required')" class="body__error body__error--required">{{ errorMessages.required }}</mat-error>
+  </mat-form-field>
+</div>

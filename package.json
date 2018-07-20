@@ -33,6 +33,7 @@
     "hammerjs": "^2.0.8",
     "idb": "^2.1.1",
     "ngx-cookie": "^3.0.1",
+    "ngx-markdown": "^6.1.0",
     "ramda": "^0.25.0",
     "rxjs": "^6.1.0",
     "speakingurl": "^14.0.1",

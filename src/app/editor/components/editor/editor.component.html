@@ -1,0 +1,83 @@
+<mat-vertical-stepper #stepper="matVerticalStepper" class="editor">
+
+  <mat-step [stepControl]="contentForm">
+    <form [formGroup]="contentForm">
+      <ng-template matStepLabel>Fill out required fields</ng-template>
+
+      <app-title-partial-form [parentForm]="contentForm"></app-title-partial-form>
+
+      <div fxLayout fxLayout.lt-md="column" fxLayoutGap.gt-sm="2" fxLayoutAlign.gt-sm="space-between end" class="editor__multi-fields-container">
+
+        <div fxFlex="69" fxFlex.lt-md="100">
+          <app-tags-partial-form [parentForm]="contentForm" [disableRemovingFirstTag]="isRemovingFirstTagDisabled"></app-tags-partial-form>
+        </div>
+
+        <div fxFlex="29" fxFlex.lt-md="100">
+          <app-community-partial-form [parentForm]="contentForm"></app-community-partial-form>
+        </div>
+
+      </div>
+
+      <div fxLayout fxLayout.lt-md="column" fxLayoutGap.gt-sm="2" fxLayoutAlign.gt-sm="space-between start" class="editor__multi-fields-container">
+
+        <div fxFlex="29" fxFlex.lt-md="100" fxFlexOrder.lt-md="2">
+          <app-thumbnail-partial-form [parentForm]="contentForm"></app-thumbnail-partial-form>
+        </div>
+
+        <div fxFlex="69" fxFlex.lt-md="100" fxFlexOrder.lt-md="1">
+          <mat-card class="editor__card">
+            <mat-tab-group>
+              <mat-tab label="Edit">
+                <app-body-partial-form [parentForm]="contentForm"></app-body-partial-form>
+              </mat-tab>
+              <mat-tab label="Preview">
+                <app-post-preview [postBody]="(contentForm.valueChanges | async)?.body"></app-post-preview>
+              </mat-tab>
+            </mat-tab-group>
+          </mat-card>
+        </div>
+
+      </div>
+
+      <div class="editor__step-buttons">
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="advancedOptionsForm" optional="true">
+    <form [formGroup]="advancedOptionsForm">
+      <ng-template matStepLabel>Change advanced options</ng-template>
+      <div fxLayout fxLayout.lt-lg="column" fxLayoutGap="2" fxLayoutAlign.gt-md="space-between start" class="advanced-options">
+        <div fxFlex="26" fxFlex.lt-lg="100" class="advanced-options__element">
+          <app-options-partial-form [parentForm]="advancedOptionsForm" [config]="config"></app-options-partial-form>
+        </div>
+
+        <div fxFlex="30" fxFlex.lt-lg="100" class="advanced-options__element">
+          <app-json-metadata-partial-form [parentForm]="advancedOptionsForm" [currentSteeditorPost]="currentSteeditorPost"></app-json-metadata-partial-form>
+        </div>
+
+        <div fxFlex="40" fxFlex.lt-lg="100" class="advanced-options__element">
+          <app-beneficiaries-partial-form [parentForm]="advancedOptionsForm"></app-beneficiaries-partial-form>
+        </div>
+      </div>
+      <div class="editor__step-buttons">
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Summary</ng-template>
+
+    <p *ngIf="contentForm.valid && advancedOptionsForm.valid" class="editor__summary-text--valid">{{config.summaryStepValidText}}</p>
+    <p *ngIf="contentForm.invalid || advancedOptionsForm.invalid" class="editor__summary-text--invalid">{{config.summaryStepInvalidText}}</p>
+
+    <div class="editor__step-buttons">
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button color="accent" [disabled]="contentForm.invalid || advancedOptionsForm.invalid || config.submitButtonDisabled"
+        (click)="onSubmit()" class="editor__submit-button">{{config.submitButtonText}}</button>
+    </div>
+  </mat-step>
+
+</mat-vertical-stepper>

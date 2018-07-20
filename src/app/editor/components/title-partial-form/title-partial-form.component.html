@@ -1,0 +1,6 @@
+<div [formGroup]="parentForm">
+  <mat-form-field class="title__field">
+    <input matInput formControlName="title" type="text" placeholder="Title">
+    <mat-error *ngIf="titleControl.hasError('required')" class="title__error title__error--required">{{ errorMessages.required }}</mat-error>
+  </mat-form-field>
+</div>
