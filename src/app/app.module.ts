@@ -10,6 +10,7 @@ import {
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { CookieModule } from 'ngx-cookie';
+import { MarkdownModule } from 'ngx-markdown';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './auth/auth.module';
@@ -36,7 +37,8 @@ import * as fromStore from './store';
       stateKey: 'router'
     }),
     EffectsModule.forRoot(fromStore.effects),
-    CookieModule.forRoot()
+    CookieModule.forRoot(),
+    MarkdownModule.forRoot()
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: fromStore.CustomSerializer }

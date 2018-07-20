@@ -6,8 +6,8 @@ import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
 import { AuthService } from '../../../auth/services/auth.service';
-import { steemizeDraft } from '../../../shared/utils';
 import * as fromActions from '../actions/broadcast.actions';
+import { steemizePost } from '../../../../core';
 
 @Injectable()
 export class BroadcastEffects {
@@ -26,9 +26,9 @@ export class BroadcastEffects {
         .post(
           'https://steemconnect.com/api/broadcast',
           {
-            operations: steemizeDraft(
+            operations: steemizePost(
               (action as fromActions.Broadcast).payload,
-              this.authService.getCookie()
+              this.authService.getCookie().username
             )
           },
           {

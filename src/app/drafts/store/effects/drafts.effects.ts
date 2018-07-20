@@ -51,11 +51,22 @@ export class DraftsEffects {
           db
             .transaction('drafts', 'readwrite')
             .objectStore('drafts')
-            .add(
-              fromTemplates.entities[
+            .add({
+              title: '',
+              body: '',
+              tags: [],
+              community: '',
+              thumbnailUrl: '',
+              beneficiaries: [],
+              allowVotes: true,
+              allowCurationRewards: true,
+              percentSteemDollars: 50,
+              maxAcceptedPayout: 100000,
+              jsonMetadata: '',
+              ...fromTemplates.entities[
                 (action as fromActions.CreateDraft).payload
-              ].initialDraft
-            )
+              ].changeInPost
+            })
         )
       ).pipe(
         mergeMap(draftId =>
@@ -126,8 +137,7 @@ export class DraftsEffects {
     mergeMap(action =>
       fromPromise(
         this.dbPromise.then(db => {
-          db
-            .transaction('drafts', 'readwrite')
+          db.transaction('drafts', 'readwrite')
             .objectStore('drafts')
             .delete((action as fromActions.RemoveDraft).payload);
           return (action as fromActions.RemoveDraft).payload;
