@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   OnDestroy,
@@ -46,10 +47,17 @@ export class ThumbnailPartialFormComponent implements OnInit, OnDestroy {
     return this.parentForm.get('thumbnailUrl');
   }
 
+  constructor(private changeDetector: ChangeDetectorRef) {}
+
   ngOnInit() {
+    this.currentThumbnailURL = this.getCurrentThumbnailURL();
     this.parentFormChangesSubscription = this.parentForm.valueChanges.subscribe(
       () => {
-        this.currentThumbnailURL = this.getCurrentThumbnailURL();
+        const newThumbnailUrl = this.getCurrentThumbnailURL();
+        if (this.currentThumbnailURL !== newThumbnailUrl) {
+          this.currentThumbnailURL = newThumbnailUrl;
+          this.changeDetector.detectChanges();
+        }
       }
     );
   }
