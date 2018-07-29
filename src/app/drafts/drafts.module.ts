@@ -21,7 +21,6 @@ import { reducers } from './store/reducers';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    HttpClientModule,
     DraftsRoutingModule,
     StoreModule.forFeature('drafts', reducers),
     EffectsModule.forFeature(effects),
