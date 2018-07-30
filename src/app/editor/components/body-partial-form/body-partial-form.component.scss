@@ -1,7 +1,21 @@
 .body__field {
   width: 100%;
+  padding-top: 0;
+  overflow-x: hidden;
 }
 
 .body__textarea {
-  min-height: 400px;
+  min-height: 50vh;
+  margin: 0 6px;
+  width: 99%;
+}
+
+.body__textarea--fullscreen {
+  min-height: 55vh;
+}
+
+.body__toolbar {
+  margin: 0 4px;
+  margin-bottom: 10px;
+  padding: 5px;
 }

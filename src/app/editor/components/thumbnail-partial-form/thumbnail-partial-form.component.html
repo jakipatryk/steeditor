@@ -1,13 +1,5 @@
 <mat-card>
 
-  <div [formGroup]="parentForm">
-    <mat-form-field class="custom-thumbnail__field">
-      <input matInput [errorStateMatcher]="onDirtyMatcher" formControlName="thumbnailUrl" type="url" placeholder="URL to a custom thumbnail"
-        class="custom-thumbnail__input">
-      <mat-error *ngIf="thumbnailUrlControl.hasError('pattern')" class="custom-thumbnail__error custom-thumbnail__error--pattern">{{ errorMessages.pattern }}</mat-error>
-    </mat-form-field>
-  </div>
-
   <div *ngIf="currentThumbnailURL && thumbnailUrlControl.valid" class="current-thumbnail">
     <mat-card-header>
       <mat-card-title>
@@ -16,5 +8,19 @@
     </mat-card-header>
     <img mat-card-image [src]="currentThumbnailURL" alt="Thumbnail" class="current-thumbnail__image">
   </div>
+
+  <div [formGroup]="parentForm" class="thumbnail__picker">
+    <mat-form-field class="custom-thumbnail__field">
+      <input matInput [errorStateMatcher]="onDirtyMatcher" formControlName="thumbnailUrl" type="url" placeholder="URL to a custom thumbnail"
+        class="custom-thumbnail__input">
+      <mat-error *ngIf="thumbnailUrlControl.hasError('pattern')" class="custom-thumbnail__error custom-thumbnail__error--pattern">{{ errorMessages.pattern }}</mat-error>
+    </mat-form-field>
+    <button mat-raised-button type="button" color="primary" (click)="fileInput.click()" class="thumbnail__upload-button">
+      Upload New
+    </button>
+    <input #fileInput type="file" style="display: none;" (change)="uploadThumbnail($event)">
+  </div>
+
+  <mat-spinner *ngIf="isUploading"></mat-spinner>
 
 </mat-card>
