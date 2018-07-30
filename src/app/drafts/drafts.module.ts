@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -7,6 +6,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { EditorModule } from './../editor/editor.module';
 import { MaterialModule } from './../material/material.module';
+import { ConfirmDeleteDialogComponent } from './components/confirm-delete-dialog/confirm-delete-dialog.component';
 import { DraftCardComponent } from './components/draft-card/draft-card.component';
 import { NewDraftDialogComponent } from './components/new-draft-dialog/new-draft-dialog.component';
 import { DraftsComponent } from './containers/drafts/drafts.component';
@@ -33,9 +33,10 @@ import { reducers } from './store/reducers';
     DraftCardComponent,
     NewDraftDialogComponent,
     ReversePipe,
-    EditorContainerComponent
+    EditorContainerComponent,
+    ConfirmDeleteDialogComponent
   ],
   providers: [...guards],
-  entryComponents: [NewDraftDialogComponent]
+  entryComponents: [NewDraftDialogComponent, ConfirmDeleteDialogComponent]
 })
 export class DraftsModule {}
