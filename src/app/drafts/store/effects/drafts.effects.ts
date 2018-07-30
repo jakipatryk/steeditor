@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import idb from 'idb';
-import { Observable, from as fromPromise, of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { from as fromPromise, Observable, of } from 'rxjs';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import * as fromRoot from '../../../store';
+import { ConfirmDeleteDialogComponent } from '../../components/confirm-delete-dialog/confirm-delete-dialog.component';
 import * as fromTemplates from '../../templates';
 import { makeEntities } from './../../../shared/utils';
 import * as fromActions from './../actions/drafts.actions';
@@ -20,7 +22,7 @@ export class DraftsEffects {
     }
   });
 
-  constructor(private actions$: Actions) {}
+  constructor(private actions$: Actions, private dialog: MatDialog) {}
 
   @Effect()
   loadDrafts$: Observable<Action> = this.actions$.pipe(
@@ -134,18 +136,28 @@ export class DraftsEffects {
   @Effect()
   removeDraft$: Observable<Action> = this.actions$.pipe(
     ofType(fromActions.DraftsActionsTypes.RemoveDraft),
-    mergeMap(action =>
-      fromPromise(
-        this.dbPromise.then(db => {
-          db.transaction('drafts', 'readwrite')
-            .objectStore('drafts')
-            .delete((action as fromActions.RemoveDraft).payload);
-          return (action as fromActions.RemoveDraft).payload;
-        })
-      ).pipe(
-        map(id => fromActions.removeDraftSuccess(id)),
-        catchError(() => of(fromActions.removeDraftFail()))
-      )
+    map(action => (action as fromActions.RemoveDraft).payload),
+    switchMap(id =>
+      this.dialog
+        .open(ConfirmDeleteDialogComponent)
+        .afterClosed()
+        .pipe(map(shouldDelete => (shouldDelete ? id : false)))
+    ),
+    mergeMap(
+      id =>
+        id
+          ? fromPromise(
+              this.dbPromise.then(db => {
+                db.transaction('drafts', 'readwrite')
+                  .objectStore('drafts')
+                  .delete(id);
+                return id;
+              })
+            ).pipe(
+              map(() => fromActions.removeDraftSuccess(id as number)),
+              catchError(() => of(fromActions.removeDraftFail()))
+            )
+          : of(fromActions.removeDraftFail())
     )
   );
 }
