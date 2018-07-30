@@ -1,8 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ViewChild,
-  DebugElement
+  DebugElement,
+  ViewChild
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -11,10 +11,12 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { of } from 'rxjs';
+import { FileUploadService } from '../../../core/services/file-upload.service';
 import { EditorMaterialModule } from '../../editor-material/editor-material.module';
 import { ThumbnailPartialFormComponent } from './thumbnail-partial-form.component';
-import { By } from '@angular/platform-browser';
 
 @Component({
   selector: `app-host-component`,
@@ -46,13 +48,21 @@ fdescribe('#EditorModule ThumbnailPartialFormComponent', () => {
   let component: ThumbnailPartialFormComponent;
 
   beforeEach(async(() => {
+    const fileUploadServiceStub: Partial<FileUploadService> = {
+      uploadFile: (file: File) =>
+        of({ name: 'super-image', url: 'https://ipfs.busy.org/423orfendfjsd' })
+    };
+
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
         ReactiveFormsModule,
         EditorMaterialModule
       ],
-      declarations: [TestHostComponent, ThumbnailPartialFormComponent]
+      declarations: [TestHostComponent, ThumbnailPartialFormComponent],
+      providers: [
+        { provide: FileUploadService, useValue: fileUploadServiceStub }
+      ]
     })
       // `OnPush` change detection lets run change detection manually only once,
       // that's why for tests `Default` change detection has to be set
@@ -122,6 +132,14 @@ fdescribe('#EditorModule ThumbnailPartialFormComponent', () => {
     component.bodyControl.setValue('test test');
 
     expect(component.currentThumbnailURL).toEqual(null);
+  });
+
+  it('#uploadThumbnail should eventually set uploaded image as `thumbnailUrlControl` value', () => {
+    component.uploadThumbnail({ target: { files: [{}] } });
+
+    expect(component.thumbnailUrlControl.value).toEqual(
+      'https://ipfs.busy.org/423orfendfjsd'
+    );
   });
 
   // tslint:disable-next-line:max-line-length
