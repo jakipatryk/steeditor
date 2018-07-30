@@ -1,0 +1,21 @@
+<mat-card *ngIf="!isFullscreen; else fullscreen">
+  <mat-tab-group class="body__tabs">
+    <mat-tab label="Edit">
+      <app-body-partial-form [parentForm]="parentForm" [fullscreenState]="fullscreenState" (fullscreenOpen)="goFullscreen()" (fullscreenClose)="exitFullscreen()"></app-body-partial-form>
+    </mat-tab>
+    <mat-tab label="Preview">
+      <app-post-preview [postBody]="parentForm.value.body"></app-post-preview>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>
+
+<ng-template #fullscreen>
+  <mat-tab-group class="body__tabs body__tabs--fullscreen">
+    <mat-tab label="Edit">
+      <app-body-partial-form [parentForm]="parentForm" [fullscreenState]="fullscreenState" (fullscreenOpen)="goFullscreen()" (fullscreenClose)="exitFullscreen()"></app-body-partial-form>
+    </mat-tab>
+    <mat-tab label="Preview">
+      <app-post-preview [postBody]="parentForm.value.body"></app-post-preview>
+    </mat-tab>
+  </mat-tab-group>
+</ng-template>

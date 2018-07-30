@@ -14,6 +14,7 @@ import { TagsPartialFormComponent } from './components/tags-partial-form/tags-pa
 import { ThumbnailPartialFormComponent } from './components/thumbnail-partial-form/thumbnail-partial-form.component';
 import { TitlePartialFormComponent } from './components/title-partial-form/title-partial-form.component';
 import { EditorMaterialModule } from './editor-material/editor-material.module';
+import { BodyCardComponent } from './components/body-card/body-card.component';
 
 @NgModule({
   imports: [
@@ -33,8 +34,10 @@ import { EditorMaterialModule } from './editor-material/editor-material.module';
     PostPreviewComponent,
     OptionsPartialFormComponent,
     JsonMetadataPartialFormComponent,
-    BeneficiariesPartialFormComponent
+    BeneficiariesPartialFormComponent,
+    BodyCardComponent
   ],
+  entryComponents: [BodyCardComponent],
   exports: [EditorComponent]
 })
 export class EditorModule {}

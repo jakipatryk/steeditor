@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ChangeDetectionStrategy, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -16,7 +17,12 @@ fdescribe('#EditorModule EditorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [EditorModule, BrowserAnimationsModule, MarkdownModule.forRoot()]
+      imports: [
+        EditorModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        MarkdownModule.forRoot()
+      ]
     })
       // `OnPush` change detection lets run change detection manually only once,
       // that's why for tests `Default` change detection has to be set
