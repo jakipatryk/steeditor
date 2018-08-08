@@ -1,7 +1,6 @@
-import { Observable } from 'rxjs';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { AuthService } from '../../../auth/services/auth.service';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import * as fromStore from '../../../store';
 
 @Component({
@@ -12,12 +11,14 @@ import * as fromStore from '../../../store';
 })
 export class AppComponent implements OnInit {
   isAuthenticated$: Observable<boolean>;
+  isLoggingOut$: Observable<boolean>;
 
   constructor(private store: Store<fromStore.State>) {}
 
   ngOnInit() {
     this.store.dispatch(fromStore.authenticate());
     this.isAuthenticated$ = this.store.select(fromStore.selectAuthenticated);
+    this.isLoggingOut$ = this.store.select(fromStore.selectLoggingOut);
   }
 
   login() {

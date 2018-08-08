@@ -1,4 +1,4 @@
-import { SuperAction, SuperActionWithPayload } from './../../shared/interfaces';
+import { SuperAction } from './../../shared/interfaces';
 
 // ACTIONS CONSTANTS
 

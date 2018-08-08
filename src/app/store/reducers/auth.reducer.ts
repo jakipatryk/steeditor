@@ -4,12 +4,14 @@ export interface AuthState {
   authenticated: boolean;
   loading: boolean;
   loaded: boolean;
+  loggingOut: boolean;
 }
 
 export const initialState: AuthState = {
   authenticated: false,
   loading: false,
-  loaded: false
+  loaded: false,
+  loggingOut: false
 };
 
 export function authReducer(
@@ -40,16 +42,20 @@ export function authReducer(
       };
     }
     case AuthActionsTypes.Logout: {
-      return state;
+      return {
+        ...state,
+        loggingOut: true
+      };
     }
     case AuthActionsTypes.LogoutSuccess: {
       return {
         ...state,
-        authenticated: false
+        authenticated: false,
+        loggingOut: false
       };
     }
     case AuthActionsTypes.LogoutFail: {
-      return state;
+      return { ...state, loggingOut: false };
     }
     default: {
       return state;
@@ -60,3 +66,4 @@ export function authReducer(
 export const getAuthenticated = (state: AuthState) => state.authenticated;
 export const getLoading = (state: AuthState) => state.loading;
 export const getLoaded = (state: AuthState) => state.loaded;
+export const getLoggingOut = (state: AuthState) => state.loggingOut;

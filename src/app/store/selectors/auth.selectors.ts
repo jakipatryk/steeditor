@@ -16,3 +16,8 @@ export const selectAuthenticationLoaded = createSelector(
   fromFeature.selectAuthenticationState,
   fromAuth.getLoaded
 );
+
+export const selectLoggingOut = createSelector(
+  fromFeature.selectAuthenticationState,
+  fromAuth.getLoggingOut
+);

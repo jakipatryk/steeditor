@@ -1,6 +1,14 @@
-<span *ngIf="isAuthenticated; else guest">
-  <button mat-raised-button color="accent" (click)="onLogout()">LOGOUT</button>
-</span>
-<ng-template #guest>
-  <button mat-raised-button color="accent" (click)="onLogin()">LOGIN</button>
+<div *ngIf="!isLoggingOut; else loggingOut">
+
+  <span *ngIf="isAuthenticated; else guest">
+    <button mat-raised-button color="accent" (click)="onLogout()">LOGOUT</button>
+  </span>
+  <ng-template #guest>
+    <button mat-raised-button color="accent" (click)="onLogin()">LOGIN</button>
+  </ng-template>
+
+</div>
+
+<ng-template #loggingOut>
+  <mat-spinner color="accent" [diameter]="30" style="margin: 0 0 0 90%;"></mat-spinner>
 </ng-template>

@@ -12,11 +12,12 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { CookieModule } from 'ngx-cookie';
 import { MarkdownModule } from 'ngx-markdown';
-import { environment } from '../environments/environment';
+import { environment } from './../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
-import { AuthModule } from './auth/auth.module';
 import { AppComponent } from './core/containers/app/app.component';
 import { CoreModule } from './core/core.module';
+import { SteemconnectConfig } from './steemconnect/config';
+import { SteemconnectModule } from './steemconnect/steemconnect.module';
 import * as fromStore from './store';
 
 @NgModule({
@@ -28,7 +29,9 @@ import * as fromStore from './store';
       enabled: environment.production
     }),
     CoreModule.forRoot(),
-    AuthModule.forRoot(environment.steemConnectConfig),
+    SteemconnectModule.forRoot(
+      environment.steemConnectConfig as SteemconnectConfig
+    ),
     AppRoutingModule,
     StoreModule.forRoot(fromStore.reducers),
     StoreDevtoolsModule.instrument({

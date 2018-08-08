@@ -1,43 +1,37 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
-import { AuthService } from '../../../auth/services/auth.service';
-import * as fromActions from '../actions/broadcast.actions';
+import {
+  catchError,
+  exhaustMap,
+  map,
+  tap,
+  withLatestFrom
+} from 'rxjs/operators';
 import { steemizePost } from '../../../../core';
+import { SteemconnectBroadcastService } from '../../../steemconnect/services/steemconnect-broadcast.service';
+import { SteemconnectOAuth2Service } from '../../../steemconnect/services/steemconnect-oauth2.service';
+import * as fromActions from '../actions/broadcast.actions';
 
 @Injectable()
 export class BroadcastEffects {
   constructor(
     private actions$: Actions,
-    private http: HttpClient,
-    private authService: AuthService,
+    private broadcastService: SteemconnectBroadcastService,
+    private authService: SteemconnectOAuth2Service,
     private snackBar: MatSnackBar
   ) {}
 
   @Effect()
   broadcast$: Observable<Action> = this.actions$.pipe(
     ofType(fromActions.BroadcastActionsTypes.Broadcast),
-    exhaustMap(action =>
-      this.http
-        .post(
-          'https://steemconnect.com/api/broadcast',
-          {
-            operations: steemizePost(
-              (action as fromActions.Broadcast).payload,
-              this.authService.getCookie().username
-            )
-          },
-          {
-            headers: new HttpHeaders({
-              Authorization: this.authService.getCookie().access_token,
-              'Content-Type': 'application/json',
-              Accept: 'application/json'
-            })
-          }
+    withLatestFrom(this.authService.authState),
+    exhaustMap(([action, user]) =>
+      this.broadcastService
+        .broadcastOperations(
+          steemizePost((action as fromActions.Broadcast).payload, user.uid)
         )
         .pipe(
           map(response => fromActions.broadcastSuccess(response)),
