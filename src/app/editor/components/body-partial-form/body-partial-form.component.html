@@ -51,7 +51,7 @@
           <mat-icon>cloud_upload</mat-icon>
           <span>Upload image</span>
         </button>
-        <input #fileInput type="file" style="display: none;" (change)="uploadAndInsertImage($event)">
+        <input #fileInput type="file" accept="image/*" style="display: none;" (change)="uploadAndInsertImage($event)">
       </mat-menu>
 
       <button mat-icon-button *ngIf="!isFullscreen" type="button" (click)="goFullscreen()">

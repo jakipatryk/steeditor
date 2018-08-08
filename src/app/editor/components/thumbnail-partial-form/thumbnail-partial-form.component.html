@@ -18,7 +18,7 @@
     <button mat-raised-button type="button" color="primary" (click)="fileInput.click()" class="thumbnail__upload-button">
       Upload New
     </button>
-    <input #fileInput type="file" style="display: none;" (change)="uploadThumbnail($event)">
+    <input #fileInput type="file" accept="image/*" style="display: none;" (change)="uploadThumbnail($event)">
   </div>
 
   <mat-spinner *ngIf="isUploading"></mat-spinner>
