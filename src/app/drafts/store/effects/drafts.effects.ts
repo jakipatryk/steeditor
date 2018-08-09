@@ -2,40 +2,31 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import idb from 'idb';
-import { from as fromPromise, Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, concatMap, exhaustMap, map } from 'rxjs/operators';
+import { IndexedDBService } from '../../../core/services/indexeddb.service';
 import * as fromRoot from '../../../store';
 import { ConfirmDeleteDialogComponent } from '../../components/confirm-delete-dialog/confirm-delete-dialog.component';
+import { Draft } from '../../models/draft.model';
 import * as fromTemplates from '../../templates';
 import { makeEntities } from './../../../shared/utils';
 import * as fromActions from './../actions/drafts.actions';
 
 @Injectable()
 export class DraftsEffects {
-  dbPromise: Promise<any> = idb.open('steeditor-db', 1, upgradeDb => {
-    if (!upgradeDb.objectStoreNames.contains('drafts')) {
-      upgradeDb.createObjectStore('drafts', {
-        keyPath: 'id',
-        autoIncrement: true
-      });
-    }
-  });
-
-  constructor(private actions$: Actions, private dialog: MatDialog) {}
+  constructor(
+    private actions$: Actions,
+    private dialog: MatDialog,
+    private indexedDBService: IndexedDBService
+  ) {
+    this.indexedDBService.useStore('drafts');
+  }
 
   @Effect()
   loadDrafts$: Observable<Action> = this.actions$.pipe(
     ofType(fromActions.DraftsActionsTypes.LoadDrafts),
-    mergeMap(action =>
-      fromPromise(
-        this.dbPromise.then(db =>
-          db
-            .transaction('drafts', 'readonly')
-            .objectStore('drafts')
-            .getAll()
-        )
-      ).pipe(
+    exhaustMap(() =>
+      this.indexedDBService.getAll<Draft>().pipe(
         map(drafts =>
           fromActions.loadDraftsSuccess(makeEntities(drafts, 'id'))
         ),
@@ -47,75 +38,31 @@ export class DraftsEffects {
   @Effect()
   createDraft$: Observable<Action> = this.actions$.pipe(
     ofType(fromActions.DraftsActionsTypes.CreateDraft),
-    mergeMap(action =>
-      fromPromise(
-        this.dbPromise.then(db =>
-          db
-            .transaction('drafts', 'readwrite')
-            .objectStore('drafts')
-            .add({
-              title: '',
-              body: '',
-              tags: [],
-              community: '',
-              thumbnailUrl: '',
-              beneficiaries: [],
-              allowVotes: true,
-              allowCurationRewards: true,
-              percentSteemDollars: 50,
-              maxAcceptedPayout: 100000,
-              jsonMetadata: '',
-              ...fromTemplates.entities[
-                (action as fromActions.CreateDraft).payload
-              ].changeInPost
-            })
-        )
-      ).pipe(
-        mergeMap(draftId =>
-          fromPromise(
-            this.dbPromise.then(db =>
-              db
-                .transaction('drafts', 'readonly')
-                .objectStore('drafts')
-                .get(draftId)
+    concatMap((action: fromActions.CreateDraft) =>
+      this.indexedDBService
+        .add({
+          title: '',
+          body: '',
+          tags: [],
+          community: '',
+          thumbnailUrl: '',
+          beneficiaries: [],
+          allowVotes: true,
+          allowCurationRewards: true,
+          percentSteemDollars: 50,
+          maxAcceptedPayout: 100000,
+          jsonMetadata: '',
+          ...fromTemplates.entities[action.payload].changeInPost
+        })
+        .pipe(
+          concatMap(draftId =>
+            this.indexedDBService.getOne<Draft>(draftId).pipe(
+              map(draft => fromActions.createDraftSuccess(draft)),
+              catchError(() => of(fromActions.createDraftFail()))
             )
-          ).pipe(
-            map(draft => fromActions.createDraftSuccess(draft)),
-            catchError(() => of(fromActions.createDraftFail()))
-          )
-        ),
-        catchError(() => of(fromActions.createDraftFail()))
-      )
-    )
-  );
-
-  @Effect()
-  updateDraft$: Observable<Action> = this.actions$.pipe(
-    ofType(fromActions.DraftsActionsTypes.UpdateDraft),
-    mergeMap(action =>
-      fromPromise(
-        this.dbPromise.then(db =>
-          db
-            .transaction('drafts', 'readwrite')
-            .objectStore('drafts')
-            .put((action as fromActions.UpdateDraft).payload)
+          ),
+          catchError(() => of(fromActions.createDraftFail()))
         )
-      ).pipe(
-        mergeMap(draftId =>
-          fromPromise(
-            this.dbPromise.then(db =>
-              db
-                .transaction('drafts', 'readonly')
-                .objectStore('drafts')
-                .get(draftId)
-            )
-          ).pipe(
-            map(draft => fromActions.updateDraftSuccess(draft)),
-            catchError(() => of(fromActions.updateDraftFail()))
-          )
-        ),
-        catchError(() => of(fromActions.updateDraftFail()))
-      )
     )
   );
 
@@ -123,41 +70,43 @@ export class DraftsEffects {
   createDraftSuccess$ = this.actions$.pipe(
     ofType(fromActions.DraftsActionsTypes.CreateDraftSuccess),
     map(
-      action =>
+      (action: fromActions.CreateDraftSuccess) =>
         new fromRoot.Go({
-          path: [
-            '/drafts',
-            (action as fromActions.CreateDraftSuccess).payload.id
-          ]
+          path: ['/drafts', action.payload.id]
         })
+    )
+  );
+
+  @Effect()
+  updateDraft$: Observable<Action> = this.actions$.pipe(
+    ofType(fromActions.DraftsActionsTypes.UpdateDraft),
+    concatMap((action: fromActions.UpdateDraft) =>
+      this.indexedDBService.put(action.payload).pipe(
+        map(() => fromActions.updateDraftSuccess(action.payload)),
+        catchError(() => of(fromActions.updateDraftFail()))
+      )
     )
   );
 
   @Effect()
   removeDraft$: Observable<Action> = this.actions$.pipe(
     ofType(fromActions.DraftsActionsTypes.RemoveDraft),
-    map(action => (action as fromActions.RemoveDraft).payload),
-    switchMap(id =>
+    map((action: fromActions.RemoveDraft) => action.payload),
+    concatMap(id =>
       this.dialog
         .open(ConfirmDeleteDialogComponent)
         .afterClosed()
-        .pipe(map(shouldDelete => (shouldDelete ? id : false)))
-    ),
-    mergeMap(
-      id =>
-        id
-          ? fromPromise(
-              this.dbPromise.then(db => {
-                db.transaction('drafts', 'readwrite')
-                  .objectStore('drafts')
-                  .delete(id);
-                return id;
-              })
-            ).pipe(
-              map(() => fromActions.removeDraftSuccess(id as number)),
-              catchError(() => of(fromActions.removeDraftFail()))
-            )
-          : of(fromActions.removeDraftFail())
+        .pipe(
+          concatMap(
+            shouldRemove =>
+              shouldRemove
+                ? this.indexedDBService.delete(id).pipe(
+                    map(() => fromActions.removeDraftSuccess(id)),
+                    catchError(() => of(fromActions.removeDraftFail()))
+                  )
+                : of(fromActions.removeDraftFail())
+          )
+        )
     )
   );
 }
