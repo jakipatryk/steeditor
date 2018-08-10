@@ -3,11 +3,12 @@ import { CanActivate } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
-import * as fromStore from '../store';
+import { draftsActionCreators, selectLoaded } from '../../store/drafts-store';
+import { State } from '../../store/root-state';
 
 @Injectable()
 export class DraftsLoadedGuard implements CanActivate {
-  constructor(private store: Store<fromStore.State>) {}
+  constructor(private store: Store<State>) {}
 
   canActivate(): Observable<boolean> {
     return this.checkStore().pipe(
@@ -17,10 +18,10 @@ export class DraftsLoadedGuard implements CanActivate {
   }
 
   checkStore(): Observable<boolean> {
-    return this.store.select(fromStore.selectDraftsLoaded).pipe(
+    return this.store.select(selectLoaded).pipe(
       tap(loaded => {
         if (!loaded) {
-          this.store.dispatch(fromStore.loadDrafts());
+          this.store.dispatch(draftsActionCreators.loadDrafts());
         }
       }),
       filter(loaded => loaded),

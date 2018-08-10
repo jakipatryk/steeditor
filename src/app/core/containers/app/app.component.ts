@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import * as fromStore from '../../../store';
+import { selectCurrentUser, selectLoggingOut } from '../../../store/auth-store';
+import { State } from '../../../store/root-state';
+import { authActionCreators } from './../../../store/auth-store/actions';
 
 @Component({
   selector: 'app-root',
@@ -10,22 +12,21 @@ import * as fromStore from '../../../store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
-  isAuthenticated$: Observable<boolean>;
+  currentUser$: Observable<string | null>;
   isLoggingOut$: Observable<boolean>;
 
-  constructor(private store: Store<fromStore.State>) {}
+  constructor(private store: Store<State>) {}
 
   ngOnInit() {
-    this.store.dispatch(fromStore.authenticate());
-    this.isAuthenticated$ = this.store.select(fromStore.selectAuthenticated);
-    this.isLoggingOut$ = this.store.select(fromStore.selectLoggingOut);
+    this.currentUser$ = this.store.select(selectCurrentUser);
+    this.isLoggingOut$ = this.store.select(selectLoggingOut);
   }
 
   login() {
-    this.store.dispatch(fromStore.login());
+    this.store.dispatch(authActionCreators.login());
   }
 
   logout() {
-    this.store.dispatch(fromStore.logout());
+    this.store.dispatch(authActionCreators.logout());
   }
 }

@@ -7,7 +7,7 @@
     </span>
 
     <span fxFlex class="toolbar__button">
-      <app-log-in-out [isAuthenticated]="isAuthenticated$ | async" [isLoggingOut]="isLoggingOut$ | async" (login)="login()" (logout)="logout()"></app-log-in-out>
+      <app-log-in-out [isAuthenticated]="!!(currentUser$ | async)" [isLoggingOut]="isLoggingOut$ | async" (login)="login()" (logout)="logout()"></app-log-in-out>
     </span>
   </mat-toolbar-row>
 

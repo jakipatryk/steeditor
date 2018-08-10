@@ -1,15 +1,18 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { mapObjIndexed, omit } from 'ramda';
+import { mapObjIndexed, merge, omit } from 'ramda';
 import { Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { first, map, withLatestFrom } from 'rxjs/operators';
 import { SteeditorPost } from '../../../../core';
 import { createEditorConfig, EditorConfig } from '../../../editor';
-import * as fromRootStore from '../../../store';
-import * as fromFeatureStore from '../../store';
-import { BroadcastState } from '../../store/reducers/broadcast.reducer';
-import { AuthState } from './../../../store/reducers/auth.reducer';
-import { Draft } from './../../models/draft.model';
+import { selectCurrentUser } from '../../../store/auth-store';
+import {
+  selectBroadcasting,
+  selectCurrentDraft
+} from '../../../store/drafts-store';
+import { State } from '../../../store/root-state';
+import { Draft } from './../../../store/drafts-store';
+import { draftsActionCreators } from './../../../store/drafts-store/actions';
 
 @Component({
   selector: 'app-editor-container',
@@ -19,20 +22,16 @@ import { Draft } from './../../models/draft.model';
 })
 export class EditorContainerComponent implements OnInit {
   draft$: Observable<Draft>;
-  authState$: Observable<AuthState>;
-  broadcastState$: Observable<BroadcastState>;
+  currentUser$: Observable<string | null>;
+  isBroadcasting$: Observable<boolean>;
   editorConfig$: Observable<EditorConfig>;
 
-  constructor(private store: Store<fromRootStore.State>) {}
+  constructor(private store: Store<State>) {}
 
   ngOnInit() {
-    this.draft$ = this.store.select(fromFeatureStore.selectCurrentDraft);
-    this.authState$ = this.store.select(
-      fromRootStore.selectAuthenticationState
-    );
-    this.broadcastState$ = this.store.select(
-      fromFeatureStore.selectBroadcastState
-    );
+    this.draft$ = this.store.select(selectCurrentDraft);
+    this.currentUser$ = this.store.select(selectCurrentUser);
+    this.isBroadcasting$ = this.store.select(selectBroadcasting);
     this.editorConfig$ = this.draft$.pipe(
       map(
         mapObjIndexed(
@@ -43,18 +42,26 @@ export class EditorContainerComponent implements OnInit {
         )
       ),
       map(draft => ({ fields: omit(['id'], draft) })),
-      map(fields => createEditorConfig(fields))
+      withLatestFrom(this.currentUser$),
+      map(
+        ([fields, user]) =>
+          user
+            ? createEditorConfig(fields)
+            : createEditorConfig(merge(fields, { submitButtonDisabled: true }))
+      )
     );
   }
 
   updateDraft(post: SteeditorPost): void {
     this.store.dispatch(
-      fromFeatureStore.updateDraft({ ...post, id: this.currentDraft.id })
+      draftsActionCreators.updateDraft({ ...post, id: this.currentDraft.id })
     );
   }
 
   broadcast(post: SteeditorPost): void {
-    this.store.dispatch(fromFeatureStore.broadcast(post));
+    this.store.dispatch(
+      draftsActionCreators.broadcastDraft({ ...post, id: this.currentDraft.id })
+    );
   }
 
   private get currentDraft(): Draft {

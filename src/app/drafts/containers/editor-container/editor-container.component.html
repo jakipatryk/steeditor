@@ -6,4 +6,4 @@
   <app-editor (whenSubmit)="broadcast($event)"></app-editor>
 </ng-template>
 
-<mat-spinner *ngIf="(broadcastState$ | async)?.broadcasting"></mat-spinner>
+<mat-spinner *ngIf="isBroadcasting$ | async"></mat-spinner>
