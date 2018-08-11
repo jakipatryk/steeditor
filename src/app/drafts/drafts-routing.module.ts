@@ -10,10 +10,6 @@ const draftsRoutes: Routes = [
     component: DraftsComponent
   },
   {
-    path: 'editor',
-    component: EditorContainerComponent
-  },
-  {
     path: ':draftId',
     component: EditorContainerComponent,
     canActivate: [fromGuards.DraftsLoadedGuard]

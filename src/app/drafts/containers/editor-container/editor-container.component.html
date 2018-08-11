@@ -1,9 +1,5 @@
-<div *ngIf="draft$ | async as draft; else noDraftProvided">
+<div *ngIf="draft$ | async as draft">
   <app-editor [config]="editorConfig$ | async" (whenSubmit)="broadcast($event)" (whenChanges)="updateDraft($event)"></app-editor>
 </div>
-
-<ng-template #noDraftProvided>
-  <app-editor (whenSubmit)="broadcast($event)"></app-editor>
-</ng-template>
 
 <mat-spinner *ngIf="isBroadcasting$ | async"></mat-spinner>

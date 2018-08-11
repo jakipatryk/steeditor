@@ -69,41 +69,45 @@ export class DraftsEffects {
         })
         .afterClosed()
         .pipe(
-          concatMap(
-            (name: string | undefined) =>
-              name
-                ? this.indexedDBService
-                    .add({
-                      title: '',
-                      body: '',
-                      tags: [],
-                      community: '',
-                      thumbnailUrl: '',
-                      beneficiaries: [],
-                      allowVotes: true,
-                      allowCurationRewards: true,
-                      percentSteemDollars: 50,
-                      maxAcceptedPayout: 100000,
-                      jsonMetadata: '',
-                      ...fromTemplates.entities[name].changeInPost
-                    })
-                    .pipe(
-                      concatMap(draftId =>
-                        this.indexedDBService.getOne<Draft>(draftId).pipe(
-                          map(draft =>
-                            draftsActionCreators.createDraftSuccess(draft)
-                          ),
-                          catchError(() =>
-                            of(draftsActionCreators.createDraftFail())
-                          )
-                        )
+          concatMap((name: string | undefined) => {
+            if (name) {
+              const templateChanges =
+                name === 'NO_TEMPLATE'
+                  ? {}
+                  : fromTemplates.entities[name as string].changeInPost;
+
+              return this.indexedDBService
+                .add({
+                  title: '',
+                  body: '',
+                  tags: [],
+                  community: '',
+                  thumbnailUrl: '',
+                  beneficiaries: [],
+                  allowVotes: true,
+                  allowCurationRewards: true,
+                  percentSteemDollars: 50,
+                  maxAcceptedPayout: 100000,
+                  jsonMetadata: '',
+                  ...templateChanges
+                })
+                .pipe(
+                  concatMap(draftId =>
+                    this.indexedDBService.getOne<Draft>(draftId).pipe(
+                      map(draft =>
+                        draftsActionCreators.createDraftSuccess(draft)
                       ),
                       catchError(() =>
                         of(draftsActionCreators.createDraftFail())
                       )
                     )
-                : of(draftsActionCreators.createDraftFail())
-          )
+                  ),
+                  catchError(() => of(draftsActionCreators.createDraftFail()))
+                );
+            } else {
+              return of(draftsActionCreators.createDraftFail());
+            }
+          })
         )
     )
   );
