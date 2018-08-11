@@ -54,8 +54,8 @@ export class IndexedDBService {
     return from(
       this.openDB().then(db =>
         db
-          .transaction('drafts', 'readwrite')
-          .objectStore('drafts')
+          .transaction(this.storeName, 'readwrite')
+          .objectStore(this.storeName)
           .add(value)
       )
     );
@@ -65,8 +65,8 @@ export class IndexedDBService {
     return from(
       this.openDB().then(db =>
         db
-          .transaction('drafts', 'readwrite')
-          .objectStore('drafts')
+          .transaction(this.storeName, 'readwrite')
+          .objectStore(this.storeName)
           .put(value)
       )
     );
@@ -76,8 +76,8 @@ export class IndexedDBService {
     return from(
       this.openDB().then(db =>
         db
-          .transaction('drafts', 'readwrite')
-          .objectStore('drafts')
+          .transaction(this.storeName, 'readwrite')
+          .objectStore(this.storeName)
           .delete(key)
       )
     );
