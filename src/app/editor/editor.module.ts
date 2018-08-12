@@ -4,6 +4,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
 import { BeneficiariesPartialFormComponent } from './components/beneficiaries-partial-form/beneficiaries-partial-form.component';
+import { BodyCardComponent } from './components/body-card/body-card.component';
 import { BodyPartialFormComponent } from './components/body-partial-form/body-partial-form.component';
 import { CommunityPartialFormComponent } from './components/community-partial-form/community-partial-form.component';
 import { EditorComponent } from './components/editor/editor.component';
@@ -13,8 +14,8 @@ import { PostPreviewComponent } from './components/post-preview/post-preview.com
 import { TagsPartialFormComponent } from './components/tags-partial-form/tags-partial-form.component';
 import { ThumbnailPartialFormComponent } from './components/thumbnail-partial-form/thumbnail-partial-form.component';
 import { TitlePartialFormComponent } from './components/title-partial-form/title-partial-form.component';
+import { SyncControlDirective } from './directives/sync-control.directive';
 import { EditorMaterialModule } from './editor-material/editor-material.module';
-import { BodyCardComponent } from './components/body-card/body-card.component';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import { BodyCardComponent } from './components/body-card/body-card.component';
     OptionsPartialFormComponent,
     JsonMetadataPartialFormComponent,
     BeneficiariesPartialFormComponent,
-    BodyCardComponent
+    BodyCardComponent,
+    SyncControlDirective
   ],
   entryComponents: [BodyCardComponent],
   exports: [EditorComponent]

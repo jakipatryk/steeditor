@@ -65,7 +65,7 @@
       <mat-spinner *ngIf="isUploading" [diameter]="30"></mat-spinner>
     </mat-card>
 
-    <textarea #bodyTextarea matInput formControlName="body" class="body__textarea" [class.body__textarea--fullscreen]="isFullscreen"></textarea>
+    <textarea #bodyTextarea matInput appSyncControl formControlName="body" class="body__textarea" [class.body__textarea--fullscreen]="isFullscreen"></textarea>
     <mat-error *ngIf="bodyControl.hasError('required')" class="body__error body__error--required">{{ errorMessages.required }}</mat-error>
   </mat-form-field>
 </div>
