@@ -88,6 +88,11 @@ export interface EditorConfig {
    * Whether submit button should be disabled (it is also disabled when forms are invalid).
    */
   submitButtonDisabled: boolean;
+
+  /**
+   * Whether user should be able to submit form even if it is invalid.
+   */
+  acceptInvalid: boolean;
 }
 
 export const initialConfig: EditorConfig = {
@@ -151,7 +156,8 @@ export const initialConfig: EditorConfig = {
   summaryStepInvalidText:
     'The form is invalid, make sure you fill out all required fields and the data is correct!',
   submitButtonText: 'Send',
-  submitButtonDisabled: false
+  submitButtonDisabled: false,
+  acceptInvalid: false
 };
 
 type DeepPartial<T> = { [P in keyof T]?: DeepPartial<T[P]> };

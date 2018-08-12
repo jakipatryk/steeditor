@@ -67,7 +67,7 @@
 
     <div class="editor__step-buttons">
       <button mat-button matStepperPrevious>Back</button>
-      <button mat-button color="accent" [disabled]="contentForm.invalid || advancedOptionsForm.invalid || config.submitButtonDisabled"
+      <button mat-button color="accent" [disabled]="config.acceptInvalid ? false : (contentForm.invalid || advancedOptionsForm.invalid || config.submitButtonDisabled)"
         (click)="onSubmit()" class="editor__submit-button">{{config.submitButtonText}}</button>
     </div>
   </mat-step>

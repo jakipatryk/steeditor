@@ -128,6 +128,17 @@ fdescribe('#EditorModule EditorComponent', () => {
     expect(submitButton.disabled).toBeFalsy();
   });
 
+  it('(.editor__submit-button) should be NOT disabled when config prop `acceptInvalid` is truthy', () => {
+    let submitButton: HTMLButtonElement;
+
+    component.config = createEditorConfig({ acceptInvalid: true });
+    fixture.detectChanges();
+    submitButton = fixture.debugElement.query(By.css('.editor__submit-button'))
+      .nativeElement;
+
+    expect(submitButton.disabled).toBeFalsy();
+  });
+
   it('(.editor__summary-text--valid) should be rendered and display correct message if forms are valid', () => {
     let summaryTextElement: DebugElement;
 
