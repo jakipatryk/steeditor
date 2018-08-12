@@ -40,13 +40,12 @@ export class DraftsEffects {
     private broadcastService: SteemconnectBroadcastService,
     private authService: SteemconnectOAuth2Service,
     private snackBar: MatSnackBar
-  ) {
-    this.indexedDBService.useStore('drafts');
-  }
+  ) {}
 
   @Effect()
   loadDrafts$: Observable<Action> = this.actions$.pipe(
     ofType(DraftsActionsTypes.LoadDrafts),
+    tap(() => this.indexedDBService.useStore('drafts')),
     exhaustMap(() =>
       this.indexedDBService.getAll<Draft>().pipe(
         map(drafts => draftsActionCreators.loadDraftsSuccess(drafts)),
@@ -58,6 +57,7 @@ export class DraftsEffects {
   @Effect()
   createDraft$: Observable<Action> = this.actions$.pipe(
     ofType(DraftsActionsTypes.CreateDraft),
+    tap(() => this.indexedDBService.useStore('drafts')),
     concatMap((action: CreateDraft) =>
       this.dialog
         .open(CreateDraftDialogComponent, {
@@ -125,6 +125,7 @@ export class DraftsEffects {
   @Effect()
   updateDraft$: Observable<Action> = this.actions$.pipe(
     ofType(DraftsActionsTypes.UpdateDraft),
+    tap(() => this.indexedDBService.useStore('drafts')),
     concatMap((action: UpdateDraft) =>
       this.indexedDBService.put(action.payload.draft).pipe(
         map(() =>
@@ -138,6 +139,7 @@ export class DraftsEffects {
   @Effect()
   removeDraft$: Observable<Action> = this.actions$.pipe(
     ofType(DraftsActionsTypes.RemoveDraft),
+    tap(() => this.indexedDBService.useStore('drafts')),
     map((action: RemoveDraft) => action.payload),
     concatMap(({ id }) =>
       this.dialog
