@@ -1,0 +1,15 @@
+<mat-card class="basic-info-card" ngClass.lt-md="basic-info-card--mobile">
+  <form [formGroup]="templateNameAndDescriptionForm">
+    <mat-form-field class="filed">
+      <input matInput type="text" placeholder="Name of the template" formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field class="field">
+      <textarea matInput placeholder="Short description" formControlName="description"></textarea>
+    </mat-form-field>
+  </form>
+</mat-card>
+
+<div *ngIf="template$ | async">
+  <app-editor [config]="editorConfig$ | async" (whenSubmit)="saveTemplate($event)"></app-editor>
+</div>

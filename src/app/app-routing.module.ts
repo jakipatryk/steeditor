@@ -7,6 +7,10 @@ const appRoutes: Routes = [
     loadChildren: './drafts/drafts.module#DraftsModule'
   },
   {
+    path: 'templates',
+    loadChildren: './templates/templates.module#TemplatesModule'
+  },
+  {
     path: '',
     pathMatch: 'full',
     redirectTo: 'drafts'

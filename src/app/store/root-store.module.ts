@@ -12,6 +12,7 @@ import { AuthStoreModule } from './auth-store';
 import { DraftsStoreModule } from './drafts-store';
 import { RouterEffects } from './router-store/effects';
 import { CustomSerializer } from './router-store/serializer';
+import { TemplatesStoreModule } from './templates-store';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import { CustomSerializer } from './router-store/serializer';
       logOnly: environment.production
     }),
     AuthStoreModule,
-    DraftsStoreModule
+    DraftsStoreModule,
+    TemplatesStoreModule
   ],
   providers: [
     RouterEffects,

@@ -1,0 +1,21 @@
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around start">
+
+  <div fxFlex="40%" fxFlexOffset="10px" class="templates-info" ngClass.xs="templates-info--mobile">
+    <mat-card class="templates-info-card" ngClass.xs="templates-info-card--mobile">
+      <mat-card-title>Templates</mat-card-title>
+      <mat-card-content>You currently have {{ templatesTotal$ | async }} own templates.</mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="accent" (click)="createTemplate()">Add</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div fxFlex="55%" fxLayout="row wrap" fxLayoutGap="1%" fxLayoutAlign="center" class="templates">
+    <div *ngFor="let template of templates$ | async" fxFlex.xl="27%" fxFlex.lg="40%" fxFlex.md="90%" fxFlex.sm="90%" fxFlex.xs="90%"
+      class="templates__item">
+      <app-template-card [template]="template" (remove)="removeTemplate($event)" (edit)="editTemplate($event)"></app-template-card>
+    </div>
+    <mat-spinner *ngIf="areLoading$ | async"></mat-spinner>
+  </div>
+
+</div>
