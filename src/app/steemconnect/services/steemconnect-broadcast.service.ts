@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface Operation extends Array<string | { [K: string]: any }> {
   0: string;
@@ -36,8 +37,10 @@ export class SteemconnectBroadcastService {
   public broadcastOperations(
     operations: Array<Operation>
   ): Observable<BroadcastResult> {
-    return this.http.post<BroadcastResult>(this.steemconnectBroadcastURL, {
-      operations
-    });
+    return this.http
+      .post<{ result: BroadcastResult }>(this.steemconnectBroadcastURL, {
+        operations
+      })
+      .pipe(map((response: { result: BroadcastResult }) => response.result));
   }
 }
