@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import {
   catchError,
@@ -14,14 +14,15 @@ import {
 } from 'rxjs/operators';
 import { steemizePost } from '../../../core';
 import { IndexedDBService } from '../../core/services/indexeddb.service';
-import * as fromTemplates from '../../drafts/templates';
+import * as fromUtopianTemplates from '../../drafts/templates';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { SteemconnectBroadcastService } from '../../steemconnect/services/steemconnect-broadcast.service';
 import { SteemconnectOAuth2Service } from '../../steemconnect/services/steemconnect-oauth2.service';
+import { State } from '../root-state';
+import { selectTemplatesEntities } from '../templates-store';
 import { routerActionCreators } from './../router-store/actions';
 import {
   BroadcastDraft,
-  CreateDraft,
   CreateDraftSuccess,
   draftsActionCreators,
   DraftsActionsTypes,
@@ -39,7 +40,8 @@ export class DraftsEffects {
     private indexedDBService: IndexedDBService,
     private broadcastService: SteemconnectBroadcastService,
     private authService: SteemconnectOAuth2Service,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private store: Store<State>
   ) {}
 
   @Effect()
@@ -57,25 +59,27 @@ export class DraftsEffects {
   @Effect()
   createDraft$: Observable<Action> = this.actions$.pipe(
     ofType(DraftsActionsTypes.CreateDraft),
-    tap(() => this.indexedDBService.useStore('drafts')),
-    concatMap((action: CreateDraft) =>
+    concatMap(() =>
       this.dialog
         .open(CreateDraftDialogComponent, {
-          data: {
-            all: [...fromTemplates.all],
-            entities: { ...fromTemplates.entities }
-          },
           width: '400px'
         })
         .afterClosed()
         .pipe(
-          concatMap((name: string | undefined) => {
-            if (name) {
-              const templateChanges =
-                name === 'NO_TEMPLATE'
+          withLatestFrom(this.store.select(selectTemplatesEntities)),
+          map(
+            ([result, ownEntities]) =>
+              typeof result === 'string'
+                ? result === 'NO_TEMPLATE'
                   ? {}
-                  : fromTemplates.entities[name as string].changeInPost;
-
+                  : fromUtopianTemplates.entities[result].changeInPost
+                : typeof result === 'number'
+                  ? ownEntities[result].initWith
+                  : result
+          ),
+          concatMap(changes => {
+            if (changes) {
+              this.indexedDBService.useStore('drafts');
               return this.indexedDBService
                 .add({
                   title: '',
@@ -89,7 +93,7 @@ export class DraftsEffects {
                   percentSteemDollars: 50,
                   maxAcceptedPayout: 100000,
                   jsonMetadata: '',
-                  ...templateChanges
+                  ...changes
                 })
                 .pipe(
                   concatMap(draftId =>
