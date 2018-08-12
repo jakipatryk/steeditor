@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -23,12 +24,14 @@ import { selectTemplatesEntities } from '../templates-store';
 import { routerActionCreators } from './../router-store/actions';
 import {
   BroadcastDraft,
+  BroadcastDraftSuccess,
   CreateDraftSuccess,
   draftsActionCreators,
   DraftsActionsTypes,
   RemoveDraft,
   UpdateDraft
 } from './actions';
+import { BroadcastResultSheetComponent } from './broadcast-result-sheet.component';
 import { CreateDraftDialogComponent } from './create-draft-dialog.component';
 import { Draft } from './models';
 
@@ -41,7 +44,8 @@ export class DraftsEffects {
     private broadcastService: SteemconnectBroadcastService,
     private authService: SteemconnectOAuth2Service,
     private snackBar: MatSnackBar,
-    private store: Store<State>
+    private store: Store<State>,
+    private bottomSheet: MatBottomSheet
   ) {}
 
   @Effect()
@@ -184,9 +188,11 @@ export class DraftsEffects {
   @Effect({ dispatch: false })
   broadcastDraftSuccess$: Observable<Action> = this.actions$.pipe(
     ofType(DraftsActionsTypes.BroadcastDraftSuccess),
-    tap(() => {
-      this.snackBar.open('Successfully broadcasted post!', 'Dismiss', {
-        duration: 7000
+    tap((action: BroadcastDraftSuccess) => {
+      this.bottomSheet.open(BroadcastResultSheetComponent, {
+        data: {
+          result: action.payload.response
+        }
       });
     })
   );
