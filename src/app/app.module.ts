@@ -9,6 +9,7 @@ import { environment } from './../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './core/containers/app/app.component';
 import { CoreModule } from './core/core.module';
+import { SteemRPCModule } from './steem-rpc/steem-rpc.module';
 import { SteemconnectConfig } from './steemconnect/config';
 import { SteemconnectModule } from './steemconnect/steemconnect.module';
 import { RootStoreModule } from './store/root-store.module';
@@ -25,6 +26,9 @@ import { RootStoreModule } from './store/root-store.module';
     SteemconnectModule.forRoot(
       environment.steemConnectConfig as SteemconnectConfig
     ),
+    SteemRPCModule.forRoot({
+      node: 'https://api.steemit.com'
+    }),
     AppRoutingModule,
     RootStoreModule,
     CookieModule.forRoot(),
