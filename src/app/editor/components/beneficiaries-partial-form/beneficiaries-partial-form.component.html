@@ -7,7 +7,7 @@
         </sup>
       </span>
       <span class="spacer"></span>
-      <button mat-mini-fab color="accent" [disabled]="totalBeneficiaries >= 8" (click)="addBeneficiary()" class="beneficiaries__add-button">
+      <button mat-mini-fab color="accent" [disabled]="totalBeneficiaries >= 8 || isDisabled" (click)="addBeneficiary()" class="beneficiaries__add-button">
         <mat-icon>add</mat-icon>
       </button>
     </mat-toolbar>
@@ -18,15 +18,17 @@
           <div fxFlex="30" class="beneficiary__item beneficiary__item--left">
             <mat-form-field class="beneficiary__field">
               <input matInput [errorStateMatcher]="alwaysMatcher" formControlName="account" type="text" placeholder="Account" class="beneficiary__input">
-              <mat-error *ngIf="getBeneficiaryAccountControl(i)?.hasError('required')" class="beneficiary__error beneficiary__error--required">{{ errorMessages.required }}</mat-error>
-              <mat-error *ngIf="getBeneficiaryAccountControl(i)?.hasError('pattern')" class="beneficiary__error beneficiary__error--pattern">{{ errorMessages.pattern }}</mat-error>
+              <mat-error *ngIf="getBeneficiaryAccountControl(i)?.hasError('required')" class="beneficiary__error beneficiary__error--required">{{
+                errorMessages.required }}</mat-error>
+              <mat-error *ngIf="getBeneficiaryAccountControl(i)?.hasError('pattern')" class="beneficiary__error beneficiary__error--pattern">{{
+                errorMessages.pattern }}</mat-error>
             </mat-form-field>
           </div>
           <div fxFlex="40" class="beneficiary__item beneficiary__item--center">
             <mat-slider formControlName="weight" mix="0" max="100" step="1" thumbLabel [displayWith]="formatSliderThumbLabel" class="beneficiary__slider"></mat-slider>
           </div>
           <div fxFlex="10" class="beneficiary__item beneficiary__item--right">
-            <button mat-icon-button (click)="removeBeneficiary(i)" class="beneficiary__remove-button">
+            <button mat-icon-button *ngIf="!isDisabled" (click)="removeBeneficiary(i)" class="beneficiary__remove-button">
               <mat-icon>delete</mat-icon>
             </button>
           </div>

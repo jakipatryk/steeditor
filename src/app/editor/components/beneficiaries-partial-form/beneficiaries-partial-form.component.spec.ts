@@ -209,6 +209,17 @@ fdescribe('#EditorModule BeneficiariesPartialFormComponent', () => {
     expect(getBeneficiariesAddButton().nativeElement.disabled).toBeFalsy();
   });
 
+  it('(.beneficiaries__add-button) should be disabled if `isDisabled` is truthy', () => {
+    const getBeneficiariesAddButton: () => DebugElement = always(
+      hostFixture.debugElement.query(By.css('.beneficiaries__add-button'))
+    );
+
+    component.isDisabled = true;
+    hostFixture.detectChanges();
+
+    expect(getBeneficiariesAddButton().nativeElement.disabled).toBeTruthy();
+  });
+
   it('(.beneficiaries__add-button) should be disabled if there are more than or equal 8 beneficiaries', () => {
     const getBeneficiariesAddButton: () => DebugElement = always(
       hostFixture.debugElement.query(By.css('.beneficiaries__add-button'))
@@ -308,6 +319,20 @@ fdescribe('#EditorModule BeneficiariesPartialFormComponent', () => {
     beneficiaryElement = hostFixture.debugElement.query(By.css('.beneficiary'));
 
     expect(beneficiaryElement).toEqual(null);
+  });
+
+  it('(.beneficiary__remove-button click) should NOT be rendered if `isDisabled` is truthy', () => {
+    let beneficiaryRemoveButton: DebugElement;
+
+    component.beneficiariesFormArray.setValue([]);
+    component.addBeneficiary();
+    component.isDisabled = true;
+    hostFixture.detectChanges();
+    beneficiaryRemoveButton = hostFixture.debugElement.query(
+      By.css('.beneficiary__remove-button')
+    );
+
+    expect(beneficiaryRemoveButton).toEqual(null);
   });
 
   it('(.beneficiaries__summary-total-weight) should render text which contains `totalBeneficiariesWeight`', () => {

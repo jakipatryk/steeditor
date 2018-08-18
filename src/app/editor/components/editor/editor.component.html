@@ -50,7 +50,7 @@
         </div>
 
         <div fxFlex="40" fxFlex.lt-lg="100" class="advanced-options__element">
-          <app-beneficiaries-partial-form [parentForm]="advancedOptionsForm"></app-beneficiaries-partial-form>
+          <app-beneficiaries-partial-form [parentForm]="advancedOptionsForm" [isDisabled]="config.fields.beneficiaries.disabled"></app-beneficiaries-partial-form>
         </div>
       </div>
       <div class="editor__step-buttons">

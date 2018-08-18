@@ -27,7 +27,10 @@ import { AlwaysMatcher } from './../../matchers/always.matcher';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BeneficiariesPartialFormComponent {
-  @Input() parentForm: FormGroup;
+  @Input()
+  parentForm: FormGroup;
+  @Input()
+  isDisabled = false;
 
   alwaysMatcher = new AlwaysMatcher();
 
@@ -91,10 +94,13 @@ export class BeneficiariesPartialFormComponent {
   private createBeneficiary(): FormGroup {
     return this.formBuilder.group({
       account: [
-        '',
+        { value: '', disabled: this.isDisabled },
         [Validators.required, Validators.pattern(/^[a-z][a-z0-9.-]{2,}$/)]
       ],
-      weight: [0, [Validators.required, Validators.min(0), Validators.max(100)]]
+      weight: [
+        { value: 0, disabled: this.isDisabled },
+        [Validators.required, Validators.min(0), Validators.max(100)]
+      ]
     });
   }
 }

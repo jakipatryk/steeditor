@@ -38,10 +38,13 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditorComponent implements OnInit, OnDestroy {
-  @Input() config: EditorConfig = initialConfig;
+  @Input()
+  config: EditorConfig = initialConfig;
 
-  @Output() whenChanges = new EventEmitter<SteeditorPost>();
-  @Output() whenSubmit = new EventEmitter<SteeditorPost>();
+  @Output()
+  whenChanges = new EventEmitter<SteeditorPost>();
+  @Output()
+  whenSubmit = new EventEmitter<SteeditorPost>();
 
   contentForm: FormGroup;
   advancedOptionsForm: FormGroup;
@@ -157,14 +160,20 @@ export class EditorComponent implements OnInit, OnDestroy {
           beneficiary =>
             this.formBuilder.group({
               account: [
-                beneficiary.account,
+                {
+                  value: beneficiary.account,
+                  disabled: this.config.fields.beneficiaries.disabled
+                },
                 [
                   Validators.required,
                   Validators.pattern(/^[a-z][a-z0-9.-]{2,}$/)
                 ]
               ],
               weight: [
-                beneficiary.weight,
+                {
+                  value: beneficiary.weight,
+                  disabled: this.config.fields.beneficiaries.disabled
+                },
                 [Validators.required, Validators.min(0), Validators.max(100)]
               ]
             }),
