@@ -10,6 +10,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../../environments/environment';
 import { AuthStoreModule } from './auth-store';
 import { DraftsStoreModule } from './drafts-store';
+import { PostsStoreModule } from './posts-store';
 import { RouterEffects } from './router-store/effects';
 import { CustomSerializer } from './router-store/serializer';
 import { TemplatesStoreModule } from './templates-store';
@@ -27,6 +28,7 @@ import { TemplatesStoreModule } from './templates-store';
     }),
     AuthStoreModule,
     DraftsStoreModule,
+    PostsStoreModule,
     TemplatesStoreModule
   ],
   providers: [

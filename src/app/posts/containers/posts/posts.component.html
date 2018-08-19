@@ -1,0 +1,15 @@
+<div fxLayout="row wrap" fxLayoutGap="1%" fxLayoutAlign="center" class="posts">
+  <div *ngFor="let post of posts$ | async" fxFlex.xl="15%" fxFlex.lg="20%" fxFlex.md="40%" fxFlex.sm="45%" fxFlex.xs="90%"
+    class="post">
+    <app-post-card [post]="post" (edit)="editPost($event)"></app-post-card>
+  </div>
+</div>
+
+<div class="actions-container">
+  <mat-spinner *ngIf="loading$ | async; else loaded" [diameter]="50" style="margin:0 auto;"></mat-spinner>
+  <ng-template #loaded>
+    <button mat-raised-button color="accent" (click)="loadMorePosts()" *ngIf="(posts$ | async)?.length && (lastCheckedId$ | async) !== 0">
+      LOAD MORE
+    </button>
+  </ng-template>
+</div>

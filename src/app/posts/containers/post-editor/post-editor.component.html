@@ -1,0 +1,5 @@
+<div *ngIf="post$ | async">
+  <app-editor [config]="editorConfig$ | async" (whenSubmit)="broadcast($event)"></app-editor>
+</div>
+
+<mat-spinner *ngIf="isBroadcasting$ | async" style="margin-left: 10px;"></mat-spinner>

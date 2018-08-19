@@ -1,0 +1,16 @@
+<mat-card class="post-card">
+  <mat-card-header>
+    <mat-card-title>
+      <span class="mat-title">{{post.entry.title}}</span>
+    </mat-card-title>
+    <mat-card-subtitle>{{post.entry.created | date}}</mat-card-subtitle>
+  </mat-card-header>
+
+  <img mat-card-image *ngIf="thumbnail" [src]="thumbnail">
+
+  <mat-card-actions class="post-card__actions">
+    <button mat-icon-button (click)="editPost()">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>
