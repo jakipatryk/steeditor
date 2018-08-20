@@ -51,9 +51,8 @@ export class DraftsEffects {
   @Effect()
   loadDrafts$: Observable<Action> = this.actions$.pipe(
     ofType(DraftsActionsTypes.LoadDrafts),
-    tap(() => this.indexedDBService.useStore('drafts')),
     exhaustMap(() =>
-      this.indexedDBService.getAll<Draft>().pipe(
+      this.indexedDBService.getAll<Draft>('drafts').pipe(
         map(drafts => draftsActionCreators.loadDraftsSuccess(drafts)),
         catchError(() => of(draftsActionCreators.loadDraftsFail()))
       )
@@ -83,9 +82,8 @@ export class DraftsEffects {
           ),
           concatMap(changes => {
             if (changes) {
-              this.indexedDBService.useStore('drafts');
               return this.indexedDBService
-                .add({
+                .add('drafts', {
                   title: '',
                   body: '',
                   tags: [],
@@ -101,7 +99,7 @@ export class DraftsEffects {
                 })
                 .pipe(
                   concatMap(draftId =>
-                    this.indexedDBService.getOne<Draft>(draftId).pipe(
+                    this.indexedDBService.getOne<Draft>('drafts', draftId).pipe(
                       map(draft =>
                         draftsActionCreators.createDraftSuccess(draft)
                       ),
@@ -133,9 +131,8 @@ export class DraftsEffects {
   @Effect()
   updateDraft$: Observable<Action> = this.actions$.pipe(
     ofType(DraftsActionsTypes.UpdateDraft),
-    tap(() => this.indexedDBService.useStore('drafts')),
     concatMap((action: UpdateDraft) =>
-      this.indexedDBService.put(action.payload.draft).pipe(
+      this.indexedDBService.put('drafts', action.payload.draft).pipe(
         map(() =>
           draftsActionCreators.updateDraftSuccess(action.payload.draft)
         ),
@@ -147,7 +144,6 @@ export class DraftsEffects {
   @Effect()
   removeDraft$: Observable<Action> = this.actions$.pipe(
     ofType(DraftsActionsTypes.RemoveDraft),
-    tap(() => this.indexedDBService.useStore('drafts')),
     map((action: RemoveDraft) => action.payload),
     concatMap(({ id }) =>
       this.dialog
@@ -157,7 +153,7 @@ export class DraftsEffects {
           concatMap(
             shouldRemove =>
               shouldRemove
-                ? this.indexedDBService.delete(id).pipe(
+                ? this.indexedDBService.delete('drafts', id).pipe(
                     map(() => draftsActionCreators.removeDraftSuccess(id)),
                     catchError(() => of(draftsActionCreators.removeDraftFail()))
                   )

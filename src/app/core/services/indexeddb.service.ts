@@ -19,65 +19,57 @@ export class IndexedDBService {
   // (2) Increment the version each time you want to add a new Store.
   private readonly dbVersion = 2;
   private readonly dbName = 'steeditor-db';
-  private storeName: Stores;
 
-  /**
-   * Sets Store to be used in all other operations.
-   */
-  public useStore(name: Stores): void {
-    this.storeName = name;
-  }
-
-  public getOne<T>(key: IDBValidKey): Observable<T> {
+  public getOne<T>(store: Stores, key: IDBValidKey): Observable<T> {
     return from(
       this.openDB().then(db =>
         db
-          .transaction(this.storeName, 'readonly')
-          .objectStore(this.storeName)
+          .transaction(store, 'readonly')
+          .objectStore(store)
           .get(key)
       )
     );
   }
 
-  public getAll<T>(): Observable<T[]> {
+  public getAll<T>(store: Stores): Observable<T[]> {
     return from(
       this.openDB().then(db =>
         db
-          .transaction(this.storeName, 'readonly')
-          .objectStore(this.storeName)
+          .transaction(store, 'readonly')
+          .objectStore(store)
           .getAll()
       )
     );
   }
 
-  public add(value: any): Observable<IDBValidKey> {
+  public add(store: Stores, value: any): Observable<IDBValidKey> {
     return from(
       this.openDB().then(db =>
         db
-          .transaction(this.storeName, 'readwrite')
-          .objectStore(this.storeName)
+          .transaction(store, 'readwrite')
+          .objectStore(store)
           .add(value)
       )
     );
   }
 
-  public put(value: any): Observable<IDBValidKey> {
+  public put(store: Stores, value: any): Observable<IDBValidKey> {
     return from(
       this.openDB().then(db =>
         db
-          .transaction(this.storeName, 'readwrite')
-          .objectStore(this.storeName)
+          .transaction(store, 'readwrite')
+          .objectStore(store)
           .put(value)
       )
     );
   }
 
-  public delete(key: IDBValidKey): Observable<void> {
+  public delete(store: Stores, key: IDBValidKey): Observable<void> {
     return from(
       this.openDB().then(db =>
         db
-          .transaction(this.storeName, 'readwrite')
-          .objectStore(this.storeName)
+          .transaction(store, 'readwrite')
+          .objectStore(store)
           .delete(key)
       )
     );

@@ -30,9 +30,8 @@ export class TemplatesEffects {
   @Effect()
   loadTemplates$: Observable<Action> = this.actions$.pipe(
     ofType(TemplatesActionsTypes.LoadTemplates),
-    tap(() => this.indexedDBService.useStore('templates')),
     exhaustMap(() =>
-      this.indexedDBService.getAll<Template>().pipe(
+      this.indexedDBService.getAll<Template>('templates').pipe(
         map(templates =>
           templatesActionCreators.loadTemplatesSuccess(templates)
         ),
@@ -44,10 +43,9 @@ export class TemplatesEffects {
   @Effect()
   createTemplate$: Observable<Action> = this.actions$.pipe(
     ofType(TemplatesActionsTypes.CreateTemplate),
-    tap(() => this.indexedDBService.useStore('templates')),
     concatMap((action: CreateTemplate) =>
       this.indexedDBService
-        .add({
+        .add('templates', {
           name: '',
           description: '',
           initWith: {
@@ -66,12 +64,16 @@ export class TemplatesEffects {
         })
         .pipe(
           concatMap(templateId =>
-            this.indexedDBService.getOne<Template>(templateId).pipe(
-              map(template =>
-                templatesActionCreators.createTemplateSuccess(template)
-              ),
-              catchError(() => of(templatesActionCreators.createTemplateFail()))
-            )
+            this.indexedDBService
+              .getOne<Template>('templates', templateId)
+              .pipe(
+                map(template =>
+                  templatesActionCreators.createTemplateSuccess(template)
+                ),
+                catchError(() =>
+                  of(templatesActionCreators.createTemplateFail())
+                )
+              )
           ),
           catchError(() => of(templatesActionCreators.createTemplateFail()))
         )
@@ -91,9 +93,8 @@ export class TemplatesEffects {
   @Effect()
   updateTemplate$: Observable<Action> = this.actions$.pipe(
     ofType(TemplatesActionsTypes.UpdateTemplate),
-    tap(() => this.indexedDBService.useStore('templates')),
     concatMap((action: UpdateTemplate) =>
-      this.indexedDBService.put(action.payload.template).pipe(
+      this.indexedDBService.put('templates', action.payload.template).pipe(
         map(() =>
           templatesActionCreators.updateTemplateSuccess(action.payload.template)
         ),
@@ -125,7 +126,6 @@ export class TemplatesEffects {
   @Effect()
   removeTemplate$: Observable<Action> = this.actions$.pipe(
     ofType(TemplatesActionsTypes.RemoveTemplate),
-    tap(() => this.indexedDBService.useStore('templates')),
     map((action: RemoveTemplate) => action.payload),
     concatMap(({ id }) =>
       this.dialog
@@ -135,7 +135,7 @@ export class TemplatesEffects {
           concatMap(
             shouldRemove =>
               shouldRemove
-                ? this.indexedDBService.delete(id).pipe(
+                ? this.indexedDBService.delete('templates', id).pipe(
                     map(() =>
                       templatesActionCreators.removeTemplateSuccess(id)
                     ),
