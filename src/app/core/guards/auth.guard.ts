@@ -3,17 +3,21 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   CanLoad,
+  Router,
   RouterStateSnapshot
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { first, map, tap } from 'rxjs/operators';
 import { SteemconnectOAuth2Service } from '../../steemconnect/services/steemconnect-oauth2.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanLoad {
-  constructor(private authService: SteemconnectOAuth2Service) {}
+  constructor(
+    private authService: SteemconnectOAuth2Service,
+    private router: Router
+  ) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -21,6 +25,10 @@ export class AuthGuard implements CanActivate, CanLoad {
   ): Observable<boolean> {
     return this.authService.authState.pipe(
       map(authState => !!authState),
+      tap(
+        isAuthenticated =>
+          isAuthenticated ? null : this.router.navigate(['/drafts'])
+      ),
       first()
     );
   }
@@ -28,6 +36,10 @@ export class AuthGuard implements CanActivate, CanLoad {
   canLoad(): Observable<boolean> {
     return this.authService.authState.pipe(
       map(authState => !!authState),
+      tap(
+        isAuthenticated =>
+          isAuthenticated ? null : this.router.navigate(['/drafts'])
+      ),
       first()
     );
   }
