@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { filter as Rfilter, last } from 'ramda';
+import { filter as Rfilter, head, last } from 'ramda';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { expand, map, mergeMap, reduce } from 'rxjs/operators';
-import { SteemPost } from '../../../core';
+import { UserDataResponse, UserPostsResponse } from '../responses';
 import { SteemRPCConfig, STEEM_RPC_CONFIG } from './../config';
 
 @Injectable({
@@ -42,6 +42,16 @@ export class SteemRPCService {
   }
 
   /**
+   * Gets information about given user.
+   * @param user A username of user to get data of.
+   */
+  public getUserData(user: string): Observable<UserDataResponse> {
+    return this.call<UserDataResponse>('condenser_api', 'get_accounts', [
+      [user]
+    ]).pipe(map(head));
+  }
+
+  /**
    * Gets a list of posts authored by a given user.
    * @param user A username of user to get posts of.
    * @param limit Maximum amount of posts to get.
@@ -51,15 +61,7 @@ export class SteemRPCService {
     user: string,
     limit: number,
     startId: number = 0
-  ): Observable<{
-    posts: Array<{
-      comment: Partial<SteemPost>;
-      blog: string;
-      reblog_on: string;
-      entry_id: number;
-    }>;
-    lastCheckedId: number;
-  }> {
+  ): Observable<UserPostsResponse> {
     const getPosts = (startOnId, lim, currentLength = 0) =>
       this.call('condenser_api', 'get_blog', [user, startOnId, lim]).pipe(
         map(response => ({
@@ -84,18 +86,7 @@ export class SteemRPCService {
               )
       ),
       reduce(
-        (
-          acc,
-          val: {
-            posts: Array<{
-              comment: Partial<SteemPost>;
-              blog: string;
-              reblog_on: string;
-              entry_id: number;
-            }>;
-            lastCheckedId: number;
-          }
-        ) => ({
+        (acc, val: UserPostsResponse) => ({
           posts: [...acc.posts, ...val.posts],
           lastCheckedId: val.lastCheckedId
         }),
