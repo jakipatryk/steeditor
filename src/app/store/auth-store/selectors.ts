@@ -8,6 +8,16 @@ export const selectCurrentUser = createSelector(
   (state: AuthState) => state.currentUser
 );
 
+export const selectCurrentUserData = createSelector(
+  selectAuthState,
+  (state: AuthState) => state.currentUserData
+);
+
+export const selectUserDataLoading = createSelector(
+  selectAuthState,
+  (state: AuthState) => state.userDataLoading
+);
+
 export const selectLoggingOut = createSelector(
   selectAuthState,
   (state: AuthState) => state.loggingOut
