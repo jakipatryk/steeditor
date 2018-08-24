@@ -1,0 +1,43 @@
+<div [fxHide]="isAnythingLoading$ | async">
+  <section fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="3%" fxLayoutAlign="center" class="user-section">
+
+    <div fxFlex="52%" fxFlex.lt-lg="42%" ngClass.lt-md="card-mobile">
+      <app-user-metadata [userData]="userData$ | async"></app-user-metadata>
+    </div>
+
+    <div fxFlex="24%" fxFlex.lt-lg="34%" ngClass.lt-md="card-mobile">
+      <app-user-info [userData]="userData$ | async"></app-user-info>
+    </div>
+
+  </section>
+
+  <section fxLayout="row" fxLayout.xs="column" fxLayoutGap="2%" fxLayoutAlign="center" class="app-section">
+
+    <div fxFlex="25%" fxFlex.lt-md="30%" ngClass.xs="card-mobile">
+      <app-recent-posts [posts]="posts$ | async" (selectedId)="navigateTo('posts', $event)" (seeAll)="navigateTo('posts')"></app-recent-posts>
+    </div>
+
+    <div fxFlex="25%" fxFlex.lt-md="30%" ngClass.xs="card-mobile">
+      <app-recent-drafts [drafts]="drafts$ | async" (selectedId)="navigateTo('drafts', $event)" (seeAll)="navigateTo('drafts')"></app-recent-drafts>
+    </div>
+
+    <div fxFlex="25%" fxFlex.lt-md="30%" ngClass.xs="card-mobile">
+      <app-recent-templates [templates]="templates$ | async" (selectedId)="navigateTo('templates', $event)" (seeAll)="navigateTo('templates')"></app-recent-templates>
+    </div>
+
+  </section>
+
+  <section fxLayout="row" fxLayout.xs="column" fxLayoutGap="2%" fxLayoutAlign="center" class="user-details-section">
+
+    <div fxFlex="25%" fxFlex.lt-md="41%" ngClass.xs="card-mobile">
+      <app-user-wallet [userData]="userData$ | async"></app-user-wallet>
+    </div>
+
+    <div fxFlex="25%" fxFlex.lt-lg="51%" ngClass.xs="card-mobile">
+      <app-user-witnesses [userData]="userData$ | async"></app-user-witnesses>
+    </div>
+
+  </section>
+</div>
+
+<mat-spinner *ngIf="isAnythingLoading$ | async" style="margin: 0 auto;"></mat-spinner>

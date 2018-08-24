@@ -1,0 +1,17 @@
+<mat-card>
+  <mat-nav-list>
+    <h3 mat-subheader>Recent posts</h3>
+    <a mat-list-item *ngFor="let post of posts" (click)="selectPost(post.id)">
+      <h4 mat-line>{{post.entry.title}}</h4>
+      <p mat-line>{{post.entry.created | date}}</p>
+    </a>
+
+    <span mat-list-item *ngIf="posts.length === 0">
+      You don't have any posts
+    </span>
+  </mat-nav-list>
+
+  <mat-card-actions class="posts__actions">
+    <button mat-button *ngIf="posts.length > 0" (click)="seeMore()">See more</button>
+  </mat-card-actions>
+</mat-card>

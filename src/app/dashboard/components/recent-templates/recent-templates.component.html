@@ -1,0 +1,17 @@
+<mat-card>
+  <mat-nav-list>
+    <h3 mat-subheader>Recent templates</h3>
+    <a mat-list-item *ngFor="let template of templates" (click)="selectTemplate(template.id)">
+      <h4 mat-line>{{template.name}}</h4>
+      <p mat-line>{{template.description}}</p>
+    </a>
+
+    <span mat-list-item *ngIf="templates.length === 0">
+      You don't have any templates
+    </span>
+  </mat-nav-list>
+
+  <mat-card-actions class="templates__actions">
+    <button mat-button *ngIf="templates.length > 0" (click)="seeMore()">See more</button>
+  </mat-card-actions>
+</mat-card>

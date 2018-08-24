@@ -1,0 +1,17 @@
+<mat-card>
+  <mat-nav-list>
+    <h3 mat-subheader>Recent drafts</h3>
+    <a mat-list-item *ngFor="let draft of drafts" (click)="selectDraft(draft.id)">
+      <h4 mat-line>{{draft.title || 'Untitled draft'}}</h4>
+      <span mat-line></span>
+    </a>
+
+    <span mat-list-item *ngIf="drafts.length === 0">
+      You don't have any drafts
+    </span>
+  </mat-nav-list>
+
+  <mat-card-actions class="drafts__actions">
+    <button mat-button *ngIf="drafts.length > 0" (click)="seeMore()">See more</button>
+  </mat-card-actions>
+</mat-card>

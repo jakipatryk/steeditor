@@ -1,0 +1,20 @@
+<mat-card>
+  <mat-list>
+    <h3 mat-subheader>Wallet</h3>
+    <mat-list-item>
+      <mat-icon mat-list-icon>share</mat-icon>
+      <h4 mat-line>VESTS</h4>
+      <p mat-line>{{userData?.VESTS | number:'1.0-2'}}</p>
+    </mat-list-item>
+    <mat-list-item>
+      <mat-icon mat-list-icon>money</mat-icon>
+      <h4 mat-line>STEEM</h4>
+      <p mat-line>{{userData?.STEEM | number:'1.0-2'}}</p>
+    </mat-list-item>
+    <mat-list-item>
+      <mat-icon mat-list-icon>attach_money</mat-icon>
+      <h4 mat-line>SBD</h4>
+      <p mat-line>{{userData?.SBD | number:'1.0-2'}}</p>
+    </mat-list-item>
+  </mat-list>
+</mat-card>

@@ -4,6 +4,11 @@ import { AuthGuard } from './core/guards/auth.guard';
 
 const appRoutes: Routes = [
   {
+    path: 'dashboard',
+    loadChildren: './dashboard/dashboard.module#DashboardModule',
+    canLoad: [AuthGuard]
+  },
+  {
     path: 'drafts',
     loadChildren: './drafts/drafts.module#DraftsModule'
   },
@@ -19,7 +24,7 @@ const appRoutes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'drafts'
+    redirectTo: 'dashboard'
   },
   {
     path: '**',

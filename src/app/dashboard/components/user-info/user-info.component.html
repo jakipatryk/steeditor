@@ -1,0 +1,46 @@
+<mat-card>
+  <mat-list>
+    <h3 mat-subheader>General info</h3>
+    <mat-list-item>
+      <mat-icon mat-list-icon>event_available</mat-icon>
+      <h4 mat-line>Created</h4>
+      <p mat-line>{{userData?.createdAt | date}}</p>
+    </mat-list-item>
+
+    <mat-list-item>
+      <mat-icon mat-list-icon>people</mat-icon>
+      <h4 mat-line>Recovery Partner</h4>
+      <p mat-line>@{{userData?.recoveryPartner}}</p>
+    </mat-list-item>
+
+    <mat-list-item>
+      <mat-icon mat-list-icon>account_box</mat-icon>
+      <h4 mat-line>Reputation</h4>
+      <p mat-line>{{userData?.reputation | number:'1.0-2'}}</p>
+    </mat-list-item>
+
+    <mat-list-item *ngIf="userData?.location">
+      <mat-icon mat-list-icon>location_on</mat-icon>
+      <h4 mat-line>Location</h4>
+      <p mat-line>{{userData?.location}}</p>
+    </mat-list-item>
+
+    <mat-list-item>
+      <mat-icon mat-list-icon>signal_cellular_4_bar</mat-icon>
+      <h4 mat-line>Voting Power</h4>
+      <p mat-line>{{userData?.votingPower | number:'1.0-2'}}%</p>
+    </mat-list-item>
+
+    <mat-list-item *ngIf="userData?.github">
+      <mat-icon mat-list-icon>code</mat-icon>
+      <h4 mat-line>Github</h4>
+      <a mat-line [href]="githubLink">@{{userData.github}}</a>
+    </mat-list-item>
+
+    <mat-list-item *ngIf="userData?.website">
+      <mat-icon mat-list-icon>http</mat-icon>
+      <h4 mat-line>Website</h4>
+      <a mat-line [href]="userData.website">{{websiteDisplay}}</a>
+    </mat-list-item>
+  </mat-list>
+</mat-card>

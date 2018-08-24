@@ -1,0 +1,11 @@
+<mat-card class="user-metadata">
+  <mat-card-header>
+    <div mat-card-avatar *ngIf="userData?.avatar" [style.background-image]="avatarCSS" class="user-metadata__avatar"></div>
+    <mat-card-title *ngIf="userData?.fullName">{{userData.fullName}}</mat-card-title>
+    <mat-card-subtitle>@{{userData?.username}}</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image [src]="coverImageURL || 'https://source.unsplash.com/daily?editor'" alt="cover image" class="user-metadata__cover-image">
+  <mat-card-content *ngIf="userData?.about">
+    {{userData.about}}
+  </mat-card-content>
+</mat-card>

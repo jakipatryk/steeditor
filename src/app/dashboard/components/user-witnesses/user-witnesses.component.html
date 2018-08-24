@@ -1,0 +1,26 @@
+<mat-card>
+  <mat-list>
+    <h3 mat-subheader>Witnesses You Vote On</h3>
+    <span *ngIf="!showAllMode; else all">
+      <mat-list-item *ngFor="let witness of userData?.witnessesVotedFor | slice:0:3">
+        <mat-icon mat-list-icon>person</mat-icon>
+        <p mat-line>@{{witness}}</p>
+      </mat-list-item>
+    </span>
+
+    <ng-template #all>
+      <mat-list-item *ngFor="let witness of userData?.witnessesVotedFor">
+        <mat-icon mat-list-icon>person</mat-icon>
+        <p mat-line>@{{witness}}</p>
+      </mat-list-item>
+    </ng-template>
+
+    <mat-list-item *ngIf="userData?.witnessesVotedFor.length === 0">
+      <p mat-line>You haven't voted on anyone yet.</p>
+    </mat-list-item>
+  </mat-list>
+
+  <mat-card-actions class="actions">
+    <button mat-button *ngIf="!showAllMode && userData?.witnessesVotedFor.length > 3" (click)="showAll()">Show all</button>
+  </mat-card-actions>
+</mat-card>
