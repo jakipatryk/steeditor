@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { selectCurrentUser, selectLoggingOut } from '../../../store/auth-store';
 import { State } from '../../../store/root-state';
 import { authActionCreators } from './../../../store/auth-store/actions';
+import { routerActionCreators } from '../../../store/router-store';
 
 @Component({
   selector: 'app-root',
@@ -28,5 +29,9 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.store.dispatch(authActionCreators.logout());
+  }
+
+  navigate(to: string) {
+    this.store.dispatch(routerActionCreators.go({ path: [`/${to}`] }));
   }
 }

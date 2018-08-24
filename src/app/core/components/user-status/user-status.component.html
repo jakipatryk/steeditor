@@ -1,0 +1,30 @@
+<div *ngIf="!isLoggingOut; else loggingOut">
+
+  <span *ngIf="!!currentUser; else guest">
+    <img [src]="userAvatar" style="width: 40px; height: 40px; background-size: cover; vertical-align: middle; border-radius: 50%;"
+    />
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item disabled>@{{currentUser}}</button>
+      <button mat-menu-item (click)="goToDashboard()">
+        <mat-icon>apps</mat-icon>
+        <span>Dashboard</span>
+      </button>
+      <button mat-menu-item (click)="onLogout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Logout</span>
+      </button>
+    </mat-menu>
+  </span>
+
+  <ng-template #guest>
+    <button mat-raised-button color="accent" (click)="onLogin()">LOGIN</button>
+  </ng-template>
+
+</div>
+
+<ng-template #loggingOut>
+  <mat-spinner color="accent" [diameter]="30" style="margin: 0 0 0 90%;"></mat-spinner>
+</ng-template>

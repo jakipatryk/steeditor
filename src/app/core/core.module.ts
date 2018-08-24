@@ -3,12 +3,12 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from '../material/material.module';
 import { AppRoutingModule } from './../app-routing.module';
+import { UserStatusComponent } from './components/user-status/user-status.component';
 import { AppComponent } from './containers/app/app.component';
-import { LogInOutComponent } from './components/log-in-out/log-in-out.component';
 
 @NgModule({
   imports: [CommonModule, AppRoutingModule, MaterialModule, FlexLayoutModule],
-  declarations: [AppComponent, LogInOutComponent],
+  declarations: [AppComponent, UserStatusComponent],
   exports: [AppComponent]
 })
 export class CoreModule {
