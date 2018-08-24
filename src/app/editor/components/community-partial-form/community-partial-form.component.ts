@@ -14,7 +14,6 @@ export class CommunityPartialFormComponent {
   onDirtyMatcher = new ShowOnDirtyErrorStateMatcher();
 
   readonly errorMessages = {
-    required: 'Community cannot be empty!',
     pattern: 'Community can only contain lower case letters!'
   };
 

@@ -74,35 +74,6 @@ fdescribe('#EditorModule CommunityPartialFormComponent', () => {
   });
 
   // tslint:disable-next-line:max-line-length
-  it('(.community__error--required) should be rendered if `communityControl` has `required` error and is dirty + should contain correct message', () => {
-    let communityErrorRequiredElement: DebugElement;
-
-    component.communityControl.setErrors({ required: true });
-    component.communityControl.markAsDirty();
-    hostFixture.detectChanges();
-    communityErrorRequiredElement = hostFixture.debugElement.query(
-      By.css('.community__error--required')
-    );
-
-    expect(communityErrorRequiredElement.nativeElement).toBeDefined();
-    expect(communityErrorRequiredElement.nativeElement.innerText).toContain(
-      component.errorMessages.required
-    );
-  });
-
-  it('(.community__error--required) should NOT be rendered if `communityControl` does NOT have `required` error', () => {
-    let communityErrorRequiredElement: DebugElement;
-
-    component.communityControl.setErrors(null);
-    hostFixture.detectChanges();
-    communityErrorRequiredElement = hostFixture.debugElement.query(
-      By.css('.community__error--required')
-    );
-
-    expect(communityErrorRequiredElement).toEqual(null);
-  });
-
-  // tslint:disable-next-line:max-line-length
   it('(.community__error--pattern) should be rendered if `communityControl` has `pattern` error and is dirty + should contain correct message', () => {
     let communityErrorPatternElement: DebugElement;
 

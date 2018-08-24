@@ -115,7 +115,7 @@ export class EditorComponent implements OnInit, OnDestroy {
           value: communityFieldConfig.value,
           disabled: communityFieldConfig.disabled
         },
-        [Validators.required, Validators.pattern(/^[a-z]+$/)]
+        [Validators.pattern(/^[a-z]+$/)]
       ],
       tags: [
         { value: tagsFieldConfig.value, disabled: tagsFieldConfig.disabled },
