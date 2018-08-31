@@ -12,6 +12,7 @@ import { map, mergeAll, prop } from 'ramda';
 import { merge, Subscription, timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { SteeditorPost } from '../../../../core';
+import { steemAccontNameValidators } from '../../validators/steem-account-name.validators';
 import { tagsCustomValidators } from '../../validators/tags.validators';
 import { beneficiariesCustomValidators } from './../../validators/beneficiaries.validators';
 import { jsonMetadataCustomValidators } from './../../validators/json-metadata.validators';
@@ -115,7 +116,7 @@ export class EditorComponent implements OnInit, OnDestroy {
           value: communityFieldConfig.value,
           disabled: communityFieldConfig.disabled
         },
-        [Validators.pattern(/^[a-z]+$/)]
+        steemAccontNameValidators
       ],
       tags: [
         { value: tagsFieldConfig.value, disabled: tagsFieldConfig.disabled },

@@ -72,33 +72,4 @@ fdescribe('#EditorModule CommunityPartialFormComponent', () => {
       component.parentForm.controls.community
     );
   });
-
-  // tslint:disable-next-line:max-line-length
-  it('(.community__error--pattern) should be rendered if `communityControl` has `pattern` error and is dirty + should contain correct message', () => {
-    let communityErrorPatternElement: DebugElement;
-
-    component.communityControl.setErrors({ pattern: true });
-    component.communityControl.markAsDirty();
-    hostFixture.detectChanges();
-    communityErrorPatternElement = hostFixture.debugElement.query(
-      By.css('.community__error--pattern')
-    );
-
-    expect(communityErrorPatternElement.nativeElement).toBeDefined();
-    expect(communityErrorPatternElement.nativeElement.innerText).toContain(
-      component.errorMessages.pattern
-    );
-  });
-
-  it('(.community__error--pattern) should NOT be rendered if `communityControl` does NOT have `pattern` error', () => {
-    let communityErrorPatternElement: DebugElement;
-
-    component.communityControl.setErrors(null);
-    hostFixture.detectChanges();
-    communityErrorPatternElement = hostFixture.debugElement.query(
-      By.css('.community__error--pattern')
-    );
-
-    expect(communityErrorPatternElement).toEqual(null);
-  });
 });

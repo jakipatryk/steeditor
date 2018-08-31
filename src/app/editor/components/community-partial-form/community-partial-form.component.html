@@ -1,6 +1,6 @@
 <div [formGroup]="parentForm">
   <mat-form-field class="community__field">
     <input matInput [errorStateMatcher]="onDirtyMatcher" formControlName="community" type="text" placeholder="Community" class="community__input">
-    <mat-error *ngIf="communityControl.hasError('pattern')" class="community__error community__error--pattern">{{ errorMessages.pattern }}</mat-error>
+    <mat-error *ngIf="!!currentErrorMessage" class="community__error">{{currentErrorMessage}}</mat-error>
   </mat-form-field>
 </div>
