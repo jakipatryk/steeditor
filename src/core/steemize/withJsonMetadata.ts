@@ -143,12 +143,8 @@ export const withLinks = (body: string) => (target: {
  */
 export const withCommunity = (community: string) => (target: {
   [K: string]: any;
-}): { community: string; [K: string]: any } =>
-  assoc(
-    'community',
-    ifElse(isEmpty, always('steeditor'), identity)(community),
-    target
-  );
+}): { community?: string; [K: string]: any } =>
+  !!community ? assoc('community', community, target) : target;
 
 /**
  * Creates `json_metadata` based on provided `steeditorPost` object.

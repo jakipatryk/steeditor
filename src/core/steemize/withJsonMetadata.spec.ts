@@ -271,12 +271,12 @@ fdescribe('#core #steemize (json_metadata) withCommunity', () => {
     expect(result.community).toBeDefined();
   });
 
-  it('should return an object with `community` equal to `steeditor` if provided `community` is an empty string', () => {
+  it('should return a target object if provided `community` is an empty string', () => {
     const community = '';
 
     const result = withCommunity(community)({});
 
-    expect(result.community).toBe('steeditor');
+    expect(result).toEqual({});
   });
 });
 
@@ -287,7 +287,7 @@ fdescribe('#core #steemize createJsonMetadata', () => {
       body: 'any body',
       thumbnailUrl: '',
       tags: [],
-      community: '',
+      community: 'steemstem',
       jsonMetadata: '',
       beneficiaries: [],
       allowVotes: true,
