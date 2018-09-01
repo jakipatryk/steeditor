@@ -216,8 +216,9 @@ fdescribe('#core #steemize (json_metadata) withImage', () => {
 });
 
 fdescribe('#core #steemize (json_metadata) getLinks', () => {
-  it('should extract and return an array of links if there are any correctly formatted with Markdown', () => {
+  it('should extract and return an array of unique links if there are any', () => {
     const body = `[Markdown is the best!](https://steeditor.app/)
+    https://utopian.io
     <p>test</p> (https://steeditor.app/test/)
     [NICE LINK](https://steeditor.app/drafts/) this weird mixin is still considered a Markdown tho :(
     [NICE LINK](https://steeditor.app/drafts/)`;
@@ -226,11 +227,13 @@ fdescribe('#core #steemize (json_metadata) getLinks', () => {
 
     expect(links).toEqual([
       'https://steeditor.app/',
+      'https://utopian.io',
+      'https://steeditor.app/test/',
       'https://steeditor.app/drafts/'
     ]);
   });
 
-  it('should ignore markdown images (`![]()` syntax)', () => {
+  it('should ignore images', () => {
     const body = `![Markdown is the best!](https://steeditor.app/images/amazing_image)
     <p>test</p>
     [NICELINK](https://steeditor.app/)
@@ -242,9 +245,8 @@ fdescribe('#core #steemize (json_metadata) getLinks', () => {
     expect(links).not.toContain('https://steeditor.app/images/amazing_image');
   });
 
-  it('should return an empty array if there are no links or they are not formatted with Markdown', () => {
-    const body = `<a href="https://steeditor.app/">HTML is bad, remember</a>
-    https://steeditor.app/link/ this weird mixin is still considered a Markdown tho :(`;
+  it('should return an empty array if there arent any links', () => {
+    const body = `HTML is bad, remember blabla :(`;
 
     const links = getLinks(body);
 

@@ -2,12 +2,14 @@ import {
   always,
   assoc,
   compose,
+  contains,
   either,
-  flatten,
   identity,
   ifElse,
+  init,
   isEmpty,
   isNil,
+  last,
   map,
   match,
   mergeDeepLeft,
@@ -15,9 +17,9 @@ import {
   pipe,
   prepend,
   reject,
-  startsWith,
   test,
-  uniq
+  uniq,
+  __
 } from 'ramda';
 import * as appInfo from '../../../package.json';
 import { SteeditorPost } from '../SteeditorPost';
@@ -118,17 +120,22 @@ export const withImage = (body: string, thumbnail?: string) => (target: {
 
 /**
  * Extracts links from given string.
- * Note that it will only return links which are correctly formatted with Markdown.
  * @param text A text to extract links from.
  * @returns An array of unique links.
  */
-export const getLinks: (text: string) => Array<string> = pipe(
-  match(/.?(?:\[(.*?)\]\((.*?)\))/g),
-  reject(startsWith('!')),
-  map(getMatchesByGroup(/\((.*?)\)/g, 1)),
-  flatten,
-  uniq
-);
+export const getLinks = (text: string): Array<string> => {
+  const linksToImages = getImages(text);
+  return pipe(
+    match(
+      // tslint:disable-next-line:max-line-length
+      /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/g
+    ),
+    // if it's a markdown link, the last letter will be ')', it has to be removed
+    map(link => (last(link) === ')' ? init(link) : link)),
+    reject(contains(__, linksToImages)),
+    uniq
+  )(text);
+};
 
 /**
  * Adds `links` property to provided `target` object, based on provided `body` string.
