@@ -1,0 +1,60 @@
+@mixin matIcon($name) {
+  font-family: 'Material Icons';
+  font-size: 1.5em;
+  content: $name;
+}
+
+// FORMAT:
+// .mic-<icon-name>
+
+.mic-fullscreen::before {
+  @include matIcon('\e5d0');
+}
+
+.mic-format_bold::before {
+  @include matIcon('\e238');
+}
+
+.mic-format_italic::before {
+  @include matIcon('\e23f');
+}
+
+.mic-format_strikethrough::before {
+  @include matIcon('\e246');
+}
+
+.mic-format_quote::before {
+  @include matIcon('\e244');
+}
+
+.mic-insert_link::before {
+  @include matIcon('\e250');
+}
+
+.mic-insert_photo::before {
+  @include matIcon('\e251');
+}
+
+.mic-text_fields::before {
+  @include matIcon('\e262');
+}
+
+.mic-code::before {
+  @include matIcon('\e86f');
+}
+
+.mic-visibility::before {
+  @include matIcon('\e8f4');
+}
+
+.mic-chrome_reader_mode::before {
+  @include matIcon('\e86d');
+}
+
+.mic-format_list_bulleted::before {
+  @include matIcon('\e241');
+}
+
+.mic-format_list_numbered::before {
+  @include matIcon('\e242');
+}

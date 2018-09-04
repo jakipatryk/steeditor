@@ -1,10 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { NgModule, Optional, SkipSelf } from '@angular/core';
+import {
+  ModuleWithProviders,
+  NgModule,
+  Optional,
+  SkipSelf
+} from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from '../material/material.module';
 import { AppRoutingModule } from './../app-routing.module';
 import { UserStatusComponent } from './components/user-status/user-status.component';
 import { AppComponent } from './containers/app/app.component';
+import { REMARKABLE, remarkableFactory } from './remarkable';
 
 @NgModule({
   imports: [CommonModule, AppRoutingModule, MaterialModule, FlexLayoutModule],
@@ -24,9 +30,10 @@ export class CoreModule {
     }
   }
 
-  static forRoot() {
+  static forRoot(): ModuleWithProviders {
     return {
-      ngModule: CoreModule
+      ngModule: CoreModule,
+      providers: [{ provide: REMARKABLE, useFactory: remarkableFactory }]
     };
   }
 }

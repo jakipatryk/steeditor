@@ -1,17 +1,22 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
+  Inject,
   Input,
-  Output,
-  ViewChild
+  SecurityContext,
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { insert, join, pipe, split, subtract } from 'ramda';
+import { DomSanitizer } from '@angular/platform-browser';
+import { TdTextEditorComponent } from '@covalent/text-editor';
+import { replace } from 'ramda';
 import { of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { REMARKABLE } from '../../../core/remarkable';
 import {
   FileUploadResponse,
   FileUploadService
@@ -21,88 +26,124 @@ import {
   selector: 'app-body-partial-form',
   templateUrl: './body-partial-form.component.html',
   styleUrls: ['./body-partial-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class BodyPartialFormComponent {
-  @Input() parentForm: FormGroup;
-  @Input() fullscreenState: { isFullscreen: boolean } = { isFullscreen: false };
-
-  @Output() fullscreenOpen = new EventEmitter<void>();
-  @Output() fullscreenClose = new EventEmitter<void>();
-
-  @ViewChild('bodyTextarea') bodyTextarea: ElementRef<HTMLTextAreaElement>;
+  @Input()
+  parentForm: FormGroup;
 
   isUploading = false;
-
-  readonly errorMessages = {
-    required: 'Body cannot be empty!'
+  options = {
+    status: ['lines', 'words'],
+    spellChecker: false,
+    renderingConfig: { codeSyntaxHighlighting: true },
+    previewRender: text => {
+      const startingHTML = this.remarkable.render(text);
+      const secureHTML = this.sanitizer.sanitize(
+        SecurityContext.HTML,
+        startingHTML
+      );
+      const improvedHTML = replace(
+        /<img/g,
+        '<img style="max-width: 100%;"',
+        secureHTML
+      );
+      return improvedHTML;
+    },
+    toolbar: [
+      {
+        name: 'heading',
+        className: 'mic-text_fields',
+        action: editor => editor.toggleHeadingSmaller(),
+        title: 'Heading'
+      },
+      {
+        name: 'bold',
+        className: 'mic-format_bold',
+        action: editor => editor.toggleBold(),
+        title: 'Bold'
+      },
+      {
+        name: 'italic',
+        className: 'mic-format_italic',
+        action: editor => editor.toggleItalic(),
+        title: 'Italic'
+      },
+      {
+        name: 'strikethrough',
+        className: 'mic-format_strikethrough editor-toolbar__section-end',
+        action: editor => editor.toggleStrikethrough(),
+        title: 'Strikethrough'
+      },
+      {
+        name: 'unordered-list',
+        className: 'mic-format_list_bulleted',
+        action: editor => editor.toggleUnorderedList(),
+        title: 'Unordered List'
+      },
+      {
+        name: 'ordered-list',
+        className: 'mic-format_list_numbered editor-toolbar__section-end',
+        action: editor => editor.toggleOrderedList(),
+        title: 'Ordered List'
+      },
+      {
+        name: 'link',
+        className: 'mic-insert_link',
+        action: editor => editor.drawLink(),
+        title: 'Insert Link'
+      },
+      {
+        name: 'image',
+        className: 'mic-insert_photo',
+        action: () => this.fileInput.nativeElement.click(),
+        title: 'Insert Image'
+      },
+      {
+        name: 'code',
+        className: 'mic-code editor-toolbar__section-end',
+        action: editor => editor.toggleCodeBlock(),
+        title: 'Code'
+      },
+      {
+        name: 'preview',
+        className: 'mic-visibility no-disable',
+        action: editor => editor.togglePreview(),
+        title: 'Preview'
+      },
+      {
+        name: 'side-by-side',
+        className: 'mic-chrome_reader_mode no-disable',
+        action: editor => editor.toggleSideBySide(),
+        title: 'Side-By-Side View'
+      },
+      {
+        name: 'fullscreen',
+        className: 'mic-fullscreen no-disable',
+        action: editor => editor.toggleFullScreen(),
+        title: 'Fullscreen'
+      }
+    ]
   };
+
+  @ViewChild('fileInput')
+  private fileInput: ElementRef<HTMLInputElement>;
+
+  @ViewChild('textEditor')
+  private textEditor: TdTextEditorComponent;
 
   get bodyControl(): AbstractControl {
     return this.parentForm.get('body');
   }
 
-  get isFullscreen(): boolean {
-    return this.fullscreenState.isFullscreen;
-  }
-
   constructor(
     private fileUploadService: FileUploadService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private changeDetector: ChangeDetectorRef,
+    private sanitizer: DomSanitizer,
+    @Inject(REMARKABLE) private remarkable: any
   ) {}
-
-  formatH1(): void {
-    this.insertValueAndSelect('# ');
-  }
-  formatH2(): void {
-    this.insertValueAndSelect('## ');
-  }
-  formatH3(): void {
-    this.insertValueAndSelect('### ');
-  }
-  formatH4(): void {
-    this.insertValueAndSelect('#### ');
-  }
-
-  formatBold(): void {
-    if (this.selectionLength() === 0) {
-      this.insertValueAndSelect('**', '**', 2);
-    } else {
-      this.insertValueAndSelect('**', '**');
-    }
-  }
-
-  formatItalic(): void {
-    if (this.selectionLength() === 0) {
-      this.insertValueAndSelect('*', '*', 1);
-    } else {
-      this.insertValueAndSelect('*', '*');
-    }
-  }
-
-  formatStrikeThrough(): void {
-    if (this.selectionLength() === 0) {
-      this.insertValueAndSelect('~~', '~~', 2);
-    } else {
-      this.insertValueAndSelect('~~', '~~');
-    }
-  }
-
-  formatQuote(): void {
-    this.insertValueAndSelect('> ');
-  }
-
-  insertLink(): void {
-    this.insertValueAndSelect('[', ']()', 1);
-  }
-
-  insertImage(link?: string): void {
-    if (link) {
-      this.insertValueAndSelect('![', `](${link})`);
-    } else {
-      this.insertValueAndSelect('![', ']()', 3);
-    }
-  }
 
   uploadAndInsertImage(event) {
     this.isUploading = true;
@@ -113,8 +154,12 @@ export class BodyPartialFormComponent {
         .uploadFile(file)
         .pipe(
           tap((result: FileUploadResponse) => {
-            this.insertImage(result.url);
+            const selection = this.textEditor.simpleMDE.codemirror.getSelection();
+            this.textEditor.simpleMDE.codemirror.replaceSelection(
+              `![${selection || result.name}](${result.url})`
+            );
             this.isUploading = false;
+            this.changeDetector.detectChanges();
           }),
           catchError(err => {
             this.snackBar.open(err, 'Dismiss', {
@@ -126,45 +171,5 @@ export class BodyPartialFormComponent {
         )
         .subscribe();
     }
-  }
-
-  goFullscreen(): void {
-    this.fullscreenOpen.emit();
-  }
-
-  exitFullscreen(): void {
-    this.fullscreenClose.emit();
-  }
-
-  private insertValue(valueLeft: string, valueRight: string): string {
-    return pipe(
-      split(''),
-      insert(this.bodyTextarea.nativeElement.selectionEnd, valueRight),
-      insert(this.bodyTextarea.nativeElement.selectionStart, valueLeft),
-      join('')
-    )(this.bodyTextarea.nativeElement.value);
-  }
-
-  private selectionLength(): number {
-    return subtract(
-      this.bodyTextarea.nativeElement.selectionEnd,
-      this.bodyTextarea.nativeElement.selectionStart
-    );
-  }
-
-  private insertValueAndSelect(
-    valueLeft: string,
-    valueRight: string = '',
-    deltaRightAfter: number = 0
-  ): void {
-    const selectionAfter =
-      this.bodyTextarea.nativeElement.selectionStart +
-      valueLeft.length +
-      this.selectionLength() +
-      valueRight.length -
-      deltaRightAfter;
-    this.bodyControl.setValue(this.insertValue(valueLeft, valueRight));
-    this.bodyTextarea.nativeElement.selectionStart = selectionAfter;
-    this.bodyTextarea.nativeElement.selectionEnd = selectionAfter;
   }
 }

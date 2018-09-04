@@ -3,11 +3,11 @@ import { ChangeDetectionStrategy, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MarkdownModule } from 'ngx-markdown';
 import { forEachObjIndexed } from 'ramda';
 import { first } from 'rxjs/operators';
 import { SteeditorPost } from '../../../../core';
 import { EditorModule } from '../../editor.module';
+import { REMARKABLE } from './../../../core/remarkable';
 import { createEditorConfig } from './config';
 import { EditorComponent } from './editor.component';
 
@@ -17,11 +17,12 @@ fdescribe('#EditorModule EditorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        EditorModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        MarkdownModule.forRoot()
+      imports: [EditorModule, BrowserAnimationsModule, HttpClientModule],
+      providers: [
+        {
+          provide: REMARKABLE,
+          useValue: {}
+        }
       ]
     })
       // `OnPush` change detection lets run change detection manually only once,
