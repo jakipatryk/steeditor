@@ -218,8 +218,11 @@ fdescribe('#core #steemize (json_metadata) withImage', () => {
 fdescribe('#core #steemize (json_metadata) getLinks', () => {
   it('should extract and return an array of unique links if there are any', () => {
     const body = `[Markdown is the best!](https://steeditor.app/)
-    https://utopian.io
+    https://utopian.io,
+    <a href="https://github.com/jakipatryk/steeditor/pull/82">TEST</a>
     <p>test</p> (https://steeditor.app/test/)
+    abcdef https://medium.com/@timcliff.steem.witness/its-time-to-start-paying-attention-to-steem-3f60ae0a86d
+    ![](https://steemitimages.com/0x0/https://ipfs.busy.org/ipfs/QmSt1N936KKqQExAJBHRHwi6d1jTniyg2r6fdijGVjcchp)
     [NICE LINK](https://steeditor.app/drafts/) this weird mixin is still considered a Markdown tho :(
     [NICE LINK](https://steeditor.app/drafts/)`;
 
@@ -228,7 +231,9 @@ fdescribe('#core #steemize (json_metadata) getLinks', () => {
     expect(links).toEqual([
       'https://steeditor.app/',
       'https://utopian.io',
+      'https://github.com/jakipatryk/steeditor/pull/82',
       'https://steeditor.app/test/',
+      'https://medium.com/@timcliff.steem.witness/its-time-to-start-paying-attention-to-steem-3f60ae0a86d',
       'https://steeditor.app/drafts/'
     ]);
   });

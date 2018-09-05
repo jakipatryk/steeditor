@@ -127,11 +127,8 @@ export const getLinks = (text: string): Array<string> => {
   const linksToImages = getImages(text);
   return pipe(
     match(
-      // tslint:disable-next-line:max-line-length
-      /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/g
+      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
     ),
-    // if it's a markdown link, the last letter will be ')', it has to be removed
-    map(link => (last(link) === ')' ? init(link) : link)),
     reject(contains(__, linksToImages)),
     uniq
   )(text);
