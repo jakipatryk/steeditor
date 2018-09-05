@@ -1,4 +1,4 @@
-import { always, assoc, has, ifElse, o, prop } from 'ramda';
+import { always, assoc, has, ifElse, o, prop, type } from 'ramda';
 import { SteemPost } from '../SteemPost';
 import { isJsonValid } from '../utils';
 
@@ -9,7 +9,16 @@ import { isJsonValid } from '../utils';
  */
 export const getCommunity: (metadata: string) => string = ifElse(
   isJsonValid,
-  o(ifElse(has('community'), prop('community'), always('')), JSON.parse),
+  o(
+    ifElse(
+      metadata =>
+        has('community', metadata) &&
+        type(prop('community', metadata)) === 'String',
+      prop('community'),
+      always('')
+    ),
+    JSON.parse
+  ),
   always('')
 );
 

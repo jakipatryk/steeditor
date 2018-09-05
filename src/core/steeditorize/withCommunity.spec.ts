@@ -16,7 +16,15 @@ fdescribe('#core #steeditorize getCommunity', () => {
     expect(community).toBe('');
   });
 
-  it('should return a community name if `community` property is defined in the JSON metadata', () => {
+  it('should return an empty string if `community` property is defined in the JSON metadata but is NOT a string', () => {
+    const community = getCommunity(
+      '{"tags":["tag1","tag2"],"format":"markdown","community":["steemstem"]}'
+    );
+
+    expect(community).toBe('');
+  });
+
+  it('should return a community name if `community` property is defined in the JSON metadata and is a string', () => {
     const community = getCommunity(
       '{"tags":["tag1","tag2"],"format":"markdown","community":"steemstem"}'
     );
