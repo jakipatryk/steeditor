@@ -40,7 +40,14 @@ export class PostsComponent implements OnInit {
     this.lastCheckedId$
       .pipe(
         first(),
-        tap(id => this.store.dispatch(postsActionCreators.loadPosts(id - 1, 8)))
+        tap(id =>
+          this.store.dispatch(
+            postsActionCreators.loadPosts(
+              id === 1 ? id : id - 1,
+              id === 1 ? 2 : 8
+            )
+          )
+        )
       )
       .subscribe();
   }
