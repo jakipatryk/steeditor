@@ -1,18 +1,14 @@
 <div [formGroup]="parentForm">
   <mat-form-field class="tags__field">
     <mat-chip-list #tagsList class="tags">
-      <mat-chip *ngFor="let tag of tagsControl.value; let i = index;" [color]="isValidTag(tag) ? 'primary' : 'warn'" selected [selectable]="false"
-        [removable]="isTagRemovable(i)" (removed)="removeTag(tag)" class="tag">
+      <mat-chip *ngFor="let tag of tagsControl.value; let i = index;" [color]="isValidTag(tag) ? 'primary' : 'warn'"
+        selected [selectable]="false" [removable]="isTagRemovable(i)" (removed)="removeTag(tag)" class="tag">
         {{tag}}
         <mat-icon *ngIf="isTagRemovable(i)" matChipRemove class="tag__remove">cancel</mat-icon>
       </mat-chip>
-      <input matInput placeholder="Tags" [matChipInputFor]="tagsList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
-        (matChipInputTokenEnd)="addTag($event)" class="tags__input">
+      <input matInput placeholder="Tags" [matChipInputFor]="tagsList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="addTag($event)" class="tags__input">
     </mat-chip-list>
   </mat-form-field>
-  <mat-error *ngIf="tagsControl.hasError('required') && tagsControl.dirty" class="tags__error tags__error--required">{{ errorMessages.required }}</mat-error>
-  <mat-error *ngIf="tagsControl.hasError('hash') && tagsControl.dirty" class="tags__error tags__error--hash">{{ errorMessages.hash }}</mat-error>
-  <mat-error *ngIf="tagsControl.hasError('whitespace') && tagsControl.dirty" class="tags__error tags__error--whitespace">{{ errorMessages.whitespace }}</mat-error>
-  <mat-error *ngIf="tagsControl.hasError('capitalLetters') && tagsControl.dirty" class="tags__error tags__error--capital-letters">{{ errorMessages.capitalLetters }}</mat-error>
-  <mat-error *ngIf="tagsControl.hasError('notUnique') && tagsControl.dirty" class="tags__error tags__error--not-unique">{{ errorMessages.notUnique }}</mat-error>
+  <mat-error *ngIf="!!currentErrorMessage" class="tags__error">{{currentErrorMessage}}</mat-error>
 </div>

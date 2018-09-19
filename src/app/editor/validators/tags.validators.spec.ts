@@ -1,10 +1,9 @@
+import { FormControl } from '@angular/forms';
 import {
   validateNoCapitalLetters,
-  validateNoHashes,
-  validateNoWhitespaces,
+  validateNoSpecialChars,
   validateUnique
 } from './tags.validators';
-import { FormControl } from '@angular/forms';
 
 fdescribe('#EditorModule `tags` field custom validators', () => {
   fdescribe('validateNoCapitalLetters', () => {
@@ -46,43 +45,61 @@ fdescribe('#EditorModule `tags` field custom validators', () => {
     });
   });
 
-  fdescribe('validateNoHashes', () => {
-    it('should return null if the control value does NOT contain any hashes', () => {
-      const controlWihoutHashes = new FormControl(['tag1', 'tag2', 'tag3']);
-
-      const result = validateNoHashes(controlWihoutHashes);
-
-      expect(result).toEqual(null);
-    });
-
-    it('should return an object with `hash` property equal true if there are any hashes in the tags', () => {
-      const controlWithHashes = new FormControl(['#tag1', '#tag2', 'tag3']);
-
-      const result = validateNoHashes(controlWithHashes);
-
-      expect(result).toEqual({ hash: true });
-    });
-  });
-
-  fdescribe('validateNoWhitespaces', () => {
-    it('should return null if there are no whitespaces in tags', () => {
-      const controlWithoutWhitespaces = new FormControl([
-        'tag1',
+  fdescribe('validateNoSpecialChars', () => {
+    it('should return null if the control value does NOT contain any tags with not allowed special chars', () => {
+      const controlWihoutSpecialChars = new FormControl([
+        'tag-1',
         'tag2',
         'tag3'
       ]);
 
-      const result = validateNoWhitespaces(controlWithoutWhitespaces);
+      const result = validateNoSpecialChars(controlWihoutSpecialChars);
 
       expect(result).toEqual(null);
     });
 
-    it('should return an object with `whitespace` property equal true if there are any whitespaces in tags', () => {
-      const controlWithSpaces = new FormControl(['tag 1', 'tag 2', 'tag3']);
+    it('should return an object with `specialChars` property equal true if there are more than two dashes in any of the tags', () => {
+      const controlWihSpecialChars = new FormControl([
+        'ta-g-1',
+        'tag2',
+        'tag3'
+      ]);
 
-      const result = validateNoWhitespaces(controlWithSpaces);
+      const result = validateNoSpecialChars(controlWihSpecialChars);
 
-      expect(result).toEqual({ whitespace: true });
+      expect(result).toEqual({ specialChars: true });
+    });
+
+    it('should return an object with `specialChars` property equal true if any of the tags starts with a dash', () => {
+      const controlOneTagStartsWithDash = new FormControl([
+        'tag1',
+        '-tag2',
+        'tag3'
+      ]);
+
+      const result = validateNoSpecialChars(controlOneTagStartsWithDash);
+
+      expect(result).toEqual({ specialChars: true });
+    });
+
+    it('should return an object with `specialChars` property equal true if there are more than one dashes in any of the tags', () => {
+      const controlWihTwoDashes = new FormControl(['ta-g-1', 'tag2', 'tag3']);
+
+      const result = validateNoSpecialChars(controlWihTwoDashes);
+
+      expect(result).toEqual({ specialChars: true });
+    });
+
+    it('should return an object with `specialChars` property equal true if there are any not allowed special chars in the tags', () => {
+      const controlWihSpecialChars = new FormControl([
+        'tag1&',
+        '*tag2',
+        'tag#3'
+      ]);
+
+      const result = validateNoSpecialChars(controlWihSpecialChars);
+
+      expect(result).toEqual({ specialChars: true });
     });
   });
 

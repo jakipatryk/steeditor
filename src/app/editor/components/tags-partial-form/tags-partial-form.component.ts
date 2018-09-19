@@ -2,7 +2,19 @@ import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { append, equals, filter, lt, remove, test } from 'ramda';
+import {
+  always,
+  append,
+  cond,
+  equals,
+  filter,
+  has,
+  identity,
+  lt,
+  remove,
+  T,
+  test
+} from 'ramda';
 
 @Component({
   selector: 'app-tags-partial-form',
@@ -11,20 +23,36 @@ import { append, equals, filter, lt, remove, test } from 'ramda';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TagsPartialFormComponent {
-  @Input() parentForm: FormGroup;
-  @Input() disableRemovingFirstTag = false;
+  @Input()
+  parentForm: FormGroup;
+  @Input()
+  disableRemovingFirstTag = false;
 
   readonly separatorKeysCodes: number[] = [ENTER, COMMA, SPACE];
   readonly errorMessages = {
     required: 'Please add at least one tag!',
-    hash: 'Tags cannot contain a # symbol!',
     capitalLetters: 'Tags cannot contain capital letters!',
-    whitespace: 'Tags cannot contain whitespaces!',
+    specialChars: 'Tags cannot contain special chars, except for one dash!',
     notUnique: 'Tags cannot be repeated!'
   };
 
   get tagsControl(): AbstractControl {
     return this.parentForm.get('tags');
+  }
+
+  get currentErrorMessage(): string | null {
+    return cond([
+      [equals(null), identity],
+      [
+        () => !this.tagsControl.dirty && this.tagsControl.value.length === 0,
+        always(null)
+      ],
+      [has('required'), always(this.errorMessages.required)],
+      [has('capitalLetters'), always(this.errorMessages.capitalLetters)],
+      [has('specialChars'), always(this.errorMessages.specialChars)],
+      [has('notUnique'), always(this.errorMessages.notUnique)],
+      [T, always(null)]
+    ])(this.tagsControl.errors);
   }
 
   addTag(event: MatChipInputEvent): void {
@@ -63,7 +91,7 @@ export class TagsPartialFormComponent {
 
   isValidTag(tag: string): boolean {
     return (
-      test(/^[^#\sA-Z]+$/, tag) &&
+      test(/^[a-z0-9]+-?[a-z0-9]*$/, tag) &&
       lt(filter(equals(tag), this.tagsControl.value).length, 2)
     );
   }

@@ -12,17 +12,14 @@ export const validateNoCapitalLetters: (
   prop('value')
 );
 
-export const validateNoHashes: (
+export const validateNoSpecialChars: (
   control: AbstractControl
-) => null | { hash: true } = compose(
-  ifElse(all(test(/^[^#]+$/)), always(null), always({ hash: true })),
-  prop('value')
-);
-
-export const validateNoWhitespaces: (
-  control: AbstractControl
-) => null | { whitespace: true } = compose(
-  ifElse(all(test(/^[^\s]+$/)), always(null), always({ whitespace: true })),
+) => null | { specialChars: true } = compose(
+  ifElse(
+    all(test(/^[a-z0-9]+-?[a-z0-9]*$/)),
+    always(null),
+    always({ specialChars: true })
+  ),
   prop('value')
 );
 
@@ -37,7 +34,6 @@ export const validateUnique: (
 
 export const tagsCustomValidators = [
   validateNoCapitalLetters,
-  validateNoHashes,
-  validateNoWhitespaces,
+  validateNoSpecialChars,
   validateUnique
 ];
