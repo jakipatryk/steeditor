@@ -22,6 +22,7 @@ import { SteemconnectBroadcastService } from './../../steemconnect/services/stee
 import { SteemconnectOAuth2Service } from './../../steemconnect/services/steemconnect-oauth2.service';
 import {
   BroadcastPost,
+  BroadcastPostFail,
   BroadcastPostSuccess,
   LoadPosts,
   postsActionCreators,
@@ -127,8 +128,8 @@ export class PostsEffects {
             postsActionCreators.broadcastPostSuccess(response),
             postsActionCreators.syncPost(data.id)
           ]),
-          catchError(err =>
-            of(postsActionCreators.broadcastPostFail(err.error))
+          catchError(response =>
+            of(postsActionCreators.broadcastPostFail(response.error))
           )
         )
     )
@@ -147,10 +148,11 @@ export class PostsEffects {
   );
 
   @Effect({ dispatch: false })
-  broadcastPostFail$: Observable<Action> = this.actions$.pipe(
+  broadcastPostFail$ = this.actions$.pipe(
     ofType(PostsActionsTypes.BroadcastPostFail),
-    tap(() =>
-      this.snackBar.open('Error broadcasting post...', 'Dismiss', {
+    map((action: BroadcastPostFail) => action.payload),
+    tap(res =>
+      this.snackBar.open(`ERROR: ${res.error.error_description}`, 'Dismiss', {
         duration: 7000
       })
     )

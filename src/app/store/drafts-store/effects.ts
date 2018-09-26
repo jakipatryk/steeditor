@@ -24,6 +24,7 @@ import { selectTemplatesEntities } from '../templates-store';
 import { routerActionCreators } from './../router-store/actions';
 import {
   BroadcastDraft,
+  BroadcastDraftFail,
   BroadcastDraftSuccess,
   CreateDraftSuccess,
   draftsActionCreators,
@@ -174,8 +175,8 @@ export class DraftsEffects {
         )
         .pipe(
           map(response => draftsActionCreators.broadcastDraftSuccess(response)),
-          catchError(err =>
-            of(draftsActionCreators.broadcastDraftFail(err.error))
+          catchError(response =>
+            of(draftsActionCreators.broadcastDraftFail(response.error))
           )
         )
     )
@@ -194,11 +195,12 @@ export class DraftsEffects {
   );
 
   @Effect({ dispatch: false })
-  broadcastDraftFail$: Observable<Action> = this.actions$.pipe(
+  broadcastDraftFail$ = this.actions$.pipe(
     ofType(DraftsActionsTypes.BroadcastDraftFail),
-    tap(action => {
-      this.snackBar.open('Error broadcasting post...', 'Dismiss', {
-        duration: 7000
+    map((action: BroadcastDraftFail) => action.payload),
+    tap(res => {
+      this.snackBar.open(`ERROR: ${res.error.error_description}`, 'Dismiss', {
+        duration: 15000
       });
     })
   );
