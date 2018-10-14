@@ -9,7 +9,10 @@ import { SteeditorPost } from './../SteeditorPost';
 export const createPermlink: (title: string) => string = ifElse(
   isEmpty,
   always(`${Date.now()}`),
-  o(slug => `${slug}-${Date.now()}`, getSlug)
+  o(
+    slug => `${slug}-${Date.now()}`,
+    title => getSlug(title, { custom: { _: '-' } })
+  )
 );
 
 /**
