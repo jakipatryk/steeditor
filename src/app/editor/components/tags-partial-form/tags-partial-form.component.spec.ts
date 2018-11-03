@@ -121,9 +121,9 @@ fdescribe('#EditorModule TagsPartialFormComponent', () => {
   });
 
   it('#isValidTag should return false if this tag has invalid chars`', () => {
-    component.tagsControl.setValue(['tag1', 'tag2', '#tag3']);
+    component.tagsControl.setValue(['#tag1', 'tag2', 'tag3']);
 
-    expect(component.isValidTag('#tag3')).toBeFalsy();
+    expect(component.isValidTag('#tag1')).toBeFalsy();
   });
 
   it('(.tag) should be rendered as many times as there are items in `tagsControl.value` and the values should be correct', () => {
@@ -162,9 +162,6 @@ fdescribe('#EditorModule TagsPartialFormComponent', () => {
     tagElements = hostFixture.debugElement.queryAll(By.css('.tag'));
 
     expect(tagElements[0].nativeElement.outerHTML).toContain(
-      'ng-reflect-color="warn"'
-    );
-    expect(tagElements[1].nativeElement.outerHTML).toContain(
       'ng-reflect-color="warn"'
     );
 

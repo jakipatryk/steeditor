@@ -10,6 +10,7 @@ import {
   filter,
   has,
   identity,
+  indexOf,
   lt,
   remove,
   T,
@@ -31,8 +32,9 @@ export class TagsPartialFormComponent {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA, SPACE];
   readonly errorMessages = {
     required: 'Please add at least one tag!',
-    capitalLetters: 'Tags cannot contain capital letters!',
-    specialChars: 'Tags cannot contain special chars, except for one dash!',
+    capitalLetters: 'First tag cannot contain capital letters!',
+    specialChars:
+      'First tag cannot contain special chars, except for one dash!',
     notUnique: 'Tags cannot be repeated!'
   };
 
@@ -91,8 +93,10 @@ export class TagsPartialFormComponent {
 
   isValidTag(tag: string): boolean {
     return (
-      test(/^[a-z0-9]+-?[a-z0-9]*$/, tag) &&
-      lt(filter(equals(tag), this.tagsControl.value).length, 2)
+      (indexOf(tag, this.tagsControl.value) !== 0 &&
+        lt(filter(equals(tag), this.tagsControl.value).length, 2)) ||
+      (test(/^[a-z0-9]+-?[a-z0-9]*$/, tag) &&
+        lt(filter(equals(tag), this.tagsControl.value).length, 2))
     );
   }
 }

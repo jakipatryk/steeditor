@@ -7,7 +7,7 @@ import {
 
 fdescribe('#EditorModule `tags` field custom validators', () => {
   fdescribe('validateNoCapitalLetters', () => {
-    it('should return null if the control value does NOT contain capital letters', () => {
+    it('should return null if first tag does NOT contain capital letters', () => {
       const controlWithoutCapitalLetters = new FormControl([
         'tag1',
         'tag2',
@@ -20,7 +20,7 @@ fdescribe('#EditorModule `tags` field custom validators', () => {
       expect(result).toEqual(null);
     });
 
-    it('should return an object with `capitalLetters` property equal true if any tag contain capital letters', () => {
+    it('should return an object with `capitalLetters` property equal true if first tag contains capital letters', () => {
       const controlWithOnlyCapitalLetters = new FormControl([
         'TAG',
         'TAGG',
@@ -28,9 +28,9 @@ fdescribe('#EditorModule `tags` field custom validators', () => {
         'TAGGGG'
       ]);
       const controlWithSomeCapitalLetters = new FormControl([
-        'tag1',
-        'tAg2',
-        'Tag3'
+        'tAg1',
+        'tag2',
+        'tag3'
       ]);
 
       const resultOnlyCapitalLetters = validateNoCapitalLetters(
@@ -46,7 +46,7 @@ fdescribe('#EditorModule `tags` field custom validators', () => {
   });
 
   fdescribe('validateNoSpecialChars', () => {
-    it('should return null if the control value does NOT contain any tags with not allowed special chars', () => {
+    it('should return null if the control value does NOT contain first tag with not allowed special chars', () => {
       const controlWihoutSpecialChars = new FormControl([
         'tag-1',
         'tag2',
@@ -58,7 +58,7 @@ fdescribe('#EditorModule `tags` field custom validators', () => {
       expect(result).toEqual(null);
     });
 
-    it('should return an object with `specialChars` property equal true if there are more than two dashes in any of the tags', () => {
+    it('should return an object with `specialChars` property equal true if there are more than two dashes in first tag', () => {
       const controlWihSpecialChars = new FormControl([
         'ta-g-1',
         'tag2',
@@ -70,10 +70,10 @@ fdescribe('#EditorModule `tags` field custom validators', () => {
       expect(result).toEqual({ specialChars: true });
     });
 
-    it('should return an object with `specialChars` property equal true if any of the tags starts with a dash', () => {
+    it('should return an object with `specialChars` property equal true if first tag starts with a dash', () => {
       const controlOneTagStartsWithDash = new FormControl([
-        'tag1',
-        '-tag2',
+        '-tag1',
+        'tag2',
         'tag3'
       ]);
 
@@ -82,7 +82,7 @@ fdescribe('#EditorModule `tags` field custom validators', () => {
       expect(result).toEqual({ specialChars: true });
     });
 
-    it('should return an object with `specialChars` property equal true if there are more than one dashes in any of the tags', () => {
+    it('should return an object with `specialChars` property equal true if there are more than one dashes in the first tag', () => {
       const controlWihTwoDashes = new FormControl(['ta-g-1', 'tag2', 'tag3']);
 
       const result = validateNoSpecialChars(controlWihTwoDashes);
@@ -90,7 +90,7 @@ fdescribe('#EditorModule `tags` field custom validators', () => {
       expect(result).toEqual({ specialChars: true });
     });
 
-    it('should return an object with `specialChars` property equal true if there are any not allowed special chars in the tags', () => {
+    it('should return an object with `specialChars` property equal true if there are any not allowed special chars in first tag', () => {
       const controlWihSpecialChars = new FormControl([
         'tag1&',
         '*tag2',

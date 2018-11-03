@@ -1,14 +1,21 @@
 import { AbstractControl } from '@angular/forms';
-import { compose, ifElse, all, test, always, prop, uniq, equals } from 'ramda';
+import {
+  all,
+  always,
+  compose,
+  equals,
+  head,
+  ifElse,
+  prop,
+  test,
+  uniq
+} from 'ramda';
 
 export const validateNoCapitalLetters: (
   control: AbstractControl
 ) => null | { capitalLetters: true } = compose(
-  ifElse(
-    all(test(/^[^A-Z]+$/)),
-    always(null),
-    always({ capitalLetters: true })
-  ),
+  ifElse(test(/^[^A-Z]+$/), always(null), always({ capitalLetters: true })),
+  head,
   prop('value')
 );
 
@@ -16,10 +23,11 @@ export const validateNoSpecialChars: (
   control: AbstractControl
 ) => null | { specialChars: true } = compose(
   ifElse(
-    all(test(/^[a-z0-9]+-?[a-z0-9]*$/)),
+    test(/^[a-z0-9]+-?[a-z0-9]*$/),
     always(null),
     always({ specialChars: true })
   ),
+  head,
   prop('value')
 );
 
