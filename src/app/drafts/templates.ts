@@ -416,6 +416,39 @@ Please make sure your Crowdin username is the same as the Steem username or modi
   }
 };
 
+export const UTOPIAN_CONTRIBUTION_ANTIABUSE: Template = {
+  name: 'Utopian contribution: Antiabuse',
+  description: `Fills out post's body with the standard template for the Utopian contribution in the Antiabuse category.`,
+  changeInPost: {
+    body: `# Anti-Abuse Template
+
+#### Abuse Category
+e.g. Spam, copy/paste, phishing, plagiarism
+
+#### Repository
+e.g. https://github.com/steemit/steem
+
+#### Summary/TL;DR
+Write a short overview of the post goal and content.
+
+#### Post Body
+Write the post in readable and presentable form by utilizing markdown to style the text.
+
+#### Resources
+Include links and references to resources used in the post.
+
+#### Series Backlinks
+If the post is not the first post in a series, link to the previous posts of the series.
+
+- [Example Anti-abuse Post A](https://steemit.com/utopian-io/@test-account/test-permlink)
+- [Example Anti-abuse Post B](https://steemit.com/utopian-io/@test-account/test-permlink)
+- [Example Anti-abuse Post C](https://steemit.com/utopian-io/@test-account/test-permlink)
+- [Example Anti-abuse Post D](https://steemit.com/utopian-io/@test-account/test-permlink)`,
+    tags: ['utopian-io', 'antiabuse'],
+    beneficiaries: [{ account: 'utopian.pay', weight: 5 }]
+  }
+};
+
 export const UTOPIAN_TASK_REQUEST_BUG_HUNTERS: Template = {
   name: 'Utopian task request: for bug hunters',
   description: `Fills out post's body with the standard template for the Utopian task request for bug hunters.`,
@@ -600,6 +633,7 @@ Paste here the full url to your github account. E.g. https://github.com/username
 
 export const all = [
   UTOPIAN_CONTRIBUTION_ANALYSIS,
+  UTOPIAN_CONTRIBUTION_ANTIABUSE,
   UTOPIAN_CONTRIBUTION_BLOG,
   UTOPIAN_CONTRIBUTION_BUGS,
   UTOPIAN_CONTRIBUTION_COPYWRITING,
