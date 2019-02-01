@@ -35,11 +35,11 @@ export interface JsonMetadataField extends Field<string> {}
 
 export interface BeneficiariesField
   extends Field<
-      Array<{
-        account: string;
-        weight: number;
-      }>
-    > {
+    Array<{
+      account: string;
+      weight: number;
+    }>
+  > {
   disableAdding: boolean;
   disableRemoving: boolean;
 }
@@ -125,7 +125,8 @@ export const initialConfig: EditorConfig = {
     },
     allowCurationRewards: {
       value: true,
-      disabled: false
+      // TBC when a bug in api.steemit.com is removed
+      disabled: true
     },
     percentSteemDollars: {
       value: 50,

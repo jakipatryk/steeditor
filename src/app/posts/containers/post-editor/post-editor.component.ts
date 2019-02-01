@@ -42,9 +42,6 @@ export class PostEditorComponent implements OnInit {
             },
             maxAcceptedPayout: {
               max: fields.maxAcceptedPayout.value
-            },
-            allowCurationRewards: {
-              disabled: !fields.allowCurationRewards.value
             }
           })
         })

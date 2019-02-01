@@ -9,4 +9,5 @@ export const withAllowCurationRewards = (
 ) => (target: {
   [key: string]: any;
 }): { allow_curation_rewards: boolean; [K: string]: any } =>
-  assoc('allow_curation_rewards', steeditorPost.allowCurationRewards, target);
+  // hardcoded true cause of a problem with api.steemit.com node (Hivemind)
+  assoc('allow_curation_rewards', true, target);

@@ -7,4 +7,5 @@ import { SteemPost } from '../SteemPost';
 export const withAllowVotes = (steemPost: SteemPost) => (target: {
   [key: string]: any;
 }): { allowVotes: boolean; [K: string]: any } =>
-  assoc('allowVotes', steemPost.allow_votes, target);
+  // hardcoded true cause of a problem with api.steemit.com node (Hivemind)
+  assoc('allowVotes', true, target);

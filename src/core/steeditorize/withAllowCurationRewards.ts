@@ -7,4 +7,5 @@ import { SteemPost } from '../SteemPost';
 export const withAllowCurationRewards = (steemPost: SteemPost) => (target: {
   [key: string]: any;
 }): { allowCurationRewards: boolean; [K: string]: any } =>
-  assoc('allowCurationRewards', steemPost.allow_curation_rewards, target);
+  // hardcoded true cause of a problem with api.steemit.com node (Hivemind)
+  assoc('allowCurationRewards', true, target);
