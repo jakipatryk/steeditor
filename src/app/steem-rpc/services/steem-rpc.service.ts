@@ -75,22 +75,21 @@ export class SteemRPCService {
       );
 
     return getPosts(startId, limit).pipe(
-      expand(
-        res =>
-          res.currentLength === limit || res.lastCheckedId === 0
-            ? EMPTY
-            : getPosts(
-                res.lastCheckedId - 1,
-                limit - res.currentLength,
-                res.currentLength
-              )
+      expand(res =>
+        res.currentLength === limit || res.lastCheckedId === 0
+          ? EMPTY
+          : getPosts(
+              res.lastCheckedId - 1,
+              limit - res.currentLength,
+              res.currentLength
+            )
       ),
       reduce(
         (acc, val: UserPostsResponse) => ({
           posts: [...acc.posts, ...val.posts],
           lastCheckedId: val.lastCheckedId
         }),
-        { posts: [] }
+        { posts: [], lastCheckedId: null }
       )
     );
   }
