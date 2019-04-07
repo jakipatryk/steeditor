@@ -26,7 +26,7 @@ import { RootStoreModule } from './store/root-store.module';
       environment.steemConnectConfig as SteemconnectConfig
     ),
     SteemRPCModule.forRoot({
-      node: 'https://api.steemit.com'
+      node: environment.steemRPCConfig.node
     }),
     AppRoutingModule,
     RootStoreModule,
